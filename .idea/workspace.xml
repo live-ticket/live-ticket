@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7c7990c4-8c55-49b5-8cd8-3eb5ba99ed83" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Mission/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Mission/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Mission/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Mission/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Mission/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Mission/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Mission/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Mission/src/main/java/com/ll/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tb20231108/src/test/java/com/ll/domain/quotation/quotation/repository/QuotationFileRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/td-2023-11-08/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/td-2023-11-08/src/test/java/com/ll/standard/util/TestUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ms/records/1Week_YunGaYoung.md" beforeDir="false" afterPath="$PROJECT_DIR$/ms/records/1Week_YunGaYoung.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sb-2023-11-14_study1/src/main/java/com/ll/sb20231114/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sb-2023-11-14_study1/src/main/java/com/ll/sb20231114/ArticleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sb-23-11-30/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/sb-23-11-30/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/study/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/study/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/study/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/study/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/study/src/main/java/com/ll/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/study/src/main/java/com/ll/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tb-2023-11-08/src/main/java/com/ll/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/tb-2023-11-08/src/main/java/com/ll/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tb/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tb/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tb/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tb/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tb/src/main/java/com/ll/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/tb/src/main/java/com/ll/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tb20231108/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tb20231108/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tb20231108/src/test/java/com/ll/domain/quotaion/quotation/controller/QuotationControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tb20231108/src/test/java/com/ll/domain/quotation/quotation/controller/QuotationControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tdd-2023-10-30/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/tdd-2023-10-30/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tdd-2023-10-30/src/main/java/com/ll/Calc.java" beforeDir="false" afterPath="$PROJECT_DIR$/tdd-2023-10-30/src/main/java/com/ll/Calc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tdd-2023-10-30/src/test/java/com/ll/CalcTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tdd-2023-10-30/src/test/java/com/ll/CalcTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Medium_Mission_YunYoungJoo" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2ZYhbR9gN49RNJsgYoN3B4GmfQ9" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/yungayoung/IdeaProjects",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7c7990c4-8c55-49b5-8cd8-3eb5ba99ed83" name="Changes" comment="" />
+      <created>1702604991286</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1702604991286</updated>
+      <workItem from="1702604992672" duration="3000" />
+      <workItem from="1702605001954" duration="3000" />
+    </task>
+    <servers />
+  </component>
+</project>
