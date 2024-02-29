@@ -39,3 +39,4 @@ out/
 *.db
 medium_dev.mv.db
 application-secret.yml
+src/main/generated
