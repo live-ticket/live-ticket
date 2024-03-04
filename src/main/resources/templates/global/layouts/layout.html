@@ -14,6 +14,9 @@
     <script src="https://cdn.tailwindcss.com"></script>   <!--테일윈즈-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">   <!--폰트어썸-->
 
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <title>LIVE TICKET</title>
 
 </head>
