@@ -7,5 +7,7 @@ public enum QuestionCategory {
 
     QuestionCategory(String value) {
 
+        this.value = value;
+
     }
 }
