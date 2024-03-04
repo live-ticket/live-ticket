@@ -77,4 +77,4 @@ Github Repository URL: https://github.com/live-ticket
 
 - 필수) 팀원들과 함께 찍은 인증샷(온라인 만남시 스크린 캡쳐)도 함께 업로드 해주세요 🙂
 
-- ![스크린샷 2024-02-29 오후 4.58.11.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/35f01034-b1c3-42a4-b8f0-0493cab8abb1/6f327f43-8b2f-4e55-98a2-ea1a461adb73/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-02-29_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_4.58.11.png)
+<img width="1000" alt="위클리" src="https://github.com/live-ticket/live-ticket/assets/117894300/6057ae8d-d2dd-4178-9f92-7bea89bed66c">
