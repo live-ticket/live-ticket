@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1 th:text="${@appConfig.recaptchaSiteKey}"></h1>
+
+    <form id="recaptcha-form">
+        <div id="recaptcha"
+             class="g-recaptcha"
+             data-callback="recaptchaCallback"
+             data-expired-callback="expiredCallback"
+             th:attr="data-sitekey=${@appConfig.recaptchaSiteKey}">
+        </div>
+    </form>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script type="text/javascript">
+        function recaptchaCallback() {
+            if (grecaptcha.getResponse() !== "") {
+                return new Promise(function(resolve, reject) {
+                    $.ajax({
+                        url: "/recaptcha/validate",
+                        type: "POST",
+                        contentType: "application/x-www-form-urlencoded",
+                        data: $("#recaptcha-form").serialize(),
+                        dataType: "text"
+                    }).then(function(data) {
+                        if (data) {
+                            alert("인증 성공");
+                        } else {
+                            alert("인증 실패");
+                        }
+                    }).catch(function(error) {
+                        console.error("AJAX 요청 오류:", error);
+                    });
+                });
+            }
+        }
+
+        function expiredCallback() {
+            alert("응답 만료");
+        }
+    </script>
+
+</body>
+</html>
