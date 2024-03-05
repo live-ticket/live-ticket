@@ -1,9 +1,18 @@
 package com.ll.ticket.domain.admin.controller;
 
 import com.ll.ticket.domain.admin.dto.RegisterConcertDto;
+<<<<<<< HEAD
 import com.ll.ticket.domain.admin.service.AdminService;
+<<<<<<< HEAD
 import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.service.ConcertService;
+=======
+import com.ll.ticket.domain.place.entity.Place;
+import com.ll.ticket.global.enums.ConcertCategory;
+import com.ll.ticket.global.enums.ConcertStatus;
+=======
+>>>>>>> 2c0a23a (feat : 콘서트 등록 폼 작성)
+>>>>>>> 7666396 (feat : 콘서트 등록 폼 작성)
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin")
 public class AdminController {
 
+<<<<<<< HEAD
     private final AdminService adminService;
     private final ConcertService concertService;
 
@@ -29,13 +39,23 @@ public class AdminController {
     //콘서트 등록
     @GetMapping(value = "/registerConcert")
     public String registerConcert(RegisterConcertDto registerConcertDto) {
+<<<<<<< HEAD
         return "domain/admin/register_concert";
+=======
+=======
+    //콘서트 등록
+    @GetMapping("/registerConcert")
+    public String registerConcert() {
+>>>>>>> 2c0a23a (feat : 콘서트 등록 폼 작성)
+        return "domain/concert/registerConcert";
+>>>>>>> 7666396 (feat : 콘서트 등록 폼 작성)
     }
 
 
     //콘서트 등록
     @PostMapping(value = "/registerConcert")
     public String registerConcert(@Valid RegisterConcertDto registerConcertDto, BindingResult bindingResult) {
+<<<<<<< HEAD
         if (bindingResult.hasErrors()) {
             return "domain/admin/register_concert";
         }
@@ -43,6 +63,10 @@ public class AdminController {
         adminService.register(registerConcertDto);
 
         return "redirect:/";
+=======
+        //TO DO 글 저장
+        return "domain/concert/registerConcert";
+>>>>>>> 2c0a23a (feat : 콘서트 등록 폼 작성)
     }
 
     //콘서트 목록
