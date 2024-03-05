@@ -12,11 +12,14 @@ import com.ll.ticket.domain.place.entity.Place;
 import com.ll.ticket.domain.place.service.PlaceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -67,22 +70,25 @@ public class AdminController {
     @GetMapping(value = "/concertDetail/{id}")
     public String concertDetail(Model model, @PathVariable("id") Long id){
         Concert concert = this.concertService.findById(id);
-        //ConcertDate concertDate = this.
+        Place place = this.adminService.findPlace(concert);
+        ConcertPerformer concertPerformer = this.adminService.findConcertPerformer(concert);
+        List<ConcertDate> concertDates = this.adminService.findConcertDates(concert);
 
         model.addAttribute("concert", concert);
-        //model.addAttribute("")
+        model.addAttribute("place", place);
+        model.addAttribute("concertPerformer", concertPerformer);
+        model.addAttribute("concertDates", concertDates);
 
         return "domain/admin/concert_detail";
     }
 
-    //콘서트 글 수정
-    //TO DO
+
+    //TO DO 콘서트 글 수정
 
     //콘서트 글 삭제
     @GetMapping(value = "/deleteConcert/{id}")
     public String deleteConcert(@PathVariable("id") Long id){
         Concert concert = this.concertService.findById(id);
-
         this.concertService.delete(concert);
 
         return "redirect:/admin/concertList";
