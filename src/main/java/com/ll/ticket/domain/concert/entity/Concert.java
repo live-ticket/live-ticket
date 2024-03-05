@@ -28,8 +28,8 @@ public class Concert extends BaseEntity {
     private String name;
     private LocalDateTime releaseTime;
     private int runningTime;
-    private Time startTime;
-    private Time endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
     @Enumerated(EnumType.STRING)
     private ConcertCategory category;
