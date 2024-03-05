@@ -56,9 +56,12 @@ dependencies {
 
     // json
     implementation 'com.google.code.gson:gson:2.10.1'
-    
+
     // validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //assertThat
+    testImplementation 'org.assertj:assertj-core:3.24.2'
 
 }
 

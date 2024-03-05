@@ -29,7 +29,7 @@ public class Answer extends BaseEntity {
     private Question question;
 
     //DTO  → Entity 변환
-    public static Answer toEntity(AnswerDto answerDto) {
+    public static Answer toEntity(final AnswerDto answerDto) {
 
         return Answer.builder()
                 .customerAId(answerDto.getCustomerAId())
@@ -37,8 +37,6 @@ public class Answer extends BaseEntity {
                 .build();
 
     }
-
-
 
 
 }

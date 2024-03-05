@@ -8,6 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface QuestionRepository extends JpaRepository<Question , Long> {
 
 
-
-
 }
