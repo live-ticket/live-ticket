@@ -1,5 +1,6 @@
 package com.ll.ticket.domain.admin.service;
 
+<<<<<<< HEAD
 import com.ll.ticket.domain.admin.dto.RegisterConcertDto;
 import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.repository.ConcertRepository;
@@ -51,4 +52,14 @@ public class AdminService {
 
         this.concertRepository.save(concert);
     }
+=======
+import com.ll.ticket.domain.concert.repository.ConcertRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@RequiredArgsConstructor
+@Service
+public class AdminService {
+    //private final ConcertRepository concertRepository;
+>>>>>>> 2c0a23a (feat : 콘서트 등록 폼 작성)
 }
