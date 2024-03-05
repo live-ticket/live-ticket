@@ -16,8 +16,8 @@ public class ConcertService {
     @Transactional
     public void changeStatus(LocalDate todayDate) {
         LocalDate enableStartDate = todayDate.minusDays(1);
-        LocalDate ableStartDate = todayDate.minusWeeks(1);
-        LocalDate ableEndDate = todayDate.minusDays(2);
+        LocalDate ableStartDate = todayDate.plusDays(2);
+        LocalDate ableEndDate = todayDate.plusWeeks(1);
 
         changeConcertStatusInRange(enableStartDate, todayDate, ConcertStatus.ENABLE);
         changeConcertStatusInRange(ableStartDate, ableEndDate, ConcertStatus.ABLE);
