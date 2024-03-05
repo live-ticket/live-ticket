@@ -8,7 +8,13 @@
     </th:block>
 
     <h5 class="my-3 border-bottom pb-2">공연 등록</h5>
+<<<<<<< HEAD
     <form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post">
+=======
+    <form th:object="${registerConcertDto}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <!--<form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post">-->
+>>>>>>> d36eb5c (feat : 콘서트 등록 폼 작성)
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
