@@ -1,6 +1,10 @@
 package com.ll.ticket.domain.admin.controller;
 
 import com.ll.ticket.domain.admin.dto.RegisterConcertDto;
+import com.ll.ticket.domain.admin.service.AdminService;
+import com.ll.ticket.domain.place.entity.Place;
+import com.ll.ticket.global.enums.ConcertCategory;
+import com.ll.ticket.global.enums.ConcertStatus;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 
+    private final AdminService adminService;
+
     //콘서트 등록
     @GetMapping("/registerConcert")
-    public String registerConcert() {
+    public String registerConcert(RegisterConcertDto registerConcertDto) {
         return "domain/concert/registerConcert";
     }
 
@@ -24,7 +30,12 @@ public class AdminController {
     //콘서트 등록
     @PostMapping("/registerConcert")
     public String registerConcert(@Valid RegisterConcertDto registerConcertDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "domain/concert/registerConcert";
+        }
         //TO DO 글 저장
-        return "domain/concert/registerConcert";
+        adminService.register(registerConcertDto);
+
+        return "redirect:/";
     }
 }
