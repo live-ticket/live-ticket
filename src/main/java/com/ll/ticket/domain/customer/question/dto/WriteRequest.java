@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class QuestionDto {
+public class WriteRequest {
 
     private Long customerQId;
 
@@ -24,6 +24,7 @@ public class QuestionDto {
 
     @NotBlank
     private String questionContent;
+    
 
     private LocalDateTime createDate;
 
@@ -31,7 +32,6 @@ public class QuestionDto {
 
 
     public Question toEntity() {
-
 
         return Question.builder()
                 .customerQId(customerQId)

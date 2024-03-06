@@ -6,7 +6,8 @@
         <div class="mb-3">
            <!--문의 유형 시작-->
             <label for="questionCategory" class="form-label">문의 유형</label>
-            <select name="questionCategory " class="select select-bordered w-full">
+            <select name="questionCategory" class="select select-bordered w-full">
+                <option disabled selected> 카테고리를 선택하세요</option>
                 <option th:each="Category : ${T(com.ll.ticket.domain.customer.question.entity.QuestionCategory).values()}"
                         th:value="${Category}" th:text="${Category.getValue()}"></option> <!--enumClass 에 String  가져옴-->
             </select>
@@ -21,7 +22,7 @@
             <textarea th:field="*{questionContent}" class="textarea textarea-primary w-full" placeholder="내용을 입력해주세요" rows="21"></textarea>
         </div>
         <div class="d-grid gap-2 col-6 mx-auto">
-        <button th:type="submit" class="btn btn-primary" type="button">저장하기 </button>
+        <button th:type="submit" class="btn btn-primary" type="button">저장 하기</button>
         </div>
     </form>
 </div>
