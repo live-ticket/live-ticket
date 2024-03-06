@@ -24,7 +24,7 @@ public class SeatController {
             throw new IllegalArgumentException("존재하지 않는 공연입니다.");
         }
 
-        if (concert == null) {
+        if (concertDate == null) {
             throw new IllegalArgumentException("공연 날짜가 존재하지 않습니다.");
         }
 

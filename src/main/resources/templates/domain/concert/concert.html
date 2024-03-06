@@ -14,22 +14,32 @@
     </select>
 
     <div>
-        <form id="seatForm" th:action="|/concert/${concert.concertId}/seat|" onclick="submitConcertDate(this)" method="POST">
-            <input type="hidden" name="concertDateId" value="1">
-            <button class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">예매하기</button>
+        <form id="seatForm" th:action="|/concert/${concert.concertId}/seat|" method="POST">
+            <input type="hidden" name="concertDateId" value="0">
+            <button id="submitButton" class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">예매하기</button>
         </form>
     </div>
 </div>
 
 <div layout:fragment="script">
     <script>
+        document.getElementById('submitButton').addEventListener('click', function(event) {
+            if (!submitConcertDate(document.getElementById('seatForm'))) {
+                event.preventDefault();
+            }
+        });
+
         function submitConcertDate(form) {
             var concertDateSelectElement = document.getElementById('concertDateSelect');
             var concertDateId = concertDateSelectElement.options[concertDateSelectElement.selectedIndex].value;
 
-            form.concertDateId.value = concertDateId;
+            if (concertDateId.length == 0 || concertDateId == 0) {
+                alert('날짜를 선택해주세요.');
+                return false;
+            }
 
-            form.submit();
+            form.concertDateId.value = concertDateId;
+            return true;
         }
     </script>
 </div>
