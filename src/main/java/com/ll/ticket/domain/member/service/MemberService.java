@@ -4,6 +4,7 @@ import com.ll.ticket.domain.member.dto.JoinRequest;
 import com.ll.ticket.domain.member.entity.Member;
 import com.ll.ticket.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void join(JoinRequest joinRequest) {
         validateEmail(joinRequest.getEmail());
@@ -20,6 +22,7 @@ public class MemberService {
         validatePhoneNumber(joinRequest.getPhoneNumber());
 
         Member member = joinRequest.toEntity(joinRequest);
+        member.changePassword(passwordEncoder.encode(joinRequest.getPassword()));
         memberRepository.save(member);
     }
 
