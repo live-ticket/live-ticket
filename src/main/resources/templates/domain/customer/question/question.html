@@ -4,13 +4,13 @@
 
     <form th:action="@{/customer/question}" th:object="${questionDto}" method="post" class="mb-3">
         <div class="mb-3">
-           <!--문의 카테고리 시작-->
+           <!--문의 유형 시작-->
             <label for="questionCategory" class="form-label">문의 유형</label>
             <select name="questionCategory " class="select select-bordered w-full">
                 <option th:each="Category : ${T(com.ll.ticket.domain.customer.question.entity.QuestionCategory).values()}"
-                        th:value="${Category}" th:text="${Category.getValue()}"></option>
+                        th:value="${Category}" th:text="${Category.getValue()}"></option> <!--enumClass 에 String  가져옴-->
             </select>
-            <!--문의 카테고리 끝-->
+            <!--문의 유형 끝-->
         </div>
         <div class="mb-3">
             <label for="questionTitle" class="form-label">제목</label>
