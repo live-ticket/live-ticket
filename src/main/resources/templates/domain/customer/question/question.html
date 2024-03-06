@@ -2,12 +2,12 @@
 <div layout:fragment="content" class="container mx-auto p-4 bg-white rounded">
 
 
-    <form th:action="@{/customer/question}" th:object="${questionDto}" method="post" class="mb-3">
+    <form th:action="@{/customer/question}" th:object="${questionDto}" method="post" class="mb-3" enctype="multipart/form-data">
         <div class="mb-3">
            <!--문의 유형 시작-->
             <label for="questionCategory" class="form-label">문의 유형</label>
             <select name="questionCategory" class="select select-bordered w-full">
-                <option disabled selected> 카테고리를 선택하세요</option>
+                <option disabled selected> 문의 할 내용을 선택 해주세요.</option>
                 <option th:each="Category : ${T(com.ll.ticket.domain.customer.question.entity.QuestionCategory).values()}"
                         th:value="${Category}" th:text="${Category.getValue()}"></option> <!--enumClass 에 String  가져옴-->
             </select>
@@ -15,14 +15,18 @@
         </div>
         <div class="mb-3">
             <label for="questionTitle" class="form-label">제목</label>
-            <input type="text" th:field="*{questionTitle}" class="form-control">
+            <input type="text" th:field="*{questionTitle}" class="form-control " placeholder="제목을 입력해주세요" >
         </div>
         <div class="mb-3">
             <label for="questionContent" class="form-label">내용</label>
-            <textarea th:field="*{questionContent}" class="textarea textarea-primary w-full" placeholder="내용을 입력해주세요" rows="21"></textarea>
+            <textarea th:field="*{questionContent}" class="textarea textarea-bordered w-full" placeholder="내용을 입력해주세요" ></textarea>
         </div>
-        <div class="d-grid gap-2 col-6 mx-auto">
-        <button th:type="submit" class="btn btn-primary" type="button">저장 하기</button>
+
+        <input type="file" name="multipartFile" class="file-input file-input-bordered w-full max-w-xs" />
+
+        <div>
+        <button class="btn btn-wide btn btn-active btn-neutral">저장 하기</button>
         </div>
+
     </form>
 </div>

@@ -37,6 +37,8 @@ public class Question extends BaseEntity {
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList; //댓글
 
+    @Column(length = 100)
+    private String imagePath; //파일 경로
 
-
+    private String fileName; //파일 이름
 }

@@ -4,6 +4,7 @@ import com.ll.ticket.domain.customer.question.entity.Question;
 import com.ll.ticket.domain.customer.question.entity.QuestionCategory;
 import com.ll.ticket.domain.member.entity.Member;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class WriteRequest {
 
     private Long customerQId;
 
+    @NotNull
     private QuestionCategory questionCategory;
 
     @NotBlank
@@ -30,6 +32,10 @@ public class WriteRequest {
 
     private LocalDateTime modifyDate;
 
+    private String imagePath;
+
+    private String fileName;
+
 
     public Question toEntity(Member member) {
 
@@ -38,6 +44,8 @@ public class WriteRequest {
                 .questionTitle(questionTitle)
                 .questionContent(questionContent)
                 .questionCategory(questionCategory)
+                .fileName(fileName)
+                .imagePath(imagePath)
                 .member(member)
                 .build();
 

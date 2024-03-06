@@ -1,0 +1,73 @@
+<html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<div layout:fragment="content">
+    <th:block th:fragment="custom-css">
+        <style>
+
+        </style>
+    </th:block>
+
+    <h5 class="my-3 border-bottom pb-2">공연 등록</h5>
+    <form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post">
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">제목</label>
+            <input type="text" name="name" id="name" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="col-form-label col-2">장소</label>
+        </div>
+        <div class="mb-3 row">
+            <div class="col">
+                <label for="longitude" class="form-label">경도</label>
+                <input type="text" name="longitude" id="longitude" class="form-control">
+            </div>
+            <div class="col">
+                <label for="latitude" class="form-label">위도</label>
+                <input type="text" name="latitude" id="latitude" class="form-control">
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="releaseTime" class="form-label">예매 오픈 시간</label>
+            <input type="datetime-local" name="releaseTime" id="releaseTime" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="startTime" class="form-label">공연 시작 시간</label>
+            <input type="datetime-local" name="startTime" id="startTime" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="endTime" class="form-label">공연 종료 시간</label>
+            <input type="datetime-local" name="endTime" id="endTime" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">카테고리</label>
+            <select name="category" id="category" class="form-control">
+                <option value="IDOL">IDOL</option>
+                <option value="SOLO">SOLO</option>
+                <option value="MEETING">MEETING</option>
+                <option value="FESTIVAL">FESTIVAL</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">공연 상태</label>
+            <select name="status" id="status" class="form-control">
+                <option value="ABLE">ABLE</option>
+                <option value="ENABLE">ENABLE</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="seatPrice" class="form-label">좌석 가격</label>
+            <input type="text" name="seatPrice" id="seatPrice" class="form-control">
+        </div>
+        <input type="submit" value="등록하기" class="btn btn-dark my-2">
+    </form>
+</div>
+
+<div layout:fragment="script">
+    <script th:inline="javascript">
+
+    </script>
+</div>
+</html>
