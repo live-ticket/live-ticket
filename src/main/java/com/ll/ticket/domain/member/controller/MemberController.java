@@ -1,6 +1,7 @@
 package com.ll.ticket.domain.member.controller;
 
 import com.ll.ticket.domain.member.dto.JoinRequest;
+import com.ll.ticket.domain.member.dto.LoginFormDto;
 import com.ll.ticket.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,16 @@ public class MemberController {
         }
 
         return "redirect:/members/login";
+    }
+
+    @GetMapping("/login")
+    public String loginForm(@ModelAttribute LoginFormDto loginFormDto) {
+        return "domain/member/loginForm";
+    }
+
+    @GetMapping("/login/error")
+    public String loginErrorForm(LoginFormDto loginFormDto) {
+        return "domain/member/loginForm";
     }
 
 }
