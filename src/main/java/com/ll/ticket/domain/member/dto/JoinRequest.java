@@ -41,7 +41,7 @@ public class JoinRequest {
 
     @NotBlank(message = "전화번호는 필수 항목입니다.")
     @Pattern(
-            regexp = "^\\d{2,3}-?\\d{3,4}-?\\d{4}$",
+            regexp = "^\\d{3}-\\d{4}-\\d{4}$",
             message = "전화번호를 다시 확인해주세요.(ex. 010-1234-1234)"
     )
     private String phoneNumber;
