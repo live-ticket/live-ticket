@@ -38,4 +38,7 @@ public class Concert extends BaseEntity {
     private ConcertStatus status;
     private int seatPrice;
 
+    public void setStatus(ConcertStatus status) {
+        this.status = status;
+    }
 }
