@@ -31,13 +31,11 @@ public class QuestionController {
      * 글 작성
      */
     @GetMapping("/question")
-    public String createQuestion(WriteRequest questionDto , Model model) {
+    public String createQuestion( WriteRequest questionDto , Model model) {
 
         model.addAttribute("questionDto" , questionDto);
 
         return "domain/customer/question/question";
-
-
 
     }
 
@@ -45,7 +43,7 @@ public class QuestionController {
      * 글 작성
      */
     @PostMapping("/question")
-    public String questionWrite(@Valid WriteRequest writeRequest , MultipartFile multipartFile) throws Exception{
+    public String questionWrite(@Valid WriteRequest writeRequest , MultipartFile multipartFile) {
 
         // Spring Security를 사용하여 현재 로그인한 사용자의 정보를 가져온다. , 작성자를 포함 하기 위함
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
