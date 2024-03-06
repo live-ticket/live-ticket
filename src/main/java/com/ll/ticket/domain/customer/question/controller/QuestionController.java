@@ -8,10 +8,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +33,10 @@ public class QuestionController {
      * 글 작성
      */
     @GetMapping("/question")
-    public String createQuestion( WriteRequest questionDto , Model model) {
+    @PreAuthorize("isAuthenticated()")
+    public String createQuestion( WriteRequest writeRequest , Model model) {
 
-        model.addAttribute("questionDto" , questionDto);
+        model.addAttribute("writeRequest" , writeRequest);
 
         return "domain/customer/question/question";
 
@@ -43,9 +46,10 @@ public class QuestionController {
      * 글 작성
      */
     @PostMapping("/question")
-    public String questionWrite(@Valid WriteRequest writeRequest , MultipartFile multipartFile) {
+    @PreAuthorize("isAuthenticated()")
+    public String questionWrite(@Valid WriteRequest writeRequest , BindingResult bindingResult , MultipartFile multipartFile ) {
 
-        // Spring Security를 사용하여 현재 로그인한 사용자의 정보를 가져온다. , 작성자를 포함 하기 위함
+        //  현재 로그인한 사용자의 정보를 가져온다. , 작성자를 포함 하기 위함
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // 현재 로그인한 사용자의 이메일
@@ -53,6 +57,10 @@ public class QuestionController {
 
         Member member = memberRepository.findByEmail(authorEmail)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        if (bindingResult.hasErrors()) {
+            return "domain/customer/question/question";
+        }
 
         questionService.createQuestion(writeRequest , multipartFile , member);
 

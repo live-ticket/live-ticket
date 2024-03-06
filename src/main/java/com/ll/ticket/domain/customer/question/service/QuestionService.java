@@ -41,7 +41,7 @@ public class QuestionService {
         File saveFile = new File(projectPath, fileName);
 
         multipartFile.transferTo(saveFile);
-        //경로 저장
+        //경로를 저장
         writeRequest.setFileName(fileName);
         writeRequest.setImagePath("/files/" + fileName);
 

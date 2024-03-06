@@ -2,7 +2,12 @@
 <div layout:fragment="content" class="container mx-auto p-4 bg-white rounded">
 
 
-    <form th:action="@{/customer/question}" th:object="${questionDto}" method="post" class="mb-3" enctype="multipart/form-data">
+    <form th:action="@{/customer/question}" th:object="${writeRequest}" method="post" class="mb-3" enctype="multipart/form-data">
+
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+        </div>
+
         <div class="mb-3">
            <!--문의 유형 시작-->
             <label for="questionCategory" class="form-label">문의 유형</label>
@@ -16,6 +21,7 @@
         <div class="mb-3">
             <label for="questionTitle" class="form-label">제목</label>
             <input type="text" th:field="*{questionTitle}" class="form-control " placeholder="제목을 입력해주세요" >
+
         </div>
         <div class="mb-3">
             <label for="questionContent" class="form-label">내용</label>

@@ -2,8 +2,9 @@ package com.ll.ticket.global.app;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
-//@Configuration
+@Configuration
 public class AppConfig {
     @Getter
     private static String recaptchaSiteKey;
