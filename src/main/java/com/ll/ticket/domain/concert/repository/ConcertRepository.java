@@ -4,10 +4,17 @@ import com.ll.ticket.domain.concert.entity.Concert;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+<<<<<<< HEAD
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8b4294a (feat : 콘서트 등록 구현)
+
+>>>>>>> 5cd886a (feat : 콘서트 등록 구현)
 public interface ConcertRepository extends JpaRepository<Concert, Long> {
     Page<Concert> findAll(Pageable pageable);
 

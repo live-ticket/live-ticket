@@ -8,8 +8,11 @@ import com.ll.ticket.domain.concert.entity.ConcertPerformer;
 import com.ll.ticket.domain.concert.service.ConcertDateService;
 import com.ll.ticket.domain.concert.service.ConcertPerformerService;
 import com.ll.ticket.domain.concert.service.ConcertService;
+<<<<<<< HEAD
 import com.ll.ticket.domain.place.entity.Place;
 import com.ll.ticket.domain.place.service.PlaceService;
+=======
+>>>>>>> 8b4294a (feat : 콘서트 등록 구현)
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -53,7 +56,11 @@ public class AdminController {
 
         adminService.register(registerConcertDto);
 
+<<<<<<< HEAD
         return "redirect:/admin/concertList";
+=======
+        return "redirect:/";
+>>>>>>> 8b4294a (feat : 콘서트 등록 구현)
     }
 
     //콘서트 목록
