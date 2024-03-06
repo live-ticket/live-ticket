@@ -57,6 +57,9 @@ dependencies {
 
     // json
     implementation 'com.google.code.gson:gson:2.10.1'
+
+    //VALIDATION
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {

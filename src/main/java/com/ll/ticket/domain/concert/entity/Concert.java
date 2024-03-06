@@ -21,15 +21,16 @@ public class Concert extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long concertId;
 
+    private String name;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
 
-    private String name;
     private LocalDateTime releaseTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private int runningTime;
-    private Time startTime;
-    private Time endTime;
 
     @Enumerated(EnumType.STRING)
     private ConcertCategory category;
