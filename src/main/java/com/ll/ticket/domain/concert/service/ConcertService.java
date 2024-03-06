@@ -1,16 +1,20 @@
 package com.ll.ticket.domain.concert.service;
 
+import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.repository.ConcertDateRepository;
+import com.ll.ticket.domain.concert.repository.ConcertRepository;
 import com.ll.ticket.global.enums.ConcertStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ConcertService {
+    private final ConcertRepository concertRepository;
     private final ConcertDateRepository concertDateRepository;
 
     @Transactional
@@ -27,5 +31,9 @@ public class ConcertService {
         concertDateRepository.findAllByConcertDateInRange(startDate, endDate).forEach(concertDate -> {
             concertDate.getConcert().setStatus(status);
         });
+    }
+
+    public Optional<Concert> findById(Long id) {
+        return concertRepository.findById(id);
     }
 }

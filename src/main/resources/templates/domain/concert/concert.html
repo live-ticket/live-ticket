@@ -1,0 +1,17 @@
+<html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<div layout:fragment="content">
+    <div>콘서트 이름</div>
+    <div th:text="${concert.name}">
+    </div>
+
+    <div>
+        <form id="seatForm" th:action="|/concert/${concert.concertId}/seat|" method="GET">
+            <button class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">예매하기</button>
+        </form>
+    </div>
+</div>
+
+<div layout:fragment="script">
+</div>
+</html>
