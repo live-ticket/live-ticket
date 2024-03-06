@@ -17,6 +17,12 @@
             }
         </style>
     </th:block>
+    <div>예매 중인 콘서트 이름</div>
+    <div th:text="${concert.name}">
+    </div>
+
+    <div>예매 중인 콘서트 날짜</div>
+    <div th:text="${concertDate.concertDate}"></div>
 
     <div id="seatMap"></div>
     <button class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">좌석 선택 완료</button>

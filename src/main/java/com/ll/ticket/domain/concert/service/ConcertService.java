@@ -42,4 +42,8 @@ public class ConcertService {
     public List<ConcertDate> findConcertDateByConcert(Concert concert) {
         return concertDateRepository.findAllByConcert(concert);
     }
+
+    public Optional<ConcertDate> findConcertDateById(String concertDateId) {
+        return concertDateRepository.findById(Long.parseLong(concertDateId));
+    }
 }

@@ -6,20 +6,31 @@
     </div>
 
     <div>콘서트 날짜</div>
-    <select>
+    <select id="concertDateSelect">
         <option value="0">==선택==</option>
         <option th:each="date : ${concertDate}"
-                th:value="${date.concertDate}"
+                th:value="${date.concertDateId}"
                 th:utext="${date.concertDate}"></option>
     </select>
 
     <div>
-        <form id="seatForm" th:action="|/concert/${concert.concertId}/seat|" method="GET">
+        <form id="seatForm" th:action="|/concert/${concert.concertId}/seat|" onclick="submitConcertDate(this)" method="POST">
+            <input type="hidden" name="concertDateId" value="1">
             <button class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">예매하기</button>
         </form>
     </div>
 </div>
 
 <div layout:fragment="script">
+    <script>
+        function submitConcertDate(form) {
+            var concertDateSelectElement = document.getElementById('concertDateSelect');
+            var concertDateId = concertDateSelectElement.options[concertDateSelectElement.selectedIndex].value;
+
+            form.concertDateId.value = concertDateId;
+
+            form.submit();
+        }
+    </script>
 </div>
 </html>
