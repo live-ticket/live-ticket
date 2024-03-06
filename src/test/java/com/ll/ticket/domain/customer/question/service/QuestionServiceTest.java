@@ -2,8 +2,8 @@ package com.ll.ticket.domain.customer.question.service;
 
 import com.ll.ticket.domain.customer.answer.dto.AnswerDto;
 import com.ll.ticket.domain.customer.question.repository.QuestionRepository;
-import com.ll.ticket.domain.customer.question.repository.TestMemberRepository;
 import com.ll.ticket.domain.member.entity.Member;
+import com.ll.ticket.domain.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ class QuestionServiceTest {
     private QuestionRepository questionRepository;
 
     @Autowired
-    private TestMemberRepository testMemberRepository;
+    private MemberRepository memberRepository;
 
 
     @Test
@@ -36,7 +36,7 @@ class QuestionServiceTest {
                 .userId(1L)
                 .name("테스트")
                 .build();
-        Member saveMember = testMemberRepository.save(member);
+        Member saveMember = memberRepository.save(member);
 
         List<AnswerDto> answerList = Arrays.asList(
                 AnswerDto.builder().answerContent("답변 내용 1")
@@ -50,7 +50,7 @@ class QuestionServiceTest {
 
 
         /**
-         *      테스트 잠시 대기 
+         *      테스트 잠시 대기
          */
 
     }

@@ -17,6 +17,9 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
+    /**
+     * 아이디 Question Entity id 값 반환
+     */
    @Transactional
     public Long createQuestion(QuestionDto questionDto) {
 

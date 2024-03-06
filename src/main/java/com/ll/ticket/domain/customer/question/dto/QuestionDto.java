@@ -2,6 +2,7 @@ package com.ll.ticket.domain.customer.question.dto;
 
 import com.ll.ticket.domain.customer.question.entity.Question;
 import com.ll.ticket.domain.customer.question.entity.QuestionCategory;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -10,14 +11,18 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class QuestionDto {
 
     private Long customerQId;
 
     private QuestionCategory questionCategory;
 
+    @NotBlank
     private String questionTitle;
 
+    @NotBlank
     private String questionContent;
 
     private LocalDateTime createDate;
@@ -26,6 +31,7 @@ public class QuestionDto {
 
 
     public Question toEntity() {
+
 
         return Question.builder()
                 .customerQId(customerQId)
@@ -36,15 +42,4 @@ public class QuestionDto {
 
     }
 
-    @Builder
-    public QuestionDto (Long customerQId , String questionTitle , String questionContent , QuestionCategory questionCategory,
-                  LocalDateTime createDate ,   LocalDateTime modifyDate ) {
-
-        this.customerQId = customerQId;
-        this.questionTitle = questionTitle;
-        this.questionContent = questionContent;
-        this.questionCategory = questionCategory;
-        this.createDate = createDate;
-        this.modifyDate = modifyDate;
-    }
 }

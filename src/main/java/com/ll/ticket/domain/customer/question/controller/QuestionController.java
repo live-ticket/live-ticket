@@ -2,6 +2,7 @@ package com.ll.ticket.domain.customer.question.controller;
 
 import com.ll.ticket.domain.customer.question.dto.QuestionDto;
 import com.ll.ticket.domain.customer.question.service.QuestionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class QuestionController {
 
     private final QuestionService questionService;
-
+    /**
+     * 글 작성
+     */
     @GetMapping("/question")
     public String createQuestion(QuestionDto questionDto , Model model) {
 
@@ -29,8 +32,11 @@ public class QuestionController {
 
     }
 
+    /**
+     * 글 작성
+     */
     @PostMapping("/question")
-    public String questionWrite(QuestionDto questionDto){
+    public String questionWrite(@Valid QuestionDto questionDto){
 
         questionService.createQuestion(questionDto);
 
