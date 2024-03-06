@@ -81,6 +81,7 @@ public class AdminService {
 
         this.concertRepository.save(concert);
     }
+<<<<<<< HEAD
 
     public void modify(RegisterConcertDto registerConcertDto, Concert concert, Place place, ConcertPerformer concertPerformer, List<ConcertDate> concertDates){
         String name = registerConcertDto.getName();
@@ -135,3 +136,6 @@ public class AdminService {
 
     }
 }
+=======
+}
+>>>>>>> 8b4294a (feat : 콘서트 등록 구현)

@@ -8,20 +8,15 @@
     </th:block>
 
     <h5 class="my-3 border-bottom pb-2">공연 등록</h5>
-<<<<<<< HEAD
     <form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post">
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
-=======
-    <form th:action="@{/admin/registerConcert}" method="post">
->>>>>>> 2c0a23a (feat : 콘서트 등록 폼 작성)
         <div class="mb-3">
             <label for="name" class="form-label">제목</label>
             <input type="text" name="name" id="name" class="form-control">
         </div>
         <div class="mb-3">
-<<<<<<< HEAD:src/main/resources/templates/domain/admin/register_concert.html
             <label for="concertNameKr" class="form-label">콘서트명</label>
             <input type="text" name="concertNameKr" id="concertNameKr" class="form-control">
         </div>
@@ -38,9 +33,6 @@
             <input type="text" name="artistNameEng" id="artistNameEng" class="form-control">
         </div>
         <div class="mb-3">
-=======
-<<<<<<< HEAD
->>>>>>> 7666396 (feat : 콘서트 등록 폼 작성):src/main/resources/templates/domain/concert/registerConcert.html
             <label class="col-form-label col-2">장소</label>
         </div>
         <div class="mb-3 row">
@@ -54,8 +46,6 @@
             </div>
         </div>
         <div class="mb-3">
-=======
->>>>>>> 2c0a23a (feat : 콘서트 등록 폼 작성)
             <label for="releaseTime" class="form-label">예매 오픈 시간</label>
             <input type="datetime-local" name="releaseTime" id="releaseTime" class="form-control">
         </div>
@@ -69,7 +59,6 @@
         </div>
         <div class="mb-3">
             <label for="category" class="form-label">카테고리</label>
-<<<<<<< HEAD
             <select name="category" id="category" class="form-control">
                 <option value="IDOL">IDOL</option>
                 <option value="SOLO">SOLO</option>
@@ -94,20 +83,6 @@
         </div>
         <input type="submit" value="등록하기" class="btn btn-dark my-2">
     </form>
-=======
-            <input type="datetime-local" name="category" id="category" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="status" class="form-label">공연 상태</label>
-            <input type="datetime-local" name="status" id="status" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="seatPrice" class="form-label">좌석 가격</label>
-            <input type="datetime-local" name="seatPrice" id="seatPrice" class="form-control">
-        </div>
-    </form>
-    <input type="submit" value="등록하기" class="btn btn-primary my-2">
->>>>>>> 2c0a23a (feat : 콘서트 등록 폼 작성)
 </div>
 
 <div layout:fragment="script">
