@@ -1,6 +1,7 @@
 package com.ll.ticket.domain.concert.service;
 
 import com.ll.ticket.domain.concert.entity.Concert;
+import com.ll.ticket.domain.concert.entity.ConcertDate;
 import com.ll.ticket.domain.concert.repository.ConcertDateRepository;
 import com.ll.ticket.domain.concert.repository.ConcertRepository;
 import com.ll.ticket.global.enums.ConcertStatus;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,5 +37,9 @@ public class ConcertService {
 
     public Optional<Concert> findById(Long id) {
         return concertRepository.findById(id);
+    }
+
+    public List<ConcertDate> findConcertDateByConcert(Concert concert) {
+        return concertDateRepository.findAllByConcert(concert);
     }
 }

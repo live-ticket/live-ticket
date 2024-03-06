@@ -5,6 +5,14 @@
     <div th:text="${concert.name}">
     </div>
 
+    <div>콘서트 날짜</div>
+    <select>
+        <option value="0">==선택==</option>
+        <option th:each="date : ${concertDate}"
+                th:value="${date.concertDate}"
+                th:utext="${date.concertDate}"></option>
+    </select>
+
     <div>
         <form id="seatForm" th:action="|/concert/${concert.concertId}/seat|" method="GET">
             <button class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">예매하기</button>
