@@ -33,7 +33,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "domain/concert/registerConcert";
         }
-        //TO DO 글 저장
+
         adminService.register(registerConcertDto);
 
         return "redirect:/";
