@@ -18,12 +18,8 @@ public class ConcertController {
 
     @GetMapping("/concert/{id}")
     public String getConcert(@PathVariable("id") Long id, Model model) {
-        Concert concert = concertService.findById(id).orElse(null);
+        Concert concert = concertService.findById(id);
         List<ConcertDate> concertDate = concertService.findConcertDateByConcert(concert);
-
-        if (concert == null) {
-            throw new IllegalArgumentException("존재하지 않는 공연입니다.");
-        }
 
         if (concertDate.isEmpty()) {
             throw new IllegalArgumentException("공연 날짜가 존재하지 않습니다.");

@@ -36,7 +36,7 @@ public class Concert extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private ConcertStatus status;
-    private int seatPrice;
+    private Long seatPrice;
 
     public void setStatus(ConcertStatus status) {
         this.status = status;

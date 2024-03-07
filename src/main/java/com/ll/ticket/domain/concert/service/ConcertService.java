@@ -35,9 +35,15 @@ public class ConcertService {
         });
     }
 
-    public Optional<Concert> findById(Long id) {
-        return concertRepository.findById(id);
+    public Concert findById(Long id) {
+        Optional<Concert> concert = concertRepository.findById(id);
+        if (concert.isPresent()) {
+            return concert.get();
+        } else {
+            throw new IllegalArgumentException("존재하지 않는 공연입니다.");
+        }
     }
+
 
     public List<ConcertDate> findConcertDateByConcert(Concert concert) {
         return concertDateRepository.findAllByConcert(concert);

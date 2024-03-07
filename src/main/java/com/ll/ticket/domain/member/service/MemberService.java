@@ -54,4 +54,9 @@ public class MemberService {
     public boolean confirmPassword(String password, String passwordConfirm) {
         return password.equals(passwordConfirm);
     }
+
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 계정입니다."));
+    }
 }

@@ -17,12 +17,8 @@ public class SeatController {
 
     @PostMapping("/concert/{id}/seat")
     public String getSeat(@PathVariable("id") Long id, @RequestParam("concertDateId") String concertDateId, Model model) {
-        Concert concert = concertService.findById(id).orElse(null);
+        Concert concert = concertService.findById(id);
         ConcertDate concertDate = concertService.findConcertDateById(concertDateId).orElse(null);
-
-        if (concert == null) {
-            throw new IllegalArgumentException("존재하지 않는 공연입니다.");
-        }
 
         if (concertDate == null) {
             throw new IllegalArgumentException("공연 날짜가 존재하지 않습니다.");
