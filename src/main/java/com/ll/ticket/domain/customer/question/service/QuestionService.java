@@ -7,6 +7,9 @@ import com.ll.ticket.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +31,19 @@ public class QuestionService {
      * 아이디 Question Entity id 값 반환
      */
    @Transactional
-    public Long createQuestion(WriteRequest writeRequest , MultipartFile multipartFile , Member member) {
+    public Long createQuestion(WriteRequest writeRequest , MultipartFile multipartFile ) {
+
+       //  현재 로그인한 사용자의 정보를 가져온다. , 작성자를 포함 하기 위함
+       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+       // 현재 로그인한 사용자의 이메일
+       String authorEmail = authentication.getName();
+
+       Member member = memberRepository.findByEmail(authorEmail)
+               .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+       writeRequest.setMember(member);
+
        try
     {
         // 이미지 저장 경로
@@ -45,8 +60,7 @@ public class QuestionService {
         writeRequest.setFileName(fileName);
         writeRequest.setImagePath("/files/" + fileName);
 
-        //멤버 추가 하여 반환
-        return questionRepository.save(writeRequest.toEntity(member)).getCustomerQId();
+        return questionRepository.save(writeRequest.toEntity()).getCustomerQId();
 
     } catch (IOException e) {
         e.printStackTrace();

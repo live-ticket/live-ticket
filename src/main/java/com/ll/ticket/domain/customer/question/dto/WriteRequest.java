@@ -19,14 +19,16 @@ public class WriteRequest {
 
     private Long customerQId;
 
-    @NotNull
+    @NotNull(message = "문의 유형을 선택해주세요.")
     private QuestionCategory questionCategory;
 
-    @NotBlank
+    @NotBlank(message = "제목을 입력해주세요")
     private String questionTitle;
 
-    @NotBlank
+    @NotBlank(message = "내용을 입력해주세요")
     private String questionContent;
+
+    private Member member;
 
     private LocalDateTime createDate;
 
@@ -37,7 +39,7 @@ public class WriteRequest {
     private String fileName;
 
 
-    public Question toEntity(Member member) {
+    public Question toEntity() {
 
         return Question.builder()
                 .customerQId(customerQId)
