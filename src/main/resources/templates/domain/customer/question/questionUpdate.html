@@ -1,8 +1,8 @@
 <div layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
     <div layout:fragment="content" class="container mx-auto p-4 bg-white rounded">
 
-        <form th:action="@{/customer/question}" th:object="${updateRequest}" method="post" class="mb-3" enctype="multipart/form-data">
-
+        <form th:object="${updateRequest}" method="post" class="mb-3" enctype="multipart/form-data">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div id="error" class="alert alert-error" role="alert" th:if="${#fields.hasAnyErrors()}">
                 <div th:each="error : ${#fields.allErrors()}" th:text="${error}" />
             </div>
@@ -12,8 +12,8 @@
                 <label for="questionCategory" class="form-label">문의 유형</label>
                 <select name="questionCategory" class="select select-bordered w-full">
                     <option disabled selected> 문의 할 내용을 선택 해주세요.</option>
-                    <option th:each="Category : ${T(com.ll.ticket.domain.customer.question.entity.QuestionCategory).values()}"
-                            th:value="${Category}" th:text="${Category.getValue()}"></option> <!--enumClass 에 String  가져옴-->
+                    <option th:each="questionCategory : ${T(com.ll.ticket.domain.customer.question.entity.QuestionCategory).values()}"
+                            th:value="${questionCategory}" th:text="${questionCategory.getValue()}"></option> <!--enumClass 에 String  가져옴-->
                 </select>
                 <!--문의 유형 끝-->
             </div>

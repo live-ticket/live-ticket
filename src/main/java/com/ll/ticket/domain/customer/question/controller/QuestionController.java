@@ -3,6 +3,7 @@ package com.ll.ticket.domain.customer.question.controller;
 import com.ll.ticket.domain.customer.question.dto.QuestionResponse;
 import com.ll.ticket.domain.customer.question.dto.UpdateRequest;
 import com.ll.ticket.domain.customer.question.dto.WriteRequest;
+import com.ll.ticket.domain.customer.question.repository.QuestionRepository;
 import com.ll.ticket.domain.customer.question.service.QuestionService;
 import com.ll.ticket.domain.member.repository.MemberRepository;
 import jakarta.validation.Valid;
@@ -25,6 +26,7 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final MemberRepository memberRepository;
+    private final QuestionRepository questionRepository;
 
     /**
      * 글 작성
@@ -68,24 +70,36 @@ public class QuestionController {
 
         return "domain/customer/question/questionDetail";
     }
-    // http://127.0.0.1:8080/customer/question/update/4
+    /**
+     *
+     * 글 수정
+     */
     @GetMapping("/question/update/{id}")
-    public String questionUpdate2(@PathVariable Long id , UpdateRequest updateRequest) {
+    @PreAuthorize("isAuthenticated()")
+    public String questionUpdate2(@PathVariable Long id ,UpdateRequest updateRequest) {
 
-        QuestionResponse questionResponse = questionService.findQuestion(id);
+        QuestionResponse questionResponse = questionService.findQuestion(id); //응답 DTO 를 Model 로 넘김
 
         updateRequest.setQuestionTitle(questionResponse.getQuestionTitle());
         updateRequest.setQuestionContent(questionResponse.getQuestionContent());
-        updateRequest.setQuestionCategory(questionResponse.getQuestionCategory());
+        updateRequest.setQuestionCategory(updateRequest.getQuestionCategory());
 
         return "domain/customer/question/questionUpdate";
     }
 
+    /**
+     *
+     * 글 수정
+     */
     @PostMapping("/question/update/{id}")
-    public String questionUpdate(@PathVariable Long id , UpdateRequest updateRequest) {
-
+    @PreAuthorize("isAuthenticated()")
+    public String questionUpdate(@PathVariable Long id , @Valid UpdateRequest updateRequest ,
+                                 BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "domain/customer/question/questionUpdate";
+        }
         questionService.updateQuestion(id , updateRequest);
 
-        return "redirect:/question/detail/%s".formatted(id);
+        return "redirect:/customer/question/%s".formatted(id);
     }
 }

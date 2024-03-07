@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class UpdateRequest {
-
     private Long customerQId;
 
     @NotNull(message = "문의 유형을 선택해주세요.")

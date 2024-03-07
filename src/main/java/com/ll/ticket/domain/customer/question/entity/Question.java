@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -42,12 +41,12 @@ public class Question extends BaseEntity {
 
     private String fileName; //파일 이름
 
-//    public void changeQuestion(String questionTitle , String questionContent, QuestionCategory  questionCategory , String imagePath , String fileName ) {
-//
-//        this.questionTitle = questionTitle;
-//        this.questionContent = questionContent;
-//        this.questionCategory = questionCategory;
-//        this.imagePath = imagePath;
-//        this.fileName = fileName;
-//    }
+    public void changeQuestion(String questionTitle , String questionContent, QuestionCategory  questionCategory , String imagePath , String fileName ) {
+
+        this.questionTitle = questionTitle;
+        this.questionContent = questionContent;
+        this.questionCategory = questionCategory;
+        this.imagePath = imagePath;
+        this.fileName = fileName;
+    }
 }

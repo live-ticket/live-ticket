@@ -49,7 +49,6 @@ public class WriteRequest {
                 .imagePath(this.imagePath)
                 .member(this.member)
                 .build();
-
     }
 
 }

@@ -1,7 +1,7 @@
 package com.ll.ticket.domain.customer.question.dto;
 
 import com.ll.ticket.domain.customer.question.entity.Question;
-import com.ll.ticket.domain.customer.question.entity.QuestionCategory;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -11,7 +11,8 @@ public class QuestionResponse {
 
     private final Long customerQId;
 
-    private final QuestionCategory questionCategory;
+    @NotNull(message = "하하하핳하하")
+    private final String questionCategory;
 
     private final String questionTitle;
 
@@ -31,11 +32,10 @@ public class QuestionResponse {
 
     /* Entity -> Dto*/
         public QuestionResponse(Question question) {
-
             this.customerQId = question.getCustomerQId();
             this.questionTitle = question.getQuestionTitle();
             this.questionContent = question.getQuestionContent();
-            this.questionCategory = question.getQuestionCategory();
+            this.questionCategory = question.getQuestionCategory().getValue();
             this.authorId = question.getMember().getUserId();
             this.author = question.getMember().getName();
             this.createDate = question.getCreateDate();

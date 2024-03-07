@@ -30,66 +30,68 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final MemberRepository memberRepository;
+
     /**
-     *  글작성
-     *  현재 로그인한 계정을 찾아 저장 한다
+     * 글작성
+     * 현재 로그인한 계정을 찾아 저장 한다
      */
-   @Transactional
-    public Long createQuestion(WriteRequest writeRequest , MultipartFile multipartFile ) {
-
-       //  현재 로그인한 사용자의 정보를 가져온다. , 작성자를 포함 하기 위함
-       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-       // 현재 로그인한 사용자의 이메일
-       String authorEmail = authentication.getName();
-
-       Member member = memberRepository.findByEmail(authorEmail)
-               .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
-
-       writeRequest.setMember(member);
-
-       try
-    {
-        // 이미지 저장 경로
-        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
-
-        UUID uuid = UUID.randomUUID(); //파일 랜덤 고유 식별자
-
-        String fileName = uuid + "_" + multipartFile.getOriginalFilename();
-
-        File saveFile = new File(projectPath, fileName);
-
-        multipartFile.transferTo(saveFile);
-        //경로를 저장
-        writeRequest.setFileName(fileName);
-        writeRequest.setImagePath("/files/" + fileName);
-
-        return questionRepository.save(writeRequest.toEntity()).getCustomerQId();
-
-    } catch (IOException e) {
-        e.printStackTrace();
-        throw new RuntimeException("파일 전송 중 오류가 발생했습니다.");
-    }
-   }
-
-   //질문 찾는다
-   public QuestionResponse findQuestion (Long id) {
-
-       Question question = questionRepository.findById(id).orElseThrow(() ->
-
-               new IllegalArgumentException("게시글을 찾 을 수 없습니다 "));
-
-       return new QuestionResponse(question); //DTO 반환
-   }
     @Transactional
-    public void updateQuestion(Long id , UpdateRequest updateRequest){
+    public Long createQuestion(WriteRequest writeRequest, MultipartFile multipartFile) {
 
-        Question question = questionRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("질문을 찾을 수 없습니다"));
+        //  현재 로그인한 사용자의 정보를 가져온다. , 작성자를 포함 하기 위함
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        question.setQuestionContent(updateRequest.getQuestionContent());
+        // 현재 로그인한 사용자의 이메일
+        String authorEmail = authentication.getName();
 
-        questionRepository.save(updateRequest.toEntity());
+        Member member = memberRepository.findByEmail(authorEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        writeRequest.setMember(member);
+
+        try {
+            // 이미지 저장 경로
+            String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+
+            UUID uuid = UUID.randomUUID(); //파일 랜덤 고유 식별자
+
+            String fileName = uuid + "_" + multipartFile.getOriginalFilename();
+
+            File saveFile = new File(projectPath, fileName);
+
+            multipartFile.transferTo(saveFile);
+            //경로를 저장
+            writeRequest.setFileName(fileName);
+            writeRequest.setImagePath("/files/" + fileName);
+
+            return questionRepository.save(writeRequest.toEntity()).getCustomerQId();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("파일 전송 중 오류가 발생했습니다.");
+        }
+    }
+
+    //질문 찾는다
+    public QuestionResponse findQuestion(Long id) {
+
+        Question question = questionRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("게시글을 찾 을 수 없습니다 "));
+
+        return new QuestionResponse(question); //DTO 반환
+    }
+
+    @Transactional
+    public void updateQuestion(Long id, UpdateRequest updateRequest) {
+
+        Question question = questionRepository.findById(id).orElseThrow(() ->
+
+                new RuntimeException("게시글을 찾을수 없습니다"));
+
+        question.changeQuestion(updateRequest.getQuestionTitle(), updateRequest.getQuestionContent(), updateRequest.getQuestionCategory(),
+                updateRequest.getImagePath(), updateRequest.getFileName());
+
+        this.questionRepository.save(question);
     }
 
 }
