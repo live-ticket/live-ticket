@@ -94,6 +94,10 @@ public class QuestionService {
         this.questionRepository.save(question);
     }
 
+    @Transactional
+    public void deleteQuestion(Long id) {
+        questionRepository.deleteById(id);
+    }
 }
 
 

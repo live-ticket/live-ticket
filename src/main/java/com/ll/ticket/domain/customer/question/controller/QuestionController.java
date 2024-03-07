@@ -71,7 +71,6 @@ public class QuestionController {
         return "domain/customer/question/questionDetail";
     }
     /**
-     *
      * 글 수정
      */
     @GetMapping("/question/update/{id}")
@@ -101,5 +100,16 @@ public class QuestionController {
         questionService.updateQuestion(id , updateRequest);
 
         return "redirect:/customer/question/%s".formatted(id);
+    }
+
+    /**
+     * 글 삭제
+     */
+    @GetMapping("/question/delete/{id}")
+    public String  questionDelete(@PathVariable Long id) {
+
+        questionService.deleteQuestion(id);
+
+        return "redirect:/help";
     }
 }

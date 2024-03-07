@@ -4,7 +4,7 @@
         <form th:action="@{/customer/question}" th:object="${writeRequest}" method="post" class="mb-3" enctype="multipart/form-data">
 
             <div id="error" class="alert alert-error" role="alert" th:if="${#fields.hasAnyErrors()}">
-                <div th:each="error : ${#fields.allErrors()}" th:text="${error}" />
+                <div th:each="error : ${#fields.allErrors()}" th:text="${error}"/>
             </div>
 
             <div class="mb-3">
@@ -24,13 +24,15 @@
             </div>
             <div class="mb-3">
                 <label for="questionContent" class="form-label">내용</label>
-                <textarea th:field="*{questionContent}" class="textarea textarea-bordered w-full" placeholder="내용을 입력해주세요" ></textarea>
+                <textarea th:field="*{questionContent}" class="textarea textarea-bordered w-full" placeholder="내용을 입력해주세요" rows="20"></textarea>
             </div>
 
-            <input type="file" name="multipartFile" class="file-input file-input-bordered w-full max-w-xs" />
+            <div class="mb-3">
+            <input type="file" name="multipartFile" class="file-input file-input-bordered w-full " />
+            </div>
 
-            <div>
-                <button class="btn btn-wide btn btn-active btn-neutral">저장 하기</button>
+            <div class="mb-3">
+                <button class="btn btn-wide btn btn-active btn-neutral w-full">저장 하기</button>
             </div>
 
         </form>
