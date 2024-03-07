@@ -15,7 +15,6 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +50,7 @@ public class OrderController {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         }
 
-        Member member = memberService.findByEmail(principal.getName());
+        Member member = memberService.getMember(principal.getName());
 
         if (!orderService.checkOrderAccess(member, order)) {
             throw new IllegalArgumentException("권한이 없습니다.");
@@ -70,7 +69,7 @@ public class OrderController {
             }
 
             Concert concert = concertService.findById(concertId);
-            Member member = memberService.findByEmail(principal.getName());
+            Member member = memberService.getMember(principal.getName());
             List<ConcertDate> concertDate = concertService.findConcertDateByConcert(concert);
 
             if (concertDate.isEmpty()) {
@@ -105,7 +104,7 @@ public class OrderController {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         }
 
-        Member member = memberService.findByEmail(principal.getName());
+        Member member = memberService.getMember(principal.getName());
 
         if (!orderService.checkOrderAccess(member, order)) {
             throw new IllegalArgumentException("권한이 없습니다.");
