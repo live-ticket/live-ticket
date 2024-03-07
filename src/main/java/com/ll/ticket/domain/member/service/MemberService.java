@@ -1,6 +1,7 @@
 package com.ll.ticket.domain.member.service;
 
 import com.ll.ticket.domain.member.dto.JoinRequest;
+import com.ll.ticket.domain.member.dto.ModifyRequest;
 import com.ll.ticket.domain.member.entity.Member;
 import com.ll.ticket.domain.member.repository.MemberRepository;
 import com.ll.ticket.global.enums.LoginType;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -80,5 +82,17 @@ public class MemberService {
     public Member saveMember(Member member) {
         Member saveMember = memberRepository.save(member);
         return saveMember;
+    }
+
+    public void modify(ModifyRequest modifyRequest, Member member) {
+
+        //회원정보 수정에서 비밀번호 변경
+        if (StringUtils.hasText(modifyRequest.getPassword())) { //변경하고자 하는 비밀번호가 입력되어있을때
+            member.modifyProfile(passwordEncoder.encode(modifyRequest.getPassword()));
+        }
+
+        //비밀번호 제외 회원 정보 수정
+        member.modifyProfile(modifyRequest.getName(), modifyRequest.getPhoneNumber(), modifyRequest.getGender(), modifyRequest.getBirthday());
+        memberRepository.save(member);
     }
 }
