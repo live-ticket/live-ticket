@@ -101,7 +101,6 @@ public class QuestionController {
 
         return "redirect:/customer/question/%s".formatted(id);
     }
-
     /**
      * 글 삭제
      */
@@ -112,4 +111,5 @@ public class QuestionController {
 
         return "redirect:/help";
     }
+
 }
