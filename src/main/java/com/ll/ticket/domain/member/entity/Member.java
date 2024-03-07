@@ -5,8 +5,13 @@ import com.ll.ticket.global.enums.LoginType;
 import com.ll.ticket.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +40,18 @@ public class Member extends BaseEntity {
     private LoginType loginType;
 
     private String providerId;
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        if (this.role != null && this.role.equals("ADMIN")) {
+            authorities.add(new SimpleGrantedAuthority("ADMIN"));
+        }
+        else {
+            authorities.add(new SimpleGrantedAuthority("MEMBER"));
+        }
+        return authorities;
+    }
 
     public void changePassword(String password) {
         this.password = password;
