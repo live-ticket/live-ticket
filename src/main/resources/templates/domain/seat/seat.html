@@ -42,17 +42,18 @@
                 seat.classList.add('seat');
                 seat.textContent = i + "번";
                 seat.addEventListener('click', function() {
+                    const seatNumber = parseInt(this.textContent);
                     if (this.classList.contains('selected')) {
                         this.classList.remove('selected');
-                        const index = selectedSeats.indexOf(this.textContent);
+                        const index = selectedSeats.indexOf(seatNumber);
                         if (index !== -1) {
                             selectedSeats.splice(index, 1);
                         }
                     } else {
                         this.classList.add('selected');
-                        selectedSeats.push(this.textContent);
+                        selectedSeats.push(seatNumber);
                     }
-                    console.log('Selected Seats:', selectedSeats);
+                    console.log('선택 좌석 번호:', selectedSeats);
                 });
                 seatMap.appendChild(seat);
 
