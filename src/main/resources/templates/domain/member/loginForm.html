@@ -48,6 +48,17 @@
         </div>
       </form>
 
+<!--      <div class="mb-4 space-y-6">-->
+<!--        <a href="https://kauth.kakao.com/oauth/authorize?client_id=f2f920fa80fb6a713e0c68131c45af33&redirect_uri=http://localhost:8080&response_type=code">카카오 로그인</a>-->
+<!--      </div>-->
+
+      <div class="space-y-6 mb-4" style="margin-top: 30px; display: flex; justify-content: center; align-items: center;">
+        <a th:href="@{/oauth/kakao}">
+          <img th:src="@{/images/kakao_login_medium_narrow.png}" style="width:150px; height:40px;">
+        </a>
+      </div>
+
+
       <p class="mt-6 text-center text-sm text-gray-500">
         회원이 아니신가요?
         <a href="/members/join" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">가입하기</a>
