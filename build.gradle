@@ -55,7 +55,7 @@ dependencies {
     // recaptcha
     implementation 'net.tanesha.recaptcha4j:recaptcha4j:0.0.7'
 
-    // json
+    // recaptcha-json
     implementation 'com.google.code.gson:gson:2.10.1'
 
     //VALIDATION
@@ -63,6 +63,7 @@ dependencies {
 
     // OAUTH2
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
 }
 
 tasks.named('test') {

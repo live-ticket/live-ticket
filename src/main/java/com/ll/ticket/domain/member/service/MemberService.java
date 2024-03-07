@@ -68,6 +68,12 @@ public class MemberService {
         return password.equals(passwordConfirm);
     }
 
+
+//     public Member findByEmail(String email) {
+//         return memberRepository.findByEmail(email)
+//                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 계정입니다."));
+//     }
+
     public boolean existsByEmailAndLoginType(String kakaoEmail, LoginType loginType) {
         return memberRepository.existsByEmailAndLoginType(kakaoEmail, loginType);
     }
