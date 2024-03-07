@@ -25,4 +25,11 @@ public class AppConfig {
     public void setRecaptchaUrl(String recaptchaUrl) {
         this.recaptchaUrl = recaptchaUrl;
     }
+
+    @Getter
+    private static String tossPaymentsSecretKey;
+    @Value("${tossPayments.secretKey}")
+    public void setTossPaymentsSecretKey(String tossPaymentsSecretKey) {
+        this.tossPaymentsSecretKey = tossPaymentsSecretKey;
+    }
 }

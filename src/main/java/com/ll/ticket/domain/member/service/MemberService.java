@@ -3,10 +3,13 @@ package com.ll.ticket.domain.member.service;
 import com.ll.ticket.domain.member.dto.JoinRequest;
 import com.ll.ticket.domain.member.entity.Member;
 import com.ll.ticket.domain.member.repository.MemberRepository;
+import com.ll.ticket.global.enums.LoginType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,19 +29,26 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    private void validateEmail(String email) {
-        if (existsByEmail(email)) {
-            throw new IllegalStateException("중복된 이메일입니다.");
+    public void validateEmail(String email) {
+        Optional<Member> _findMember = findByEmail(email);
+        if (_findMember.isPresent()) {
+            Member findMember = _findMember.get();
+            if (findMember.getLoginType().equals(LoginType.KAKAO)) {
+                throw new IllegalStateException("카카오 로그인 계정입니다.");
+            }
+            if (findMember.getLoginType().equals(LoginType.APP)) {
+                throw new IllegalStateException("이미 회원가입한 이메일입니다.");
+            }
         }
     }
 
-    private void validateConfirmPassword(String password, String passwordConfirm) {
+    public void validateConfirmPassword(String password, String passwordConfirm) {
         if (!confirmPassword(password, passwordConfirm)) {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
     }
 
-    private void validatePhoneNumber(String phoneNumber) {
+    public void validatePhoneNumber(String phoneNumber) {
         if (existsByPhoneNumber(phoneNumber)) {
             throw new IllegalStateException("중복된 전화번호입니다.");
         }
@@ -47,11 +57,29 @@ public class MemberService {
     public boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);
     }
+    public Optional<Member> findByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
     public boolean existsByPhoneNumber(String phoneNumber) {
         return memberRepository.existsByPhoneNumber(phoneNumber);
     }
 
     public boolean confirmPassword(String password, String passwordConfirm) {
         return password.equals(passwordConfirm);
+    }
+
+
+//     public Member findByEmail(String email) {
+//         return memberRepository.findByEmail(email)
+//                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 계정입니다."));
+//     }
+
+    public boolean existsByEmailAndLoginType(String kakaoEmail, LoginType loginType) {
+        return memberRepository.existsByEmailAndLoginType(kakaoEmail, loginType);
+    }
+
+    public Member saveMember(Member member) {
+        Member saveMember = memberRepository.save(member);
+        return saveMember;
     }
 }

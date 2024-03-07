@@ -1,0 +1,76 @@
+<html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<div layout:fragment="content">
+    <th:block th:fragment="custom-css">
+        <style>
+            .seat {
+                width: 50px;
+                height: 50px;
+                background-color: #ccc;
+                margin: 5px;
+                display: inline-block;
+                text-align: center;
+                line-height: 50px;
+                cursor: pointer;
+            }
+            .seat.selected {
+                background-color: #3b82f6;
+            }
+        </style>
+    </th:block>
+    <div>예매 중인 콘서트 이름</div>
+    <div th:text="${concert.name}">
+    </div>
+
+    <div>예매 중인 콘서트 날짜</div>
+    <div th:text="${concertDate.concertDate}"></div>
+
+    <div id="seatMap"></div>
+
+    <div>
+        <form th:action="|/order/${concert.concertId}|" method="POST">
+            <input type="hidden" name="concertDateId" th:value="${concertDate.concertDateId}">
+<!--            좌석 정보 추가 필요-->
+            <button class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">좌석 선택 완료</button>
+        </form>
+    </div>
+</div>
+
+<div layout:fragment="script">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const seatMap = document.getElementById('seatMap');
+            const seatsPerRow = 10; // 각 행당 좌석 수
+            const totalSeats = 100; // 전체 좌석 수
+            let selectedSeats = [];
+
+            // 좌석 생성
+            for (let i = 1; i <= totalSeats; i++) {
+                const seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.textContent = i + "번";
+                seat.addEventListener('click', function() {
+                    const seatNumber = parseInt(this.textContent);
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                        const index = selectedSeats.indexOf(seatNumber);
+                        if (index !== -1) {
+                            selectedSeats.splice(index, 1);
+                        }
+                    } else {
+                        this.classList.add('selected');
+                        selectedSeats.push(seatNumber);
+                    }
+                    console.log('선택 좌석 번호:', selectedSeats);
+                });
+                seatMap.appendChild(seat);
+
+                // 행 구분
+                if (i % seatsPerRow === 0) {
+                    const lineBreak = document.createElement('br');
+                    seatMap.appendChild(lineBreak);
+                }
+            }
+        });
+    </script>
+</div>
+</html>
