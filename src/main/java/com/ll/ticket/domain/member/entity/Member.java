@@ -57,4 +57,20 @@ public class Member extends BaseEntity {
         this.password = password;
     }
 
+    public void modifyProfile(String encodedPassword) {
+        this.password = encodedPassword;
+    }
+
+
+    public void modifyProfile(String name, String phoneNumber, Gender gender, LocalDate birthDay) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
+        this.birthDay = birthDay;
+    }
+
+    public void clearPw(String encodedPassword) {
+        this.password = encodedPassword;
+    }
+
 }
