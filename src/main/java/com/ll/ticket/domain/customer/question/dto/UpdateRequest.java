@@ -2,7 +2,6 @@ package com.ll.ticket.domain.customer.question.dto;
 
 import com.ll.ticket.domain.customer.question.entity.Question;
 import com.ll.ticket.domain.customer.question.entity.QuestionCategory;
-import com.ll.ticket.domain.member.entity.Member;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WriteRequest {
+public class UpdateRequest {
 
     private Long customerQId;
 
@@ -27,10 +26,6 @@ public class WriteRequest {
 
     @NotBlank(message = "내용을 입력해주세요")
     private String questionContent;
-
-    private Member member;
-
-    private LocalDateTime createDate;
 
     private LocalDateTime modifyDate;
 
@@ -47,9 +42,6 @@ public class WriteRequest {
                 .questionCategory(this.questionCategory)
                 .fileName(this.fileName)
                 .imagePath(this.imagePath)
-                .member(this.member)
                 .build();
-
     }
-
 }

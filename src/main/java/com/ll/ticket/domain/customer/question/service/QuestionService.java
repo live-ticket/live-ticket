@@ -1,6 +1,9 @@
 package com.ll.ticket.domain.customer.question.service;
 
+import com.ll.ticket.domain.customer.question.dto.QuestionResponse;
+import com.ll.ticket.domain.customer.question.dto.UpdateRequest;
 import com.ll.ticket.domain.customer.question.dto.WriteRequest;
+import com.ll.ticket.domain.customer.question.entity.Question;
 import com.ll.ticket.domain.customer.question.repository.QuestionRepository;
 import com.ll.ticket.domain.member.entity.Member;
 import com.ll.ticket.domain.member.repository.MemberRepository;
@@ -28,7 +31,8 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final MemberRepository memberRepository;
     /**
-     * 아이디 Question Entity id 값 반환
+     *  글작성
+     *  현재 로그인한 계정을 찾아 저장 한다
      */
    @Transactional
     public Long createQuestion(WriteRequest writeRequest , MultipartFile multipartFile ) {
@@ -67,6 +71,27 @@ public class QuestionService {
         throw new RuntimeException("파일 전송 중 오류가 발생했습니다.");
     }
    }
+
+   //질문 찾는다
+   public QuestionResponse findQuestion (Long id) {
+
+       Question question = questionRepository.findById(id).orElseThrow(() ->
+
+               new IllegalArgumentException("게시글을 찾 을 수 없습니다 "));
+
+       return new QuestionResponse(question); //DTO 반환
+   }
+    @Transactional
+    public void updateQuestion(Long id , UpdateRequest updateRequest){
+
+        Question question = questionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("질문을 찾을 수 없습니다"));
+
+        question.setQuestionContent(updateRequest.getQuestionContent());
+
+        questionRepository.save(updateRequest.toEntity());
+    }
+
 }
 
 

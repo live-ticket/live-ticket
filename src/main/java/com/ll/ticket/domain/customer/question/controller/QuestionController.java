@@ -1,5 +1,7 @@
 package com.ll.ticket.domain.customer.question.controller;
 
+import com.ll.ticket.domain.customer.question.dto.QuestionResponse;
+import com.ll.ticket.domain.customer.question.dto.UpdateRequest;
 import com.ll.ticket.domain.customer.question.dto.WriteRequest;
 import com.ll.ticket.domain.customer.question.service.QuestionService;
 import com.ll.ticket.domain.member.repository.MemberRepository;
@@ -11,9 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -31,7 +31,7 @@ public class QuestionController {
      */
     @GetMapping("/question")
     @PreAuthorize("isAuthenticated()")
-    public String createQuestion( WriteRequest writeRequest , Model model) {
+    public String questionWrite( WriteRequest writeRequest , Model model) {
 
         model.addAttribute("writeRequest" , writeRequest);
 
@@ -53,5 +53,39 @@ public class QuestionController {
         questionService.createQuestion(writeRequest , multipartFile );
 
         return "redirect:/";
+    }
+
+    /**
+     * 질문 상세 페이지
+     */
+    @GetMapping("/question/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String questionDetail (@PathVariable Long id , Model model) {
+
+        QuestionResponse questionResponse = questionService.findQuestion(id);
+
+        model.addAttribute("questionResponse" , questionResponse);
+
+        return "domain/customer/question/questionDetail";
+    }
+    // http://127.0.0.1:8080/customer/question/update/4
+    @GetMapping("/question/update/{id}")
+    public String questionUpdate2(@PathVariable Long id , UpdateRequest updateRequest) {
+
+        QuestionResponse questionResponse = questionService.findQuestion(id);
+
+        updateRequest.setQuestionTitle(questionResponse.getQuestionTitle());
+        updateRequest.setQuestionContent(questionResponse.getQuestionContent());
+        updateRequest.setQuestionCategory(questionResponse.getQuestionCategory());
+
+        return "domain/customer/question/questionUpdate";
+    }
+
+    @PostMapping("/question/update/{id}")
+    public String questionUpdate(@PathVariable Long id , UpdateRequest updateRequest) {
+
+        questionService.updateQuestion(id , updateRequest);
+
+        return "redirect:/question/detail/%s".formatted(id);
     }
 }
