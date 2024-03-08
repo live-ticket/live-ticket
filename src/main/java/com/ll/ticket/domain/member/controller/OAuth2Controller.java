@@ -6,7 +6,6 @@ import com.ll.ticket.domain.member.entity.Member;
 import com.ll.ticket.domain.member.service.OAuth2Service;
 import com.ll.ticket.global.enums.LoginType;
 import com.ll.ticket.global.security.config.SecurityUser;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -82,7 +81,7 @@ public class OAuth2Controller {
         // STEP5: 강제 로그인
         // 세션에 회원 정보 저장 & 세션 유지 시간 설정
         if (kakaoMember != null) {
-            SecurityUser securityUser = new SecurityUser(kakaoMember.getUserId(), kakaoMember.getEmail(), "", kakaoMember.getAuthorities());
+            SecurityUser securityUser = new SecurityUser(kakaoMember, kakaoMember.getUserId(), kakaoMember.getEmail(), "", kakaoMember.getAuthorities());
 
             Authentication authentication =
                     new OAuth2AuthenticationToken(securityUser, securityUser.getAuthorities(), LoginType.KAKAO.name());
