@@ -1,5 +1,6 @@
 package com.ll.ticket.global.security.config;
 
+import com.ll.ticket.domain.member.entity.Member;
 import lombok.Getter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,13 @@ import java.util.Map;
 @Getter
 public class SecurityUser extends User implements OAuth2User {
     private long id;
+    private Member member;
+
+    public SecurityUser(Member member, long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, authorities);
+        this.id = id;
+        this.member = member;
+    }
 
     public SecurityUser(long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
