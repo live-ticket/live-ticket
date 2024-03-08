@@ -20,6 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 계정입니다"));
 //        return UserPrincipal.create(member);
         return new SecurityUser(
+                member,
                 member.getUserId(),
                 member.getEmail(),
                 member.getPassword(),

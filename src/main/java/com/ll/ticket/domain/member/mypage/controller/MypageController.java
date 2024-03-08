@@ -25,8 +25,7 @@ public class MypageController {
     private final MemberService memberService;
     @GetMapping("/profile")
     public String profileForm(@AuthenticationPrincipal SecurityUser securityUser, ModifyRequest modifyRequest) {
-
-        Member member = memberService.getMember(securityUser.getUsername());
+        Member member = securityUser.getMember();
 
         modifyRequest.setEmail(member.getEmail());
         modifyRequest.setName(member.getName());
@@ -43,8 +42,6 @@ public class MypageController {
                          @Valid ModifyRequest modifyRequest,
                          BindingResult bindingResult
     ) {
-        Member member = memberService.getMember(securityUser.getUsername());
-
         if (bindingResult.hasErrors()) {
             return "domain/mypage/profile";
         }
@@ -59,13 +56,13 @@ public class MypageController {
 
 
         if (memberService.existsByPhoneNumber(String.valueOf(modifyRequest.getPhoneNumber())) &&
-                !Objects.equals(member.getPhoneNumber(), modifyRequest.getPhoneNumber())
+                !Objects.equals(securityUser.getMember().getPhoneNumber(), modifyRequest.getPhoneNumber())
         ) {
             bindingResult.reject("existPhoneNumber", "이미 존재하는 전화번호입니다.");
             return "domain/mypage/profile";
         }
 
-        memberService.modify(modifyRequest,member);
+        memberService.modify(modifyRequest,securityUser.getMember());
 
         return "redirect:/mypage/profile";
     }
