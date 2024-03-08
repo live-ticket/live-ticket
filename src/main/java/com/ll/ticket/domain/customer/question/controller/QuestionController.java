@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Slf4j
 @ToString
-@RequestMapping("/customer")
+@RequestMapping("/help/question")
 public class QuestionController {
 
     private final QuestionService questionService;
@@ -31,10 +31,10 @@ public class QuestionController {
     private final QuestionRepository questionRepository;
 
     /**
-     * 글 작성
+     * 글 작성 1:1 문의
      */
 //    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/question")
+    @GetMapping("")
     public String questionWrite( WriteRequest writeRequest , Model model) {
 
         model.addAttribute("writeRequest" , writeRequest);
@@ -47,7 +47,7 @@ public class QuestionController {
      * 글 작성 , 이미지 업로드
      */
 //    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/question")
+    @PostMapping("")
     public String questionWrite(@Valid WriteRequest writeRequest , BindingResult bindingResult , MultipartFile multipartFile ) {
 
         if (bindingResult.hasErrors()) {
@@ -63,7 +63,7 @@ public class QuestionController {
      * 질문 상세 페이지
      */
 //    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/question/{id}")
+    @GetMapping("/{id}")
     public String questionDetail (@PathVariable Long id , Model model) {
 
         QuestionResponse questionResponse = questionService.findQuestion(id);
@@ -76,7 +76,7 @@ public class QuestionController {
      * 글 수정
      */
 //    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/question/update/{id}")
+    @GetMapping("/update/{id}")
     public String questionUpdate2(@PathVariable Long id ,UpdateRequest updateRequest) {
 
         QuestionResponse questionResponse = questionService.findQuestion(id); //응답 DTO 를 Model 로 넘김
@@ -93,7 +93,7 @@ public class QuestionController {
      * 글 수정
      */
 //    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/question/update/{id}")
+    @PostMapping("/update/{id}")
     public String questionUpdate(@PathVariable Long id , @Valid UpdateRequest updateRequest ,
                                  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -106,7 +106,7 @@ public class QuestionController {
     /**
      * 글 삭제
      */
-    @GetMapping("/question/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String  questionDelete(@PathVariable Long id) {
 
         questionService.deleteQuestion(id);

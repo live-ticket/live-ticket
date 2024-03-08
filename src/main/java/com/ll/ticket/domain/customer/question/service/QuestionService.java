@@ -101,9 +101,12 @@ public class QuestionService {
         questionRepository.deleteById(id);
     }
 
-    public List<QuestionResponse> getQuestion() {
+    /**
+     * 나의 문의 내역
+     */
+    public List<QuestionResponse> getQuestion(String email) {
 
-        return questionRepository.findAll().stream()
+        return questionRepository.findByMemberEmail(email).stream()
                 .map(question -> new QuestionResponse(question))
                 .toList();
     }
