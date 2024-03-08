@@ -10,18 +10,20 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/customer")
 @Slf4j
 @ToString
+@RequestMapping("/customer")
 public class QuestionController {
 
     private final QuestionService questionService;
@@ -31,8 +33,8 @@ public class QuestionController {
     /**
      * 글 작성
      */
+//    @PreAuthorize("isAuthenticated()")
     @GetMapping("/question")
-    @PreAuthorize("isAuthenticated()")
     public String questionWrite( WriteRequest writeRequest , Model model) {
 
         model.addAttribute("writeRequest" , writeRequest);
@@ -44,8 +46,8 @@ public class QuestionController {
     /**
      * 글 작성 , 이미지 업로드
      */
+//    @PreAuthorize("isAuthenticated()")
     @PostMapping("/question")
-    @PreAuthorize("isAuthenticated()")
     public String questionWrite(@Valid WriteRequest writeRequest , BindingResult bindingResult , MultipartFile multipartFile ) {
 
         if (bindingResult.hasErrors()) {
@@ -60,8 +62,8 @@ public class QuestionController {
     /**
      * 질문 상세 페이지
      */
+//    @PreAuthorize("isAuthenticated()")
     @GetMapping("/question/{id}")
-    @PreAuthorize("isAuthenticated()")
     public String questionDetail (@PathVariable Long id , Model model) {
 
         QuestionResponse questionResponse = questionService.findQuestion(id);
@@ -73,8 +75,8 @@ public class QuestionController {
     /**
      * 글 수정
      */
+//    @PreAuthorize("isAuthenticated()")
     @GetMapping("/question/update/{id}")
-    @PreAuthorize("isAuthenticated()")
     public String questionUpdate2(@PathVariable Long id ,UpdateRequest updateRequest) {
 
         QuestionResponse questionResponse = questionService.findQuestion(id); //응답 DTO 를 Model 로 넘김
@@ -90,8 +92,8 @@ public class QuestionController {
      *
      * 글 수정
      */
+//    @PreAuthorize("isAuthenticated()")
     @PostMapping("/question/update/{id}")
-    @PreAuthorize("isAuthenticated()")
     public String questionUpdate(@PathVariable Long id , @Valid UpdateRequest updateRequest ,
                                  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
