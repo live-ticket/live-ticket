@@ -7,6 +7,7 @@ import com.ll.ticket.domain.customer.question.entity.Question;
 import com.ll.ticket.domain.customer.question.repository.QuestionRepository;
 import com.ll.ticket.domain.member.entity.Member;
 import com.ll.ticket.domain.member.repository.MemberRepository;
+import com.ll.ticket.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final MemberRepository memberRepository;
-
+    private final MemberService memberService;
 
     /**
      * 글작성
@@ -102,14 +103,25 @@ public class QuestionService {
     }
 
     /**
-     * 나의 문의 내역
+     * 일반 사용자 나의 문의 내역
      */
-    public List<QuestionResponse> getQuestion(String email) {
+    public List<QuestionResponse> getQuestion(String email ) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth.getAuthorities().stream().anyMatch(a ->
+                a.getAuthority().equals("ADMIN"))) {
+
+            return questionRepository.findAll().stream()
+                    .map(question -> new QuestionResponse(question))
+                    .toList();
+        }
 
         return questionRepository.findByMemberEmail(email).stream()
                 .map(question -> new QuestionResponse(question))
                 .toList();
     }
+
 }
 
 

@@ -1,12 +1,13 @@
 <html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<div layout:fragment="content" class="container mx-auto p-4 bg-white rounded flex" >
-
+<div layout:fragment="content" class="container mx-auto p-4 bg-white rounded flex">
+    <!-- 사이드바 -->
     <aside th:replace="~{global/fragments/sidebar :: asideFragment}"></aside>
 
-    <div class="overflow-x-auto" style="width: 100%;">
+    <!-- 본문 내용 -->
+    <div class="overflow-x-auto w-full">
         <table class="table">
-            <thead >
-            <tr class="hover">
+            <thead>
+            <tr>
                 <th>번호</th>
                 <th>제목</th>
                 <th>작성자</th>
@@ -16,12 +17,14 @@
             <tbody>
             <tr th:each="question : ${questionResponse}">
                 <td th:text="${question.getCustomerQId()}"></td>
-              <td> <a th:href="@{|question/${question.getCustomerQId()}|}" th:text="${question.getQuestionTitle()}"></a></td><!--/help/question/id-->
+                <td>
+                    <a th:href="@{|question/${question.getCustomerQId()}|}" th:text="${question.getQuestionTitle()}"></a>
+                </td>
                 <td th:text="${question.getAuthor()}"></td>
                 <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
             </tr>
             </tbody>
         </table>
-</div>
+    </div>
 </div>
 </html>

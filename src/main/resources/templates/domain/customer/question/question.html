@@ -4,7 +4,7 @@
     <aside th:replace="~{global/fragments/sidebar :: asideFragment}"></aside>
 
     <div style="width: 600px" class="mx-auto">
-        <form th:action="@{/customer/question}" th:object="${writeRequest}" method="post" class="mb-3" enctype="multipart/form-data">
+        <form th:action="@{/help/question}" th:object="${writeRequest}" method="post" class="mb-3" enctype="multipart/form-data">
             <div id="error" class="alert alert-error" role="alert" th:if="${#fields.hasAnyErrors()}">
                 <div th:each="error : ${#fields.allErrors()}" th:text="${error}"></div>
             </div>
@@ -36,7 +36,7 @@
             </div>
 
             <div class="mb-3">
-                <a href="/help" class="btn btn-wide btn btn-active btn-neutral w-full">목록</a>
+                <a href="/help/myqna" class="btn btn-wide btn btn-active btn-neutral w-full">목록</a>
             </div>
         </form>
     </div>

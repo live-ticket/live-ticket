@@ -54,9 +54,9 @@ public class QuestionController {
             return "domain/customer/question/question";
         }
 
-        questionService.createQuestion(writeRequest , multipartFile );
+      Long questionId =  questionService.createQuestion(writeRequest , multipartFile );
 
-        return "redirect:/";
+        return "redirect:/help/question/%s".formatted(questionId);
     }
 
     /**
@@ -101,7 +101,7 @@ public class QuestionController {
         }
         questionService.updateQuestion(id , updateRequest);
 
-        return "redirect:/customer/question/%s".formatted(id);
+        return "redirect:/help/question/%s".formatted(id);
     }
     /**
      * 글 삭제
@@ -111,7 +111,7 @@ public class QuestionController {
 
         questionService.deleteQuestion(id);
 
-        return "redirect:/help";
+        return "redirect:/help/myqna";
     }
 
 }

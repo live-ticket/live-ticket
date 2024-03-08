@@ -19,7 +19,7 @@
                 <span th:if="${questionResponse.getModifyDate() != null}" class="text-sm text-gray-500 ml-4">수정일시:</span>
                 <span th:if="${questionResponse.getModifyDate() != null}" th:text="${#temporals.format(questionResponse.getModifyDate(), 'yyyy-MM-dd HH:mm')}" class="text-sm text-gray-800"></span>
             </div>
-
+            <!--작성자 표시-->
             <div class="post-meta mt-[-22px]">
                 <span class="text-sm text-gray-500 mr-2">작성자:</span>
                 <span th:if="${questionResponse.getAuthor() != null}" th:text="${questionResponse.getAuthor}" class="text-sm text-gray-800"></span>
@@ -27,10 +27,10 @@
 
             <!-- 수정, 삭제 버튼 숨김 처리 -->
             <div class="post-actions mx-auto" >
-                <a th:href="@{|/customer/question/update/${questionResponse.getCustomerQId()}|}" class="text-sm text-gray-500 hover:text-blue-500 mr-2" >글 수정</a>
+                <a th:href="@{|/help/question/update/${questionResponse.getCustomerQId()}|}" class="text-sm text-gray-500 hover:text-blue-500 mr-2" >글 수정</a>
 
                 <a onclick="return confirm('정말로 삭제하시겠습니까?');" class="text-sm text-gray-500 hover:text-red-500"
-                   th:href="@{|/customer/question/delete/${questionResponse.getCustomerQId()}|}" >글 삭제</a>
+                   th:href="@{|/help/question/delete/${questionResponse.getCustomerQId()}|}" >글 삭제</a>
             </div>
         </div>
 
@@ -39,10 +39,13 @@
                 <div class="text-gray-800 " th:text="${questionResponse.getQuestionContent()}"></div>
             </div>
         </div>
-
-        <a href="">답변 등록</a>
-        <a href="/help" class="btn btn-primary">목록</a>
-    </div>
+            <div class="mb-3">
+                <a href="/help/myqna" class="btn btn-wide btn btn-active btn-neutral w-full">목록</a>
+            </div>
+            <div>
+            <a href="" class="btn btn-wide btn btn-active btn-neutral w-full">답변 등록</a>
+            </div>
+        </div>
     </div>
 </div>
 
