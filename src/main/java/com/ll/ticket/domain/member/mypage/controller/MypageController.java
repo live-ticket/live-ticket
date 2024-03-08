@@ -3,7 +3,7 @@ package com.ll.ticket.domain.member.mypage.controller;
 import com.ll.ticket.domain.member.dto.ModifyRequest;
 import com.ll.ticket.domain.member.entity.Member;
 import com.ll.ticket.domain.member.service.MemberService;
-import com.ll.ticket.global.security.authentication.UserPrincipal;
+import com.ll.ticket.global.security.config.SecurityUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +24,9 @@ import java.util.Objects;
 public class MypageController {
     private final MemberService memberService;
     @GetMapping("/profile")
-    public String profileForm(@AuthenticationPrincipal UserPrincipal userPrincipal, ModifyRequest modifyRequest) {
+    public String profileForm(@AuthenticationPrincipal SecurityUser securityUser, ModifyRequest modifyRequest) {
 
-        Member member = userPrincipal.getMember();
+        Member member = memberService.getMember(securityUser.getUsername());
 
         modifyRequest.setEmail(member.getEmail());
         modifyRequest.setName(member.getName());
@@ -39,10 +39,12 @@ public class MypageController {
     }
 
     @PostMapping("/profile")
-    public String modify(@AuthenticationPrincipal UserPrincipal userPrincipal,
+    public String modify(@AuthenticationPrincipal SecurityUser securityUser,
                          @Valid ModifyRequest modifyRequest,
                          BindingResult bindingResult
     ) {
+        Member member = memberService.getMember(securityUser.getUsername());
+
         if (bindingResult.hasErrors()) {
             return "domain/mypage/profile";
         }
@@ -57,13 +59,13 @@ public class MypageController {
 
 
         if (memberService.existsByPhoneNumber(String.valueOf(modifyRequest.getPhoneNumber())) &&
-                !Objects.equals(userPrincipal.getMember().getPhoneNumber(), modifyRequest.getPhoneNumber())
+                !Objects.equals(member.getPhoneNumber(), modifyRequest.getPhoneNumber())
         ) {
             bindingResult.reject("existPhoneNumber", "이미 존재하는 전화번호입니다.");
             return "domain/mypage/profile";
         }
 
-        memberService.modify(modifyRequest, userPrincipal.getMember());
+        memberService.modify(modifyRequest,member);
 
         return "redirect:/mypage/profile";
     }
