@@ -22,10 +22,13 @@ public class KakaoInfo {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.gender = gender.equals("male") ? Gender.MALE : Gender.FEMALE;
-        this.birthday = LocalDate.of(Integer.parseInt(birthYear),
-                Integer.parseInt(birthMonthAndDay.substring(0, 2)),
-                Integer.parseInt(birthMonthAndDay.substring(2)));
-        this.phoneNumber = "0" + phoneNumber.split(" ")[1];
+        this.gender = null;
+        this.birthday = null;
+        this.phoneNumber = null;
+//        this.gender = gender.equals("male") ? Gender.MALE : Gender.FEMALE;
+//        this.birthday = LocalDate.of(Integer.parseInt(birthYear),
+//                Integer.parseInt(birthMonthAndDay.substring(0, 2)),
+//                Integer.parseInt(birthMonthAndDay.substring(2)));
+//        this.phoneNumber = "0" + phoneNumber.split(" ")[1];
     }
 }
