@@ -125,19 +125,20 @@ public class OAuth2Service {
         JsonNode jsonNode = objectMapper.readTree(responseBody);
 
         String id = jsonNode.get("id").asText();
-        String name = jsonNode.get("kakao_account")
-                .get("name").asText();
+//        String name = jsonNode.get("kakao_account")
+//                .get("name").asText();
         String email = jsonNode.get("kakao_account").get("email").asText();
-        String gender = jsonNode.get("kakao_account")
-                .get("gender").asText();
-        String birthYear = jsonNode.get("kakao_account")
-                .get("birthyear").asText();
-        String birthMonthAndDay = jsonNode.get("kakao_account")
-                .get("birthday").asText();
-        String phoneNumber = jsonNode.get("kakao_account")
-                .get("phone_number").asText();
+        String nickname = jsonNode.get("kakao_account").get("profile").get("nickname").asText();
+//        String gender = jsonNode.get("kakao_account")
+//                .get("gender").asText();
+//        String birthYear = jsonNode.get("kakao_account")
+//                .get("birthyear").asText();
+//        String birthMonthAndDay = jsonNode.get("kakao_account")
+//                .get("birthday").asText();
+//        String phoneNumber = jsonNode.get("kakao_account")
+//                .get("phone_number").asText();
 
-        return new KakaoInfo(id, name, email, gender, birthYear, birthMonthAndDay, phoneNumber);
+        return new KakaoInfo(id, nickname, email, null, null, null, null);
     }
 
     public void kakaoDisconnect(String accessToken) throws JsonProcessingException {
