@@ -20,7 +20,7 @@
                 <td>
                     <a th:href="@{|question/${question.getCustomerQId()}|}" th:text="${question.getQuestionTitle()}"></a>
                 </td>
-                <td th:text="${question.getAuthor()}"></td>
+                <td th:text="${question.getAuthorName()}"></td>
                 <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
             </tr>
             </tbody>

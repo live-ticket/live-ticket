@@ -18,7 +18,9 @@ public class QuestionResponse {
 
     private final Long authorId;
 
-    private final String author;
+    private final String loginId; // 로그인 아이디 , member 엔티티 의 email
+
+    private final String authorName;
 
     private final LocalDateTime createDate;
 
@@ -35,7 +37,8 @@ public class QuestionResponse {
             this.questionContent = question.getQuestionContent();
             this.questionCategory = question.getQuestionCategory().getValue();
             this.authorId = question.getMember().getUserId();
-            this.author = question.getMember().getName();
+            this.loginId = question.getMember().getEmail(); //로그인 아이디
+            this.authorName=question.getMember().getName(); // 멤버 엔티티 이름
             this.createDate = question.getCreateDate();
             this.modifyDate = question.getModifyDate();
             this.imagePath = question.getImagePath();
