@@ -8,6 +8,7 @@ import com.ll.ticket.domain.member.service.MemberService;
 import com.ll.ticket.domain.order.dto.OrderPayInfoDto;
 import com.ll.ticket.domain.order.entity.Order;
 import com.ll.ticket.domain.order.service.OrderService;
+import com.ll.ticket.domain.recaptcha.service.RecaptchaService;
 import com.ll.ticket.global.app.AppConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class OrderController {
     private final OrderService orderService;
     private final ConcertService concertService;
     private final MemberService memberService;
+    private final RecaptchaService recaptchaService;
 
     @GetMapping("/{id}")
     public String showOrder(@PathVariable("id") long id, Principal principal, Model model) {
@@ -94,6 +96,10 @@ public class OrderController {
     @ResponseBody
     @PostMapping("/{id}/pay")
     public void saveOrderUserInfo(@PathVariable("id") long id, @RequestBody OrderPayInfoDto orderPayInfoDto, Principal principal) {
+        if (!recaptchaService.verifyRecaptcha(orderPayInfoDto.getRecaptcha())) {
+            throw new IllegalArgumentException("reCAPTCHA를 확인해주세요.");
+        }
+
         Order order = orderService.findById(id).orElse(null);
 
         if (order == null) {
@@ -139,11 +145,6 @@ public class OrderController {
             paymentKey = (String) requestData.get("paymentKey");
             orderId = (String) requestData.get("orderId");
             amount = (String) requestData.get("amount");
-
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            System.out.println(paymentKey);
-            System.out.println(orderId);
-            System.out.println(amount);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

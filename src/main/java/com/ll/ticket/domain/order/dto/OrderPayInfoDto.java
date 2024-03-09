@@ -9,4 +9,5 @@ public class OrderPayInfoDto {
     private String zipcode;
     private String address1;
     private String address2;
+    private String recaptcha;
 }

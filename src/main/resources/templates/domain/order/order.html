@@ -242,12 +242,24 @@
                 </form>
             </div>
 
-
             <!-- 결제 UI -->
             <div id="payment-method"></div>
 
             <!-- 이용약관 UI -->
             <div id="agreement"></div>
+
+            <!-- Recaptcha -->
+            <form id="recaptcha-form" style="display: flex; justify-content: center;">
+                <div id="recaptcha"
+                     class="g-recaptcha"
+                     data-callback="recaptchaCallback"
+                     data-expired-callback="expiredCallback"
+                     th:attr="data-sitekey=${@appConfig.recaptchaSiteKey}">
+                </div>
+            </form>
+
+
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
             <!-- 결제하기 버튼 -->
             <form>
@@ -259,10 +271,28 @@
                     </button>
                 </div>
             </form>
-
+        </th:block>
 </div>
+
 <div layout:fragment="script">
     <script th:inline="javascript">
+        var captcha = 0;
+        function recaptchaCallback(response) {
+            if (grecaptcha.getResponse() !== "") {
+                if (response) {
+                    captcha = 1;
+                } else {
+                    captcha = 0;
+                }
+            }
+        }
+
+        function expiredCallback() {
+            captcha = 0;
+            alert("응답 만료");
+        }
+
+
         const button = document.getElementById("payment-button");
         var amount = orderPayPrice;
 
@@ -286,6 +316,11 @@
         paymentWidget.renderAgreement("#agreement", {variantKey: "AGREEMENT"});
 
         function submitPayForm(form) {
+            if (captcha === 0) {
+                alert('reCAPTCHA를 인증해주세요.');
+                return;
+            }
+
             var customerName = document.getElementById('customerName').value.trim();
 
             if (customerName.length == 0) {
@@ -328,6 +363,8 @@
             var csrfToken = [[${_csrf.token}]];
             var orderId = [[${order.orderId}]];
 
+            var recaptcha = $("#g-recaptcha-response").val();
+
             $.ajax({
                 type: 'POST',
                 url: '/order/' + orderId + '/pay',
@@ -339,21 +376,22 @@
                     customerMobilePhoneNumber: customerMobilePhoneNumber,
                     zipcode: zipcode,
                     address1: address1,
-                    address2: address2
+                    address2: address2,
+                    recaptcha: recaptcha
                 }),
                 contentType: 'application/json',
 
                 success: function (response) {
+                    paymentWidget.requestPayment({
+                        orderId: orderCode,
+                        orderName: orderName,
+                        successUrl: window.location.origin + "/order/success",
+                        failUrl: window.location.origin + "/order/fail",
+                    });
                 },
-                error: function (error) {
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
                 }
-            });
-
-            paymentWidget.requestPayment({
-                orderId: orderCode,
-                orderName: orderName,
-                successUrl: window.location.origin + "/order/success",
-                failUrl: window.location.origin + "/order/fail",
             });
 
         }
