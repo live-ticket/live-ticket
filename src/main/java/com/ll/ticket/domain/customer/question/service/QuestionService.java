@@ -32,6 +32,7 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final MemberService memberService;
 
+
     /**
      * 글작성
      * 현재 로그인한 계정을 찾아 저장 한다
@@ -66,7 +67,7 @@ public class QuestionService {
 
             writeRequest.setImagePath("/files/" + fileName);
 
-            return questionRepository.save(writeRequest.toEntity()).getCustomerQId();
+            return questionRepository.save(writeRequest.toEntity()).getCustomerQId(); //질문 저장
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,7 +76,6 @@ public class QuestionService {
     }
 
     //질문 찾는다
-    @Transactional
     public QuestionResponse findQuestion(Long id) {
 
         Question question = questionRepository.findById(id).orElseThrow(() ->
@@ -84,21 +84,47 @@ public class QuestionService {
         return new QuestionResponse(question); //DTO 반환
     }
 
+    /**
+     * 질문 수정 , 파일 수정
+     */
     @Transactional
-    public void updateQuestion(Long id, UpdateRequest updateRequest) {
+    public void updateQuestion(Long id, UpdateRequest updateRequest ,MultipartFile multipartFile)  {
+        Question question = questionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다"));
 
-        Question question = questionRepository.findById(id).orElseThrow(() ->
+        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
 
-                new RuntimeException("게시글을 찾을수 없습니다"));
+        try {
+            // 이미지 저장 경로
+            UUID uuid = UUID.randomUUID(); //파일 랜덤 고유 식별자
+
+            String fileName = uuid + "_" + multipartFile.getOriginalFilename();
+
+            File saveFile = new File(projectPath, fileName);
+
+            multipartFile.transferTo(saveFile);
+            //경로를 저장
+            updateRequest.setFileName(fileName);
+
+            updateRequest.setImagePath("/files/" + fileName);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("파일 전송 중 오류가 발생했습니다.");
+        }
 
         question.changeQuestion(updateRequest.getQuestionTitle(), updateRequest.getQuestionContent(), updateRequest.getQuestionCategory(),
-                updateRequest.getImagePath(), updateRequest.getFileName());
+                updateRequest.getImagePath() , updateRequest.getFileName());
 
         this.questionRepository.save(question);
     }
 
+    /**
+     * 질문 삭제
+     */
     @Transactional
     public void deleteQuestion(Long id) {
+
         questionRepository.deleteById(id);
     }
 

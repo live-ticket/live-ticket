@@ -3,16 +3,13 @@
                     >
     <div layout:fragment="content" class="container mx-auto p-4 bg-white rounded">
 
-        <!--        <h2 class="border-bottom py-2" th:text="${questionResponse.questionTitle}"></h2>-->
-        <!--        <h2 class="border-bottom py-2" th:text="${questionResponse.getAuthorId()}"></h2>-->
-        <!--        <h2 class="border-bottom py-2" th:text="${questionResponse.getAuthor()}"></h2>-->
-        <!--        <h2 class="border-bottom py-2" th:text="${questionResponse.getQuestionContent()}"></h2>-->
-        <!--        <h2 class="border-bottom py-2" th:text="${questionResponse.getQuestionCategory()}"></h2>-->
-        <!--        <a th:href="@{${questionResponse.imagePath}}"> 파일 보기 </a>-->
         <div style="width: 600px" class="mx-auto">
-        <h2>고객 센터</h2>
+
         <!-- 질문 -->
-        <div class="post-header">
+        <div class="post-header ">
+            <h2 class="text-center text-4xl font-bold text-gray-800 mb-4">고객 센터</h2>
+            <div class="border-b py-2" th:text="${ questionResponse.getQuestionCategory()}"> </div>
+
             <h2 class="border-b py-2" th:text="${questionResponse.getQuestionTitle()}"></h2>
             <div class="post-meta flex justify-end items-center">
                 <span class="text-sm text-gray-500">작성일시:</span>
@@ -46,10 +43,14 @@
                 <div class="text-gray-800 " th:text="${questionResponse.getQuestionContent()}"></div>
             </div>
         </div>
-            <a th:href="@{${questionResponse.imagePath}}"> 파일 보기 </a>
+
+            <div class="border-b py-2">
             <div th:text="${questionResponse.getFileName()}"> 파일 이름 </div>
-            <div th:text="${questionResponse.getMemberRole()}">가짜 권한 </div>
+            <a th:href="@{${questionResponse.imagePath}}"> 파일 보기 </a>
+            </div>
+
             <div th:text="${ #authentication.getAuthorities()}">현재 로그인 한 사용자의 권한 </div>
+
             <div class="mb-3">
                 <a href="/help/myqna" class="btn btn-wide btn btn-active btn-neutral w-full">목록</a>
             </div>

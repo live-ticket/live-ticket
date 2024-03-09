@@ -82,7 +82,8 @@ public class QuestionController {
 
         updateRequest.setQuestionTitle(questionResponse.getQuestionTitle());
         updateRequest.setQuestionContent(questionResponse.getQuestionContent());
-        updateRequest.setQuestionCategory(updateRequest.getQuestionCategory());
+        updateRequest.setFileName(questionResponse.getFileName());
+        updateRequest.setImagePath(questionResponse.getImagePath());
 
         return "domain/customer/question/questionUpdate";
     }
@@ -94,11 +95,11 @@ public class QuestionController {
 //    @PreAuthorize("isAuthenticated()")
     @PostMapping("/update/{id}")
     public String questionUpdate(@PathVariable Long id , @Valid UpdateRequest updateRequest ,
-                                 BindingResult bindingResult) {
+                                 BindingResult bindingResult , MultipartFile multipartFile) {
         if (bindingResult.hasErrors()) {
             return "domain/customer/question/questionUpdate";
         }
-        questionService.updateQuestion(id , updateRequest);
+        questionService.updateQuestion(id , updateRequest , multipartFile);
 
         return "redirect:/help/question/%s".formatted(id);
     }
@@ -106,7 +107,7 @@ public class QuestionController {
      * 글 삭제
      */
     @GetMapping("/delete/{id}")
-    public String  questionDelete(@PathVariable Long id , MultipartFile multipartFile) {
+    public String  questionDelete(@PathVariable Long id ) {
 
         questionService.deleteQuestion(id);
 
