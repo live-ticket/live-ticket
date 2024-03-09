@@ -22,6 +22,8 @@ public class QuestionResponse {
 
     private final String authorName;
 
+    private final String memberRole; //로그인 사용자 권한
+
     private final LocalDateTime createDate;
 
     private final LocalDateTime modifyDate;
@@ -39,6 +41,7 @@ public class QuestionResponse {
             this.authorId = question.getMember().getUserId();
             this.loginId = question.getMember().getEmail(); //로그인 아이디
             this.authorName=question.getMember().getName(); // 멤버 엔티티 이름
+            this.memberRole=question.getMember().getRole().getValue(); //권한
             this.createDate = question.getCreateDate();
             this.modifyDate = question.getModifyDate();
             this.imagePath = question.getImagePath();

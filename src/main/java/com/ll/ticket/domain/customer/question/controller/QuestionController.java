@@ -40,7 +40,6 @@ public class QuestionController {
         model.addAttribute("writeRequest" , writeRequest);
 
         return "domain/customer/question/question";
-
     }
 
     /**
@@ -53,8 +52,8 @@ public class QuestionController {
         if (bindingResult.hasErrors()) {
             return "domain/customer/question/question";
         }
-
-      Long questionId =  questionService.createQuestion(writeRequest , multipartFile );
+        //Long 반환
+         Long questionId =  questionService.createQuestion(writeRequest , multipartFile );
 
         return "redirect:/help/question/%s".formatted(questionId);
     }
@@ -107,7 +106,7 @@ public class QuestionController {
      * 글 삭제
      */
     @GetMapping("/delete/{id}")
-    public String  questionDelete(@PathVariable Long id) {
+    public String  questionDelete(@PathVariable Long id , MultipartFile multipartFile) {
 
         questionService.deleteQuestion(id);
 

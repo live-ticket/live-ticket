@@ -1,4 +1,6 @@
-<html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <div layout:fragment="content" class="container mx-auto p-4 bg-white rounded flex">
 
     <aside th:replace="~{global/fragments/sidebar :: asideFragment}"></aside>
@@ -41,4 +43,5 @@
         </form>
     </div>
 </div>
-</html>
+
+

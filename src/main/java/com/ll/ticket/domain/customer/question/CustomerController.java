@@ -31,6 +31,7 @@ public class CustomerController {
        model.addAttribute("questionResponse" , questionResponse);
         log.info("authentication roles: " + authentication.getAuthorities());
         log.info("authentication name :" + authentication.getName());
+        log.info("authentication name :" + authentication.getPrincipal());
         return "domain/customer/customerPage";
     }
 

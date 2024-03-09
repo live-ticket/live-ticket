@@ -6,7 +6,6 @@ import com.ll.ticket.domain.customer.question.dto.WriteRequest;
 import com.ll.ticket.domain.customer.question.entity.Question;
 import com.ll.ticket.domain.customer.question.repository.QuestionRepository;
 import com.ll.ticket.domain.member.entity.Member;
-import com.ll.ticket.domain.member.repository.MemberRepository;
 import com.ll.ticket.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -31,7 +30,6 @@ import java.util.UUID;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
 
     /**
@@ -47,7 +45,7 @@ public class QuestionService {
         // 현재 로그인한 사용자의 이메일
         String authorEmail = authentication.getName();
 
-        Member member = memberRepository.findByEmail(authorEmail)
+        Member member = memberService.findByEmail(authorEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
         writeRequest.setMember(member);
@@ -65,6 +63,7 @@ public class QuestionService {
             multipartFile.transferTo(saveFile);
             //경로를 저장
             writeRequest.setFileName(fileName);
+
             writeRequest.setImagePath("/files/" + fileName);
 
             return questionRepository.save(writeRequest.toEntity()).getCustomerQId();
@@ -76,6 +75,7 @@ public class QuestionService {
     }
 
     //질문 찾는다
+    @Transactional
     public QuestionResponse findQuestion(Long id) {
 
         Question question = questionRepository.findById(id).orElseThrow(() ->
@@ -103,7 +103,9 @@ public class QuestionService {
     }
 
     /**
-     * 일반 사용자 나의 문의 내역
+     *  문의 내역
+     *  관리자 로 로그인 하면 모든 문의글을 볼수 있고
+     *  사용자로 로그인 하면 내가 작성한 문의 글만 볼수있다.
      */
     public List<QuestionResponse> getQuestion(String email ) {
 
