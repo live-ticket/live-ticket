@@ -64,7 +64,7 @@ public class OrderController {
     }
 
     @PostMapping("/{concertId}")
-    public String order(@PathVariable("concertId") Long concertId, String concertDateId, Principal principal) {
+    public String order(@PathVariable("concertId") Long concertId, @RequestParam("concertDateId") String concertDateId, @RequestParam("selectedSeatsData") String selectedSeatsData, Principal principal) {
         try {
             if (principal == null) {
                 throw new IllegalArgumentException("로그인이 필요합니다.");
@@ -78,7 +78,7 @@ public class OrderController {
                 throw new IllegalArgumentException("공연 날짜가 존재하지 않습니다.");
             }
 
-            Order order = orderService.order(concert, concertDateId, member);
+            Order order = orderService.order(concert, concertDateId, member, selectedSeatsData);
             return "redirect:/order/" + order.getOrderId();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
