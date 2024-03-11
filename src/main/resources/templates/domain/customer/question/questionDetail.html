@@ -46,7 +46,7 @@
 
             <div class="border-b py-2">
             <div th:text="${questionResponse.getFileName()}"> 파일 이름 </div>
-            <a th:href="@{${questionResponse.imagePath}}"> 파일 보기 </a>
+            <a th:href="@{|/Temp/${questionResponse.getFileName()}|}"> 파일 보기 </a>
             </div>
 
             <div th:text="${ #authentication.getAuthorities()}">현재 로그인 한 사용자의 권한 </div>
@@ -58,7 +58,9 @@
             <a href="" class="btn btn-wide btn btn-active btn-neutral w-full" >답변 등록</a> <!--관리자 만 답변 가능-->
             </div>
         </div>
+
     </div>
+
 </div>
 
 

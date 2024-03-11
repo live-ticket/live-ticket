@@ -47,13 +47,13 @@ public class QuestionController {
      */
 //    @PreAuthorize("isAuthenticated()")
     @PostMapping("")
-    public String questionWrite(@Valid WriteRequest writeRequest , BindingResult bindingResult , MultipartFile multipartFile ) {
+    public String questionWrite(@Valid WriteRequest writeRequest , BindingResult bindingResult , MultipartFile multipartFile) {
 
         if (bindingResult.hasErrors()) {
             return "domain/customer/question/question";
         }
         //Long 반환
-         Long questionId =  questionService.createQuestion(writeRequest , multipartFile );
+         Long questionId =  questionService.createQuestion(writeRequest , multipartFile  );
 
         return "redirect:/help/question/%s".formatted(questionId);
     }
@@ -76,7 +76,7 @@ public class QuestionController {
      */
 //    @PreAuthorize("isAuthenticated()")
     @GetMapping("/update/{id}")
-    public String questionUpdate2(@PathVariable Long id ,UpdateRequest updateRequest) {
+    public String questionUpdate2(@PathVariable Long id ,UpdateRequest updateRequest ,MultipartFile multipartFile ) {
 
         QuestionResponse questionResponse = questionService.findQuestion(id); //응답 DTO 를 Model 로 넘김
 

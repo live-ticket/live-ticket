@@ -10,6 +10,7 @@ import com.ll.ticket.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,6 +33,8 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final MemberService memberService;
 
+    @Value("${custom.file-path}")
+    private String filePath; //yml 에 경로 저장
 
     /**
      * 글작성
@@ -52,20 +55,20 @@ public class QuestionService {
         writeRequest.setMember(member);
 
         try {
-            // 이미지 저장 경로
-            String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+
+            // 파일 저장 경로
 
             UUID uuid = UUID.randomUUID(); //파일 랜덤 고유 식별자
 
             String fileName = uuid + "_" + multipartFile.getOriginalFilename();
 
-            File saveFile = new File(projectPath, fileName);
+            File saveFile = new File(filePath , fileName);
 
             multipartFile.transferTo(saveFile);
             //경로를 저장
             writeRequest.setFileName(fileName);
 
-            writeRequest.setImagePath("/files/" + fileName);
+            writeRequest.setImagePath( filePath + fileName);
 
             return questionRepository.save(writeRequest.toEntity()).getCustomerQId(); //질문 저장
 
@@ -89,42 +92,52 @@ public class QuestionService {
      */
     @Transactional
     public void updateQuestion(Long id, UpdateRequest updateRequest ,MultipartFile multipartFile)  {
+
         Question question = questionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다"));
 
-        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
-
+        // 이전에 업로드된 파일을 삭제
+        if (question.getFileName() != null) {
+            File oldFile = new File(filePath, question.getFileName());
+            if (oldFile.exists()) {
+                oldFile.delete();
+            }
+        }
         try {
-            // 이미지 저장 경로
-            UUID uuid = UUID.randomUUID(); //파일 랜덤 고유 식별자
 
+            UUID uuid = UUID.randomUUID();
             String fileName = uuid + "_" + multipartFile.getOriginalFilename();
-
-            File saveFile = new File(projectPath, fileName);
-
+            File saveFile = new File(filePath, fileName);
             multipartFile.transferTo(saveFile);
-            //경로를 저장
-            updateRequest.setFileName(fileName);
 
-            updateRequest.setImagePath("/files/" + fileName);
+            // 파일 생성
+            updateRequest.setFileName(fileName);
+            updateRequest.setImagePath(filePath + fileName);
 
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("파일 전송 중 오류가 발생했습니다.");
         }
-
+        //파일 저장
         question.changeQuestion(updateRequest.getQuestionTitle(), updateRequest.getQuestionContent(), updateRequest.getQuestionCategory(),
-                updateRequest.getImagePath() , updateRequest.getFileName());
+                updateRequest.getImagePath(), updateRequest.getFileName());
 
         this.questionRepository.save(question);
     }
-
     /**
      * 질문 삭제
      */
     @Transactional
     public void deleteQuestion(Long id) {
 
+       Question question = questionRepository.findById(id).orElseThrow(()->new IllegalArgumentException("문의 글을 찾을 수 없습니다 "));
+
+        if (question.getFileName() != null) {
+            File oldFile = new File(filePath, question.getFileName());
+            if (oldFile.exists()) {
+                oldFile.delete();
+            }
+        }
         questionRepository.deleteById(id);
     }
 
