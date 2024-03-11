@@ -66,11 +66,16 @@ public class QuestionService {
     //질문 찾는다
     public QuestionResponse findQuestion(Long id) {
 
-        Question question = questionRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("게시글을 찾 을 수 없습니다 "));
+        Question question = findById(id);
 
         return new QuestionResponse(question); //DTO 반환
     }
+
+    public Question findById(Long id) {
+        return questionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("질문을 찾을 수 없습니다."));
+    }
+
 
     /**
      * 질문 수정 , 파일 수정

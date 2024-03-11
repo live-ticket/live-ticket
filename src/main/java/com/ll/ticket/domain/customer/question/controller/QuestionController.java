@@ -53,7 +53,7 @@ public class QuestionController {
             return "domain/customer/question/question";
         }
         //Long 반환
-         Long questionId =  questionService.createQuestion(writeRequest , multipartFile  );
+         Long questionId =  questionService.createQuestion(writeRequest , multipartFile);
 
         return "redirect:/help/question/%s".formatted(questionId);
     }

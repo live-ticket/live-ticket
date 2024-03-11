@@ -32,8 +32,6 @@ public class WriteRequest {
 
     private LocalDateTime createDate;
 
-    private LocalDateTime modifyDate;
-
     private String imagePath;
 
     private String fileName;

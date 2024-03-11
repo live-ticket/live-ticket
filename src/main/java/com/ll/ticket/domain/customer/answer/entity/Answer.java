@@ -1,7 +1,6 @@
 package com.ll.ticket.domain.customer.answer.entity;
 
 
-import com.ll.ticket.domain.customer.answer.dto.AnswerDto;
 import com.ll.ticket.domain.customer.question.entity.Question;
 import com.ll.ticket.domain.member.entity.Member;
 import com.ll.ticket.global.jpa.BaseEntity;
@@ -27,16 +26,5 @@ public class Answer extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Question question;
-
-    //DTO  → Entity 변환
-    public static Answer toEntity(final AnswerDto answerDto) {
-
-        return Answer.builder()
-                .customerAId(answerDto.getCustomerAId())
-                .answerContent(answerDto.getAnswerContent())
-                .build();
-
-    }
-
 
 }

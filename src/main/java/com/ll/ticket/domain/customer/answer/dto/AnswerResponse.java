@@ -1,7 +1,6 @@
 package com.ll.ticket.domain.customer.answer.dto;
 
 import com.ll.ticket.domain.customer.answer.entity.Answer;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,11 +12,10 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnswerDto {
+public class AnswerResponse {
 
     private Long customerAId;
 
-    @NotBlank
     private String answerContent; //답변 내용
 
     private String memberName; //작성자
@@ -30,19 +28,14 @@ public class AnswerDto {
 
 
     // Entity → DTO 변환
-    public static AnswerDto toDto(final Answer answer) {
+    public AnswerResponse (Answer answer) {
 
-        return AnswerDto.builder()
-                .customerAId(answer.getCustomerAId())
-                .answerContent(answer.getAnswerContent())
-                .memberName(answer.getMember().getName())
-                .customerQId(answer.getQuestion().getCustomerQId())
-                .createDate(answer.getCreateDate())
-                .modifyDate(answer.getModifyDate())
-                .build();
-
+      this.customerAId = answer.getCustomerAId();
+      this.answerContent= answer.getAnswerContent();
+      this.memberName = answer.getMember().getName();
+      this.customerQId = answer.getQuestion().getCustomerQId();
+      this.createDate = answer.getCreateDate();
+      this.modifyDate = answer.getModifyDate();
     }
-
-
 
 }
