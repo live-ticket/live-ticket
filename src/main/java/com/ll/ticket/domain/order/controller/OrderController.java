@@ -29,7 +29,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.Base64;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -72,13 +71,14 @@ public class OrderController {
 
             Concert concert = concertService.findById(concertId);
             Member member = memberService.getMember(principal.getName());
-            List<ConcertDate> concertDate = concertService.findConcertDateByConcert(concert);
 
-            if (concertDate.isEmpty()) {
+            ConcertDate concertDate = concertService.findConcertDateById(concertDateId).orElse(null);
+
+            if (concertDate == null) {
                 throw new IllegalArgumentException("공연 날짜가 존재하지 않습니다.");
             }
 
-            Order order = orderService.order(concert, concertDateId, member, selectedSeatsData);
+            Order order = orderService.order(concert, concertDate, member, selectedSeatsData);
             return "redirect:/order/" + order.getOrderId();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -86,12 +86,6 @@ public class OrderController {
         }
 
     }
-
-//    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@seatID 배열로 받아야함
-//    public String order(@PathVariable("concertId") Long concertId, String concertDateId, String seatId, HttpServletRequest request) {
-//        orderService.order(concertId, concertDateId, seatId, request);
-//        return "redirect:/order/success";
-//    }
 
     @ResponseBody
     @PostMapping("/{id}/pay")
