@@ -34,7 +34,7 @@ public class QuestionService {
     private final MemberService memberService;
 
     @Value("${custom.file-path}")
-    private String filePath; //yml 에 경로 저장
+    private String filePath; //yml 에 경로 저장 questionDetail.html 에 도따로 경로 지정해줘야함
 
     /**
      * 글작성
@@ -57,6 +57,11 @@ public class QuestionService {
         try {
 
             // 파일 저장 경로
+            File directory = new File(filePath);
+
+            if (!directory.exists()) { //파일 저장경로에 디렉토리 가 없으면 생성
+                directory.mkdir();
+            }
 
             UUID uuid = UUID.randomUUID(); //파일 랜덤 고유 식별자
 
@@ -125,7 +130,7 @@ public class QuestionService {
         this.questionRepository.save(question);
     }
     /**
-     * 질문 삭제
+     * 질문 삭제 , 파일도 같이 삭제
      */
     @Transactional
     public void deleteQuestion(Long id) {

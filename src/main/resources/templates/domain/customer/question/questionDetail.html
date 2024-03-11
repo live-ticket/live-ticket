@@ -46,7 +46,7 @@
 
             <div class="border-b py-2">
             <div th:text="${questionResponse.getFileName()}"> 파일 이름 </div>
-            <a th:href="@{|/Temp/${questionResponse.getFileName()}|}"> 파일 보기 </a>
+            <a th:href="@{|/file/${questionResponse.getFileName()}|}"> 파일 보기 </a> <!--file 요청이 들어오면  파일을 보여줌 -->
             </div>
 
             <div th:text="${ #authentication.getAuthorities()}">현재 로그인 한 사용자의 권한 </div>
