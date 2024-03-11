@@ -1,5 +1,6 @@
 package com.ll.ticket.domain.customer.question.service;
 
+import com.ll.ticket.domain.customer.question.component.FileStorageUtil;
 import com.ll.ticket.domain.customer.question.dto.QuestionResponse;
 import com.ll.ticket.domain.customer.question.dto.UpdateRequest;
 import com.ll.ticket.domain.customer.question.dto.WriteRequest;
@@ -18,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +30,7 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final MemberService memberService;
+    private final FileStorageUtil fileStorageUtil;
 
     @Value("${custom.file-path}")
     private String filePath; //yml 에 경로 저장 questionDetail.html 에 도따로 경로 지정해줘야함
@@ -54,33 +53,14 @@ public class QuestionService {
 
         writeRequest.setMember(member);
 
-        try {
+        String fileName = fileStorageUtil.saveFile(multipartFile); //uuid + 파일 이름 반환
 
-            // 파일 저장 경로
-            File directory = new File(filePath);
+        writeRequest.setFileName(fileName);
 
-            if (!directory.exists()) { //파일 저장경로에 디렉토리 가 없으면 생성
-                directory.mkdir();
-            }
-
-            UUID uuid = UUID.randomUUID(); //파일 랜덤 고유 식별자
-
-            String fileName = uuid + "_" + multipartFile.getOriginalFilename();
-
-            File saveFile = new File(filePath , fileName);
-
-            multipartFile.transferTo(saveFile);
-            //경로를 저장
-            writeRequest.setFileName(fileName);
-
-            writeRequest.setImagePath( filePath + fileName);
+        writeRequest.setImagePath(filePath + fileName);
 
             return questionRepository.save(writeRequest.toEntity()).getCustomerQId(); //질문 저장
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("파일 전송 중 오류가 발생했습니다.");
-        }
     }
 
     //질문 찾는다
@@ -99,30 +79,17 @@ public class QuestionService {
     public void updateQuestion(Long id, UpdateRequest updateRequest ,MultipartFile multipartFile)  {
 
         Question question = questionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다"));
 
         // 이전에 업로드된 파일을 삭제
-        if (question.getFileName() != null) {
-            File oldFile = new File(filePath, question.getFileName());
-            if (oldFile.exists()) {
-                oldFile.delete();
-            }
-        }
-        try {
+        fileStorageUtil.deleteFile(question.getFileName());
 
-            UUID uuid = UUID.randomUUID();
-            String fileName = uuid + "_" + multipartFile.getOriginalFilename();
-            File saveFile = new File(filePath, fileName);
-            multipartFile.transferTo(saveFile);
+        String fileName = fileStorageUtil.saveFile(multipartFile);
 
-            // 파일 생성
-            updateRequest.setFileName(fileName);
-            updateRequest.setImagePath(filePath + fileName);
+        updateRequest.setFileName(fileName);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("파일 전송 중 오류가 발생했습니다.");
-        }
+        updateRequest.setImagePath(filePath + fileName);
+
         //파일 저장
         question.changeQuestion(updateRequest.getQuestionTitle(), updateRequest.getQuestionContent(), updateRequest.getQuestionCategory(),
                 updateRequest.getImagePath(), updateRequest.getFileName());
@@ -135,14 +102,11 @@ public class QuestionService {
     @Transactional
     public void deleteQuestion(Long id) {
 
-       Question question = questionRepository.findById(id).orElseThrow(()->new IllegalArgumentException("문의 글을 찾을 수 없습니다 "));
+       Question question = questionRepository.findById(id).orElseThrow(()
+               ->new IllegalArgumentException("게시글을 찾 을 수 없습니다 "));
 
-        if (question.getFileName() != null) {
-            File oldFile = new File(filePath, question.getFileName());
-            if (oldFile.exists()) {
-                oldFile.delete();
-            }
-        }
+        fileStorageUtil.deleteFile(question.getFileName()); //파일 삭제
+
         questionRepository.deleteById(id);
     }
 
