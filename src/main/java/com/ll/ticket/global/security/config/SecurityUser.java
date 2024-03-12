@@ -17,7 +17,7 @@ public class SecurityUser extends User implements OAuth2User {
     private Member member;
 
     public SecurityUser(Member member, long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
+        super(username, password, member.getAuthorities());
         this.id = id;
         this.member = member;
     }
