@@ -45,20 +45,13 @@ public class Member extends BaseEntity implements Serializable {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-//        if (this.role != null && this.role.equals("ADMIN")) {
-//            authorities.add(new SimpleGrantedAuthority("ADMIN"));
-//        }
-//        else {
-//            authorities.add(new SimpleGrantedAuthority("MEMBER"));
-//        }
-        if (MemberRole.ADMIN.equals(this.role)) {
-            // role이 "ADMIN"인 경우
+        if (this.role != null && this.role.equals("ADMIN")) {
             authorities.add(new SimpleGrantedAuthority("ADMIN"));
         }
-        if (MemberRole.MEMBER.equals(this.role)) {
-            // role이 "MEMBER"인 경우
+        else {
             authorities.add(new SimpleGrantedAuthority("MEMBER"));
         }
+
         return authorities;
     }
 

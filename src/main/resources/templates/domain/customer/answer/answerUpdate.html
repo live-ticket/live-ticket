@@ -1,0 +1,10 @@
+
+
+<!--답변 버튼시작-->
+<div class="comment-section mt-20" sec:authorize="hasAuthority('ADMIN')" >
+    <form th:object="${answerUpdateRequest}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <textarea class ="textarea textarea-bordered w-full" th:field="*{answerContent}" id="answerContent" rows="4" cols="50" placeholder="댓글을 입력하세요..."></textarea><br>
+        <button class="btn btn-neutral">댓글 작성</button>
+    </form>
+</div> <!--답변버튼끝 -->

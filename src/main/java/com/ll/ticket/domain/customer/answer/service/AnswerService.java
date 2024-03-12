@@ -1,7 +1,9 @@
 package com.ll.ticket.domain.customer.answer.service;
 
+import com.ll.ticket.domain.customer.answer.dto.AnswerResponse;
 import com.ll.ticket.domain.customer.answer.dto.AnswerUpdateRequest;
 import com.ll.ticket.domain.customer.answer.dto.AnswerWriteRequest;
+import com.ll.ticket.domain.customer.answer.entity.Answer;
 import com.ll.ticket.domain.customer.answer.repository.AnswerRepository;
 import com.ll.ticket.domain.customer.question.entity.Question;
 import com.ll.ticket.domain.customer.question.service.QuestionService;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AnswerService {
 
     private final  QuestionService questionService;
@@ -36,13 +39,38 @@ public class AnswerService {
 
         answerWriteRequest.setMember(member);
         answerWriteRequest.setQuestion(question);
-        answerRepository.save(answerWriteRequest.toEntity());
+         answerRepository.save(answerWriteRequest.toEntity());
 
     }
 
-    public void updateAnswer (Long id , AnswerUpdateRequest answerUpdateRequest) {
+    public AnswerResponse findAnswer(Long id) {
+        Answer answer = findById(id) ;
+       return new AnswerResponse(answer);
+    }
 
+    public Answer findById(Long id ) {
 
+        return answerRepository.findById(id).orElseThrow(() ->
+
+                new IllegalArgumentException("답변을 찾을 수 없습니다. "));
+    }
+
+    @Transactional
+    public AnswerResponse updateAnswer (Long id , AnswerUpdateRequest answerUpdateRequest) {
+
+        Answer answer = findById(id);
+
+        answer.changeAnswer(answerUpdateRequest.getAnswerContent());
+
+        answerRepository.save(answer);
+
+        return new AnswerResponse(answer);
+    }
+
+    @Transactional
+    public void deleteAnswer (Long id)  {
+
+       answerRepository.deleteById(id);
     }
 
 }

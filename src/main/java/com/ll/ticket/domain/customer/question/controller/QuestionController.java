@@ -76,7 +76,7 @@ public class QuestionController {
      */
 //    @PreAuthorize("isAuthenticated()")
     @GetMapping("/update/{id}")
-    public String questionUpdate2(@PathVariable Long id ,UpdateRequest updateRequest ,MultipartFile multipartFile ) {
+    public String questionUpdate2(@PathVariable Long id ,UpdateRequest updateRequest) {
 
         QuestionResponse questionResponse = questionService.findQuestion(id); //응답 DTO 를 Model 로 넘김
 
