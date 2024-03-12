@@ -23,6 +23,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                        .requestMatchers(new AntPathRequestMatcher("/members/revoke")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/members/**")).anonymous()
                         .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole(MemberRole.ADMIN.getValue())
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()

@@ -45,11 +45,14 @@
                                             <div sec:authorize="isAuthenticated()">
                                                 <a th:href="@{/mypage/profile}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-4">마이페이지</a>
 
-                                                <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                                                <div th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
                                                     <a th:href="@{/admin/main}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1">관리자 페이지</a>
                                                 </div>
 
                                                 <a th:href="@{/members/logout}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-5">로그아웃</a>
+                                                <form id="revokeForm" th:action="@{/members/revoke}" method="post">
+                                                    <button type="button" class="block px-4 py-2 text-sm text-gray-700" onclick="confirmRevoke()">회원 탈퇴</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -100,5 +103,13 @@
                 dropdownMenu.classList.add('hidden');
             }
         });
+
+        function confirmRevoke() {
+            var confirmed = confirm("정말로 탈퇴하시겠습니까?");
+
+            if (confirmed) {
+                document.getElementById("revokeForm").submit();
+            }
+        }
     </script>
 </nav>

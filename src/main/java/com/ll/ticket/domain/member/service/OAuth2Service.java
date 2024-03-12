@@ -3,9 +3,12 @@ package com.ll.ticket.domain.member.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ll.ticket.domain.member.dto.KakaoInfo;
+import com.ll.ticket.domain.member.dto.kakao.KakaoAuthClient;
+import com.ll.ticket.domain.member.dto.kakao.KakaoInfo;
+import com.ll.ticket.domain.member.dto.kakao.KakaoRevokeRequest;
 import com.ll.ticket.domain.member.entity.Member;
 import com.ll.ticket.domain.member.entity.MemberRole;
+import com.ll.ticket.domain.member.repository.MemberRepository;
 import com.ll.ticket.global.enums.Gender;
 import com.ll.ticket.global.enums.LoginType;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +21,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -35,8 +37,12 @@ public class OAuth2Service {
     String redirectUri;
     @Value("${kakao.client.secret}")
     String clientSecret;
+    @Value("${kakao.admin}")
+    String adminKey;
 
-    private final MemberService memberService;
+    private final KakaoAuthClient kakaoAuthClient;
+
+    private final MemberRepository memberRepository;
 
     public String getAccessToken(String code) throws JsonProcessingException {
         // HTTP Header 생성
@@ -72,7 +78,7 @@ public class OAuth2Service {
     public Member ifNeedKakaoInfo (KakaoInfo kakaoInfo) {
         // DB에 중복되는 email이 있는지 확인
         String kakaoEmail = kakaoInfo.getEmail();
-        Optional<Member> _findMember = memberService.findByEmail(kakaoEmail);
+        Optional<Member> _findMember = memberRepository.findByEmail(kakaoEmail);
 
         Member member = _findMember.orElse(null);
         // 회원가입
@@ -97,7 +103,7 @@ public class OAuth2Service {
                     .build();
 
 
-            member = memberService.saveMember(member);
+            member = memberRepository.save(member);
         }
 
         return member;
@@ -164,5 +170,18 @@ public class OAuth2Service {
 
         Long id = jsonNode.get("id").asLong();
         System.out.println("반환된 id: "+id);
+    }
+
+    public void kakaoRevoke(String providerId) {
+        try {
+            System.out.println("clientSecret = " + adminKey);
+            KakaoRevokeRequest kakaoRevokeRequest = KakaoRevokeRequest.builder()
+                    .target_id_type("user_id")
+                    .target_id(providerId)
+                    .build();
+            kakaoAuthClient.revoke("KakaoAK " + adminKey, kakaoRevokeRequest);
+        } catch (HttpClientErrorException e) {
+            throw new RuntimeException("Kakao Revoke Error");
+        }
     }
 }
