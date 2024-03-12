@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,29 +42,38 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public String showOrder(@PathVariable("id") long id, Principal principal, Model model) {
-        Order order = orderService.findById(id).orElse(null);
+        try {
+            Order order = orderService.findById(id).orElse(null);
 
-        if (order == null) {
-            throw new IllegalArgumentException("존재하지 않는 주문입니다.");
+            if (order == null) {
+                throw new IllegalArgumentException("존재하지 않는 주문입니다.");
+            }
+
+            if (principal == null) {
+                throw new IllegalArgumentException("로그인이 필요합니다.");
+            }
+
+            Member member = memberService.getMember(principal.getName());
+
+            if (!orderService.checkOrderAccess(member, order)) {
+                throw new IllegalArgumentException("권한이 없습니다.");
+            }
+
+            model.addAttribute("order", order);
+
+            return "domain/order/order";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "main";
         }
-
-        if (principal == null) {
-            throw new IllegalArgumentException("로그인이 필요합니다.");
-        }
-
-        Member member = memberService.getMember(principal.getName());
-
-        if (!orderService.checkOrderAccess(member, order)) {
-            throw new IllegalArgumentException("권한이 없습니다.");
-        }
-
-        model.addAttribute("order", order);
-
-        return "domain/order/order";
     }
 
     @PostMapping("/{concertId}")
-    public String order(@PathVariable("concertId") Long concertId, @RequestParam("concertDateId") String concertDateId, @RequestParam("selectedSeatsData") String selectedSeatsData, Principal principal) {
+    public String order(@PathVariable("concertId") Long concertId,
+                        @RequestParam("concertDateId") String concertDateId,
+                        @RequestParam("selectedSeatsData") String selectedSeatsData,
+                        Principal principal,
+                        RedirectAttributes redirectAttributes) {
         try {
             if (principal == null) {
                 throw new IllegalArgumentException("로그인이 필요합니다.");
@@ -81,6 +91,7 @@ public class OrderController {
             Order order = orderService.order(concert, concertDate, member, selectedSeatsData);
             return "redirect:/order/" + order.getOrderId();
         } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             e.printStackTrace();
             return "redirect:/concert/" + concertId;
         }
