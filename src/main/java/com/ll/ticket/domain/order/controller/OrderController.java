@@ -8,6 +8,7 @@ import com.ll.ticket.domain.member.service.MemberService;
 import com.ll.ticket.domain.order.dto.OrderPayInfoDto;
 import com.ll.ticket.domain.order.entity.Order;
 import com.ll.ticket.domain.order.service.OrderService;
+import com.ll.ticket.domain.recaptcha.service.RecaptchaService;
 import com.ll.ticket.global.app.AppConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,7 +30,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.Base64;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,63 +38,76 @@ public class OrderController {
     private final OrderService orderService;
     private final ConcertService concertService;
     private final MemberService memberService;
+    private final RecaptchaService recaptchaService;
 
     @GetMapping("/{id}")
     public String showOrder(@PathVariable("id") long id, Principal principal, Model model) {
-        Order order = orderService.findById(id).orElse(null);
+        try {
+            Order order = orderService.findById(id).orElse(null);
 
-        if (order == null) {
-            throw new IllegalArgumentException("존재하지 않는 주문입니다.");
+            if (order == null) {
+                throw new IllegalArgumentException("존재하지 않는 주문입니다.");
+            }
+
+            if (principal == null) {
+                throw new IllegalArgumentException("로그인이 필요합니다.");
+            }
+
+            Member member = memberService.getMember(principal.getName());
+
+            if (!orderService.checkOrderAccess(member, order)) {
+                throw new IllegalArgumentException("권한이 없습니다.");
+            }
+
+            model.addAttribute("order", order);
+
+            return "domain/order/order";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "main";
         }
-
-        if (principal == null) {
-            throw new IllegalArgumentException("로그인이 필요합니다.");
-        }
-
-        Member member = memberService.getMember(principal.getName());
-
-        if (!orderService.checkOrderAccess(member, order)) {
-            throw new IllegalArgumentException("권한이 없습니다.");
-        }
-
-        model.addAttribute("order", order);
-
-        return "domain/order/order";
     }
 
     @PostMapping("/{concertId}")
-    public String order(@PathVariable("concertId") Long concertId, String concertDateId, Principal principal) {
+    public String order(@PathVariable("concertId") Long concertId,
+                        @RequestParam("concertDateId") String concertDateId,
+                        @RequestParam("selectedSeatsData") String selectedSeatsData,
+                        Principal principal,
+                        RedirectAttributes redirectAttributes) {
         try {
             if (principal == null) {
                 throw new IllegalArgumentException("로그인이 필요합니다.");
             }
 
+            if (selectedSeatsData.length() == 0) {
+                throw new IllegalArgumentException("좌석을 선택해주세요.");
+            }
+
             Concert concert = concertService.findById(concertId);
             Member member = memberService.getMember(principal.getName());
-            List<ConcertDate> concertDate = concertService.findConcertDateByConcert(concert);
+            ConcertDate concertDate = concertService.findConcertDateById(concertDateId).orElse(null);
 
-            if (concertDate.isEmpty()) {
+            if (concertDate == null) {
                 throw new IllegalArgumentException("공연 날짜가 존재하지 않습니다.");
             }
 
-            Order order = orderService.order(concert, concertDateId, member);
+            Order order = orderService.order(concert, concertDate, member, selectedSeatsData);
             return "redirect:/order/" + order.getOrderId();
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            e.printStackTrace();
             return "redirect:/concert/" + concertId;
         }
 
     }
 
-//    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@seatID 배열로 받아야함
-//    public String order(@PathVariable("concertId") Long concertId, String concertDateId, String seatId, HttpServletRequest request) {
-//        orderService.order(concertId, concertDateId, seatId, request);
-//        return "redirect:/order/success";
-//    }
-
     @ResponseBody
     @PostMapping("/{id}/pay")
     public void saveOrderUserInfo(@PathVariable("id") long id, @RequestBody OrderPayInfoDto orderPayInfoDto, Principal principal) {
+        if (!recaptchaService.verifyRecaptcha(orderPayInfoDto.getRecaptcha())) {
+            throw new IllegalArgumentException("reCAPTCHA를 확인해주세요.");
+        }
+
         Order order = orderService.findById(id).orElse(null);
 
         if (order == null) {
@@ -139,11 +153,6 @@ public class OrderController {
             paymentKey = (String) requestData.get("paymentKey");
             orderId = (String) requestData.get("orderId");
             amount = (String) requestData.get("amount");
-
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            System.out.println(paymentKey);
-            System.out.println(orderId);
-            System.out.println(amount);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

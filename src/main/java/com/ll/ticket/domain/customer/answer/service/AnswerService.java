@@ -55,16 +55,12 @@ public class AnswerService {
                 new IllegalArgumentException("답변을 찾을 수 없습니다. "));
     }
 
-    @Transactional
-    public AnswerResponse updateAnswer (Long id , AnswerUpdateRequest answerUpdateRequest) {
+    public void updateAnswer (Long id , AnswerUpdateRequest answerUpdateRequest) {
 
         Answer answer = findById(id);
 
         answer.changeAnswer(answerUpdateRequest.getAnswerContent());
 
-        answerRepository.save(answer);
-
-        return new AnswerResponse(answer);
     }
 
     @Transactional

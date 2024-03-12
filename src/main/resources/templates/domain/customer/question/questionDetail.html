@@ -71,7 +71,7 @@
                         <span>작성일: <span th:text="${#temporals.format(answer.getCreateDate(), 'yyyy-MM-dd HH:mm')}"></span></span>
                         <span>&nbsp;&nbsp;&nbsp;</span>
 
-                        <a th:href="@{|/answer/update/${answer.getCustomerAId()}|}" class="btn btn-sm"><i class="fa-solid fa-pen"></i>수정</a>
+                        <button class="btn btn-sm edit-answer-btn" th:data-answer-id= "${answer.getCustomerAId()}"><i class="fa-solid fa-pen"></i>수정</button>
 <!--                        <button class="btn btn-sm"><i class="fa-solid fa-pen"></i> 수정 </button>-->
                         <button class="btn btn-sm"><i class="fa-solid fa-trash"></i> 삭제 </button>
 
@@ -101,5 +101,24 @@
 </div>
 
 
+<!--답변 수정 가져 오기-->
+<script>
+    $(document).ready(function() {
+        // 수정 버튼 클릭 시 답변 내용을 가져와서 답변 입력 창에 표시
+        $(".edit-answer-btn").click(function() {
+            var answerId = $(this).data("answer-id");
 
-
+            $.ajax({
+                url: "/answer/update/" + answerId,
+                type: "GET",
+                success: function(response) {
+                    $("#answerContent").val(response.answerContent); // 답변 입력 창에 내용 채우기
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    // 에러 처리
+                }
+            });
+        });
+    });
+</script>

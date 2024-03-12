@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class SeatController {
@@ -17,16 +19,24 @@ public class SeatController {
 
     @PostMapping("/concert/{id}/seat")
     public String getSeat(@PathVariable("id") Long id, @RequestParam("concertDateId") String concertDateId, Model model) {
-        Concert concert = concertService.findById(id);
-        ConcertDate concertDate = concertService.findConcertDateById(concertDateId).orElse(null);
+        try {
+            Concert concert = concertService.findById(id);
+            ConcertDate concertDate = concertService.findConcertDateById(concertDateId).orElse(null);
 
-        if (concertDate == null) {
-            throw new IllegalArgumentException("공연 날짜가 존재하지 않습니다.");
+            if (concertDate == null) {
+                throw new IllegalArgumentException("공연 날짜가 존재하지 않습니다.");
+            }
+
+            List<Long> concertSeatNumbers = concertService.findAllSeatNumberByConcertDate(concertDate);
+
+            model.addAttribute("concert", concert);
+            model.addAttribute("concertDate", concertDate);
+            model.addAttribute("concertSeatNumbers", concertSeatNumbers);
+
+            return "domain/seat/seat";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "main";
         }
-
-        model.addAttribute("concert", concert);
-        model.addAttribute("concertDate", concertDate);
-
-        return "domain/seat/seat";
     }
 }

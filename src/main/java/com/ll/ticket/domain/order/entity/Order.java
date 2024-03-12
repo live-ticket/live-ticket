@@ -1,6 +1,5 @@
 package com.ll.ticket.domain.order.entity;
 
-import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.member.entity.Member;
 import com.ll.ticket.domain.ticket.entity.Ticket;
 import com.ll.ticket.global.jpa.BaseEntity;
@@ -58,15 +57,6 @@ public class Order extends BaseEntity {
         return true;
     }
 
-    public void addTicket(Concert concert) {
-        Ticket ticket = Ticket.builder()
-                .order(this)
-                .concert(concert)
-                .build();
-
-        this.ticket.add(ticket);
-    }
-
     public String getCode() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -74,13 +64,14 @@ public class Order extends BaseEntity {
     }
 
     public String getOrderName() {
-        String name = ticket.get(0).getConcert().getName();
+        String concertName = ticket.get(0).getConcert().getName();
+        String orderName = concertName + " 티켓 1장";
 
-//        if (orderDetails.size() > 1) {
-//            name += " 외 %d건".formatted(orderDetails.size() - 1);
-//        }
+        if (ticket.size() > 1) {
+            orderName = concertName + " 티켓 %d장".formatted(ticket.size());
+        }
 
-        return name;
+        return orderName;
     }
 
     public boolean isShippingInfo() {
