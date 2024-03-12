@@ -15,6 +15,18 @@
             .seat.selected {
                 background-color: #3b82f6;
             }
+            .seat.unavailable {
+                position: relative;
+                background-color: #4E5349;
+                pointer-events: none;
+            }
+            .seat.unavailable:after {
+                position: absolute;
+                font-size: 90px;
+                content: "\00d7";
+                top: 0;
+                right: 0;
+            }
         </style>
     </th:block>
     <div>예매 중인 콘서트 이름</div>
@@ -27,17 +39,18 @@
     <div id="seatMap"></div>
 
     <div>
-        <form th:action="|/order/${concert.concertId}|" method="POST">
+        <form id="seatForm" th:action="|/order/${concert.concertId}|" method="POST">
             <input type="hidden" name="concertDateId" th:value="${concertDate.concertDateId}">
-<!--            좌석 정보 추가 필요-->
-            <button class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">좌석 선택 완료</button>
+            <input type="hidden" name="selectedSeatsData" id="selectedSeatsData">
+            <button id="submitButton" class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">좌석 선택 완료</button>
         </form>
     </div>
 </div>
 
 <div layout:fragment="script">
-    <script>
+    <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
+            const concertSeatNumbers = /*[[${concertSeatNumbers}]]*/ [];
             const seatMap = document.getElementById('seatMap');
             const seatsPerRow = 10; // 각 행당 좌석 수
             const totalSeats = 100; // 전체 좌석 수
@@ -48,6 +61,11 @@
                 const seat = document.createElement('div');
                 seat.classList.add('seat');
                 seat.textContent = i + "번";
+
+                if (concertSeatNumbers.includes(i)) {
+                    seat.classList.add('unavailable');
+                }
+
                 seat.addEventListener('click', function() {
                     const seatNumber = parseInt(this.textContent);
                     if (this.classList.contains('selected')) {
@@ -61,6 +79,7 @@
                         selectedSeats.push(seatNumber);
                     }
                     console.log('선택 좌석 번호:', selectedSeats);
+                    document.getElementById('selectedSeatsData').value = JSON.stringify(selectedSeats);
                 });
                 seatMap.appendChild(seat);
 
@@ -71,6 +90,23 @@
                 }
             }
         });
+
+        document.getElementById('submitButton').addEventListener('click', function(event) {
+            if (!submitSeatInfo(document.getElementById('seatForm'))) {
+                event.preventDefault();
+            }
+        });
+
+        function submitSeatInfo(form) {
+            const selectedSeatsData = document.getElementById('selectedSeatsData').value;
+            if (selectedSeatsData === '[]' || selectedSeatsData === '') {
+                alert('좌석을 선택해주세요.');
+                return false;
+            }
+
+            return true;
+        }
+
     </script>
 </div>
 </html>

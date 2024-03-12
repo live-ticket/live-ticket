@@ -2,8 +2,10 @@ package com.ll.ticket.domain.concert.service;
 
 import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.entity.ConcertDate;
+import com.ll.ticket.domain.concert.entity.ConcertSeatHistory;
 import com.ll.ticket.domain.concert.repository.ConcertDateRepository;
 import com.ll.ticket.domain.concert.repository.ConcertRepository;
+import com.ll.ticket.domain.concert.repository.ConcertSeatHistoryRepository;
 import com.ll.ticket.global.enums.ConcertStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,12 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ConcertService {
     private final ConcertRepository concertRepository;
     private final ConcertDateRepository concertDateRepository;
+    private final ConcertSeatHistoryRepository concertSeatHistoryRepository;
 
     @Transactional
     public void changeStatus(LocalDate todayDate) {
@@ -51,5 +55,15 @@ public class ConcertService {
 
     public Optional<ConcertDate> findConcertDateById(String concertDateId) {
         return concertDateRepository.findById(Long.parseLong(concertDateId));
+    }
+
+    public List<Long> findAllSeatNumberByConcertDate(ConcertDate concertDate) {
+        List<ConcertSeatHistory> seatHistoryList = concertSeatHistoryRepository.findAllByConcertDate(concertDate);
+
+        List<Long> seatNumbers = seatHistoryList.stream()
+                .map(seatHistory -> seatHistory.getSeat().getSeatNumber())
+                .collect(Collectors.toList());
+
+        return seatNumbers;
     }
 }
