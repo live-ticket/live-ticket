@@ -39,10 +39,10 @@
     <div id="seatMap"></div>
 
     <div>
-        <form th:action="|/order/${concert.concertId}|" method="POST">
+        <form id="seatForm" th:action="|/order/${concert.concertId}|" method="POST">
             <input type="hidden" name="concertDateId" th:value="${concertDate.concertDateId}">
             <input type="hidden" name="selectedSeatsData" id="selectedSeatsData">
-            <button class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">좌석 선택 완료</button>
+            <button id="submitButton" class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">좌석 선택 완료</button>
         </form>
     </div>
 </div>
@@ -89,9 +89,23 @@
                     seatMap.appendChild(lineBreak);
                 }
             }
-
-
         });
+
+        document.getElementById('submitButton').addEventListener('click', function(event) {
+            if (!submitSeatInfo(document.getElementById('seatForm'))) {
+                event.preventDefault();
+            }
+        });
+
+        function submitSeatInfo(form) {
+            const selectedSeatsData = document.getElementById('selectedSeatsData').value;
+            if (selectedSeatsData === '[]' || selectedSeatsData === '') {
+                alert('좌석을 선택해주세요.');
+                return false;
+            }
+
+            return true;
+        }
 
     </script>
 </div>

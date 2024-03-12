@@ -79,9 +79,12 @@ public class OrderController {
                 throw new IllegalArgumentException("로그인이 필요합니다.");
             }
 
+            if (selectedSeatsData.length() == 0) {
+                throw new IllegalArgumentException("좌석을 선택해주세요.");
+            }
+
             Concert concert = concertService.findById(concertId);
             Member member = memberService.getMember(principal.getName());
-
             ConcertDate concertDate = concertService.findConcertDateById(concertDateId).orElse(null);
 
             if (concertDate == null) {
