@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class SeatController {
@@ -25,8 +27,11 @@ public class SeatController {
                 throw new IllegalArgumentException("공연 날짜가 존재하지 않습니다.");
             }
 
+            List<Long> concertSeatNumbers = concertService.findAllSeatNumberByConcertDate(concertDate);
+
             model.addAttribute("concert", concert);
             model.addAttribute("concertDate", concertDate);
+            model.addAttribute("concertSeatNumbers", concertSeatNumbers);
 
             return "domain/seat/seat";
         } catch (IllegalArgumentException e) {
