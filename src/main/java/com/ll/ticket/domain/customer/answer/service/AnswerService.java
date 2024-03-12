@@ -55,12 +55,16 @@ public class AnswerService {
                 new IllegalArgumentException("답변을 찾을 수 없습니다. "));
     }
 
-    public void updateAnswer (Long id , AnswerUpdateRequest answerUpdateRequest) {
+    @Transactional
+    public Long updateAnswer (Long id , AnswerUpdateRequest answerUpdateRequest) {
 
         Answer answer = findById(id);
 
         answer.changeAnswer(answerUpdateRequest.getAnswerContent());
 
+        Answer saveAnswer = answerRepository.save(answer);
+
+        return new AnswerResponse(saveAnswer).getCustomerQId();
     }
 
     @Transactional
@@ -68,5 +72,6 @@ public class AnswerService {
 
        answerRepository.deleteById(id);
     }
+
 
 }

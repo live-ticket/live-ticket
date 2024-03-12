@@ -21,7 +21,8 @@ public class AnswerWriteRequest {
     private Member member;
 
     private Question question;
-    @NotBlank
+
+    @NotBlank(message = "댓글 내용을 입력해주세요.")
     private String answerContent;
 
     private LocalDateTime createDate;

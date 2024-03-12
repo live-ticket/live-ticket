@@ -7,8 +7,9 @@
 
         <!-- 질문 -->
         <div class="post-header ">
+
             <h2 class="text-center text-4xl font-bold text-gray-800 mb-4">고객 센터</h2>
-            <div class="border-b py-2" th:text="${ questionResponse.getQuestionCategory()}"> </div>
+            <div class="border-b py-2" th:text="${questionResponse.getQuestionCategory()}"> </div>
 
             <h2 class="border-b py-2" th:text="${questionResponse.getQuestionTitle()}"></h2>
             <div class="post-meta flex justify-end items-center">
@@ -48,11 +49,12 @@
                 <div class="file-info">
                     <span class="file-name" th:text="${questionResponse.getFileName()}">파일 이름</span>
                     <a class="file-link btn btn-outline" th:href="@{|/file/${questionResponse.getFileName()}|}"
-                       style="color: blue; text-decoration: none;">파일 보기</a>
+                       style="color: blue; text-decoration: none;" th:if="${#authorization.expression('hasAuthority(''ADMIN'')') or questionResponse.getLoginId() != null
+                   and #authentication.getName() == questionResponse.getLoginId()}">파일 보기</a> <!--관리자 권한을 가지고 있거나 내가 작성한 글 인 경우만 볼수있음-->
                 </div>
             </div>
 
-            <div th:text="${ #authentication.getAuthorities()}">현재 로그인 한 사용자의 권한 </div>
+<!--            <div th:text="${ #authentication.getAuthorities()}">현재 로그인 한 사용자의 권한 </div>-->
 
             <div class="mb-3">
                 <a href="/help/myqna" class="btn btn-wide btn btn-active btn-neutral w-full">목록</a>
@@ -71,9 +73,9 @@
                         <span>작성일: <span th:text="${#temporals.format(answer.getCreateDate(), 'yyyy-MM-dd HH:mm')}"></span></span>
                         <span>&nbsp;&nbsp;&nbsp;</span>
 
-                        <button class="btn btn-sm edit-answer-btn" th:data-answer-id= "${answer.getCustomerAId()}"><i class="fa-solid fa-pen"></i>수정</button>
-<!--                        <button class="btn btn-sm"><i class="fa-solid fa-pen"></i> 수정 </button>-->
-                        <button class="btn btn-sm"><i class="fa-solid fa-trash"></i> 삭제 </button>
+                        <a class="btn btn-sm edit-answer-btn" th:href="@{|/answer/update/${answer.getCustomerAId()}|}" sec:authorize="hasAuthority('ADMIN')"><i class="fa-solid fa-pen" ></i>수정</a>
+
+                        <a onclick="return confirm('정말로 삭제하시겠습니까?');" class="btn btn-sm" th:href="@{|/answer/delete/${answer.getCustomerAId()}|}" sec:authorize="hasAuthority('ADMIN')"><i class="fa-solid fa-trash"></i> 삭제 </a>
 
                     </div>
 
@@ -84,15 +86,16 @@
                 </div>
             </div>
             </div>
-
             <!--답변 입력창 시작-->
             <div class="comment-section mt-20" sec:authorize="hasAuthority('ADMIN')" >
-                <form th:action="@{|/answer/${questionResponse.getCustomerQId()}|}" method="post">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <textarea class ="textarea textarea-bordered w-full" name="answerContent" id="answerContent" rows="4" cols="50" placeholder="댓글을 입력하세요..."></textarea><br>
-                    <button class="btn btn-neutral">댓글 작성</button>
+                <form th:action="@{|/answer/${questionResponse.getCustomerQId()}|}" th:object="${answerWriteRequest}" method="post" >
+
+                    <textarea class ="textarea textarea-bordered w-full" name="answerContent" rows="4" cols="50" placeholder="댓글을 입력하세요..."></textarea><br>
+
+                    <button class="btn btn-neutral ">댓글 작성</button>
                 </form>
             </div> <!--답변 입력창끝 -->
+
 
         </div>
 
@@ -100,25 +103,31 @@
 
 </div>
 
+<!--<script>-->
+<!--    function submitModifyForm(form) {-->
+<!--        const inputBody = form.body;-->
 
-<!--답변 수정 가져 오기-->
-<script>
-    $(document).ready(function() {
-        // 수정 버튼 클릭 시 답변 내용을 가져와서 답변 입력 창에 표시
-        $(".edit-answer-btn").click(function() {
-            var answerId = $(this).data("answer-id");
+<!--        inputBody.value = inputBody.value.trim();-->
 
-            $.ajax({
-                url: "/answer/update/" + answerId,
-                type: "GET",
-                success: function(response) {
-                    $("#answerContent").val(response.answerContent); // 답변 입력 창에 내용 채우기
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                    // 에러 처리
-                }
-            });
-        });
-    });
-</script>
+<!--        const body = inputBody.value;-->
+
+<!--        if (body.length == 0) {-->
+<!--            alert('내용을 입력해주세요.');-->
+<!--            inputBody.focus();-->
+
+<!--            return;-->
+<!--        }-->
+
+<!--        form.submit();-->
+<!--    }-->
+<!--</script>-->
+
+
+
+
+
+
+
+
+
+

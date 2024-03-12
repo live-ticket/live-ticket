@@ -2,6 +2,7 @@ package com.ll.ticket.domain.customer.question.dto;
 
 import com.ll.ticket.domain.customer.answer.dto.AnswerResponse;
 import com.ll.ticket.domain.customer.question.entity.Question;
+import com.ll.ticket.domain.customer.question.entity.QuestionCategory;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ public class QuestionResponse {
 
     private final Long customerQId;
 
-    private final String questionCategory;
+    private final QuestionCategory questionCategory;
 
     private final String questionTitle;
 
@@ -42,7 +43,7 @@ public class QuestionResponse {
             this.customerQId = question.getCustomerQId();
             this.questionTitle = question.getQuestionTitle();
             this.questionContent = question.getQuestionContent();
-            this.questionCategory = question.getQuestionCategory().getValue();
+            this.questionCategory = question.getQuestionCategory();
             this.answerList = question.getAnswerList().stream().map(AnswerResponse::new).collect(Collectors.toList());
             this.authorId = question.getMember().getUserId();
             this.loginId = question.getMember().getEmail(); //로그인 아이디

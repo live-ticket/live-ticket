@@ -9,6 +9,7 @@
                 <div style="width: 600px" class="mx-auto">
                     <form th:object="${updateRequest}" method="post" class="mb-3" enctype="multipart/form-data">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <input type="hidden" name="_method" value="PUT">
                         <div id="error" class="alert alert-error" role="alert" th:if="${#fields.hasAnyErrors()}">
                             <div th:each="error : ${#fields.allErrors()}" th:text="${error}"/>
                         </div>

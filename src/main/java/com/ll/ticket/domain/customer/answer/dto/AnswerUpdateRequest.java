@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class AnswerUpdateRequest {
 
     private Long customerAId;
-    @NotBlank
+    @NotBlank(message = "댓글 내용을 입력해주세요.")
     private String answerContent;
 
     private LocalDateTime modifyDate;

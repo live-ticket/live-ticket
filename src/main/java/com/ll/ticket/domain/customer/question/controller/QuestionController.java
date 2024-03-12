@@ -13,10 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -33,7 +30,6 @@ public class QuestionController {
     /**
      * 글 작성 1:1 문의
      */
-//    @PreAuthorize("isAuthenticated()")
     @GetMapping("")
     public String questionWrite( WriteRequest writeRequest , Model model) {
 
@@ -45,7 +41,6 @@ public class QuestionController {
     /**
      * 글 작성 , 이미지 업로드
      */
-//    @PreAuthorize("isAuthenticated()")
     @PostMapping("")
     public String questionWrite(@Valid WriteRequest writeRequest , BindingResult bindingResult , MultipartFile multipartFile) {
 
@@ -61,7 +56,6 @@ public class QuestionController {
     /**
      * 질문 상세 페이지
      */
-//    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     public String questionDetail (@PathVariable Long id , Model model) {
 
@@ -74,16 +68,18 @@ public class QuestionController {
     /**
      * 글 수정
      */
-//    @PreAuthorize("isAuthenticated()")
     @GetMapping("/update/{id}")
-    public String questionUpdate2(@PathVariable Long id ,UpdateRequest updateRequest) {
+    public String questionUpdate2(@PathVariable Long id ,UpdateRequest updateRequest , Model model) {
 
-        QuestionResponse questionResponse = questionService.findQuestion(id); //응답 DTO 를 Model 로 넘김
+        QuestionResponse questionResponse = questionService.findQuestion(id);
 
         updateRequest.setQuestionTitle(questionResponse.getQuestionTitle());
         updateRequest.setQuestionContent(questionResponse.getQuestionContent());
+        updateRequest.setQuestionCategory(questionResponse.getQuestionCategory());
         updateRequest.setFileName(questionResponse.getFileName());
         updateRequest.setImagePath(questionResponse.getImagePath());
+
+        model.addAttribute("updateRequest" , updateRequest);
 
         return "domain/customer/question/questionUpdate";
     }
@@ -92,8 +88,7 @@ public class QuestionController {
      *
      * 글 수정
      */
-//    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public String questionUpdate(@PathVariable Long id , @Valid UpdateRequest updateRequest ,
                                  BindingResult bindingResult , MultipartFile multipartFile) {
         if (bindingResult.hasErrors()) {

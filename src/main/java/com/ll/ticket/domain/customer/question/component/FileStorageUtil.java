@@ -37,7 +37,7 @@ public class FileStorageUtil {
             throw new RuntimeException("파일 전송 중 오류가 발생했습니다.", e);
         }
     }
-
+    //파일이 존재 하면 삭제
     public void deleteFile(String fileName) {
         if (fileName != null) {
             File oldFile = new File(filePath, fileName);

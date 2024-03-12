@@ -10,12 +10,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/help")
 @RequiredArgsConstructor
 @Slf4j
 @ToString
@@ -23,7 +21,7 @@ public class CustomerController {
 
     private final QuestionService  questionService;
 
-    @GetMapping("/myqna")
+    @GetMapping("/help/myqna")
     @PreAuthorize("isAuthenticated()") //로그인 사용자
     public String cosTomerPage(Model model , Authentication authentication ) {
        List<QuestionResponse> questionResponse =  questionService.getQuestion(authentication.getName());
