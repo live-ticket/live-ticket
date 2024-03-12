@@ -16,7 +16,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,16 +32,27 @@ public class OrderService {
     @Transactional
     public Order order(Concert concert, ConcertDate concertDate, Member member, String selectedSeatsData) {
         String selectedSeatsString = selectedSeatsData.substring(1, selectedSeatsData.length() - 1);
-        String[] seatNumbers = selectedSeatsString.split(",");
+        String[] seatNumbersArray = selectedSeatsString.split(",");
+        List<Long> seatNumbers = Arrays.stream(seatNumbersArray)
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
+
+        List<ConcertSeatHistory> seatHistoryList = concertSeatHistoryRepository.findAllByConcertDate(concertDate);
+
+        for (ConcertSeatHistory seatHistory : seatHistoryList) {
+            if (seatNumbers.contains(seatHistory.getSeat().getSeatNumber())) {
+                throw new IllegalArgumentException("이미 예약된 좌석입니다.");
+            }
+        }
 
         Order order = Order.builder()
                 .member(member)
-                .orderPrice(concert.getSeatPrice() * seatNumbers.length)
+                .orderPrice(concert.getSeatPrice() * seatNumbers.size())
                 .build();
 
         orderRepository.save(order);
 
-        for (String seatNumber : seatNumbers) {
+        for (Long seatNumber : seatNumbers) {
             Ticket ticket = Ticket.builder()
                     .order(order)
                     .concert(concert)
@@ -48,7 +62,7 @@ public class OrderService {
 
             Seat seat = Seat.builder()
                     .place(concert.getPlace())
-                    .seatNumber(Long.parseLong(seatNumber))
+                    .seatNumber(seatNumber)
                     .build();
 
             seatRepository.save(seat);
@@ -60,7 +74,6 @@ public class OrderService {
                     .build();
             concertSeatHistoryRepository.save(concertSeatHistory);
         }
-
 
         return order;
     }

@@ -81,7 +81,7 @@ public class OrderController {
             Order order = orderService.order(concert, concertDate, member, selectedSeatsData);
             return "redirect:/order/" + order.getOrderId();
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             return "redirect:/concert/" + concertId;
         }
 
