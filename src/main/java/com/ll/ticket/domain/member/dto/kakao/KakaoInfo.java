@@ -1,4 +1,4 @@
-package com.ll.ticket.domain.member.dto;
+package com.ll.ticket.domain.member.dto.kakao;
 
 import com.ll.ticket.global.enums.Gender;
 import lombok.Getter;

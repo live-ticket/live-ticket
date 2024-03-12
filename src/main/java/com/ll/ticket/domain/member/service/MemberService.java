@@ -5,6 +5,7 @@ import com.ll.ticket.domain.member.dto.ModifyRequest;
 import com.ll.ticket.domain.member.entity.Member;
 import com.ll.ticket.domain.member.repository.MemberRepository;
 import com.ll.ticket.global.enums.LoginType;
+import com.ll.ticket.global.security.config.SecurityUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final OAuth2Service oAuth2Service;
 
     public void join(JoinRequest joinRequest) {
         validateEmail(joinRequest.getEmail());
@@ -94,5 +96,17 @@ public class MemberService {
         //비밀번호 제외 회원 정보 수정
         member.modifyProfile(modifyRequest.getName(), modifyRequest.getPhoneNumber(), modifyRequest.getGender(), modifyRequest.getBirthday());
         memberRepository.save(member);
+    }
+
+    public void revokeMember(SecurityUser securityUser) {
+        Member member = securityUser.getMember();
+
+        if (member.getLoginType().equals(LoginType.KAKAO)) {
+            System.out.println("member.getProviderId() = " + member.getProviderId());
+            oAuth2Service.kakaoRevoke(member.getProviderId());
+        }
+
+        memberRepository.delete(member);
+
     }
 }

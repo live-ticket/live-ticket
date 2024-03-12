@@ -1,5 +1,9 @@
 package com.ll.ticket.domain.member.entity;
 
+import com.ll.ticket.domain.customer.answer.entity.Answer;
+import com.ll.ticket.domain.customer.question.entity.Question;
+import com.ll.ticket.domain.order.entity.Order;
+import com.ll.ticket.domain.review.entity.Review;
 import com.ll.ticket.global.enums.Gender;
 import com.ll.ticket.global.enums.LoginType;
 import com.ll.ticket.global.jpa.BaseEntity;
@@ -52,6 +56,19 @@ public class Member extends BaseEntity implements Serializable {
         }
         return authorities;
     }
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
+
 
     public void changePassword(String password) {
         this.password = password;

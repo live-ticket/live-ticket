@@ -1,7 +1,7 @@
 package com.ll.ticket.domain.member.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ll.ticket.domain.member.dto.KakaoInfo;
+import com.ll.ticket.domain.member.dto.kakao.KakaoInfo;
 import com.ll.ticket.domain.member.entity.Member;
 import com.ll.ticket.domain.member.service.OAuth2Service;
 import com.ll.ticket.global.enums.LoginType;
