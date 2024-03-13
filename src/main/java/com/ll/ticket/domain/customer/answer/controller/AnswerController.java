@@ -20,21 +20,24 @@ public class AnswerController {
 
 
     @PostMapping("/{id}")
-    public String createAnswer(@PathVariable Long id  , @Valid AnswerWriteRequest answerWriteRequest , BindingResult bindingResult ,Model model) {
+    public String createAnswer(@PathVariable Long id  , @Valid AnswerWriteRequest answerWriteRequest , BindingResult bindingResult ,  Model model) {
 
         if (bindingResult.hasErrors()) {
             return "domain/customer/question/questionDetail";
         }
-        answerService.createAnswer(answerWriteRequest, id);
+
+
+        Long answerQid = answerService.createAnswer(answerWriteRequest, id);
+
         model.addAttribute("answerWriteRequest" , answerWriteRequest);
 
 
-        return "redirect:/help/question/%s".formatted(id);
+        return "redirect:/help/question/%s".formatted(answerQid);
 
     }
 
     @GetMapping("/update/{id}")
-    public String getAnswerUpdate(@PathVariable Long id , AnswerUpdateRequest answerUpdateRequest , Model model) {
+    public String getAnswerUpdate(@PathVariable Long id , AnswerUpdateRequest answerUpdateRequest ,  Model model) {
 
         AnswerResponse answerResponse = answerService.findAnswer(id);
 

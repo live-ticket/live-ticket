@@ -24,8 +24,8 @@ public class AnswerService {
     private final  QuestionService questionService;
     private final MemberService memberService;
     private final AnswerRepository answerRepository;
-   @Transactional
-    public void createAnswer (AnswerWriteRequest answerWriteRequest , Long id ) {
+    @Transactional
+    public Long createAnswer (AnswerWriteRequest answerWriteRequest , Long id ) {
 
         //  현재 로그인한 사용자의 정보를 가져온다. , 작성자를 포함 하기 위함
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -39,7 +39,9 @@ public class AnswerService {
 
         answerWriteRequest.setMember(member);
         answerWriteRequest.setQuestion(question);
-         answerRepository.save(answerWriteRequest.toEntity());
+
+       Answer saveAnswer = answerRepository.save(answerWriteRequest.toEntity());
+        return  new AnswerResponse(saveAnswer).getCustomerQId();
 
     }
 

@@ -16,14 +16,13 @@ import java.time.LocalDateTime;
 public class AnswerResponse {
 
     private Long customerAId;
-
+    @NotBlank
     private String answerContent; //답변 내용
 
     private String memberName; //작성자
 
     private Long customerQId; //질문
 
-    @NotBlank
     private String questionTitle;
 
     private String questionContent;
