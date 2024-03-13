@@ -26,6 +26,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(new AntPathRequestMatcher("/members/revoke")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/order/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/concert/**/seat")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/members/**")).anonymous()
                         .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole(MemberRole.ADMIN.getValue())
                         .requestMatchers(new AntPathRequestMatcher("/help/**")).authenticated() //고객 센터
