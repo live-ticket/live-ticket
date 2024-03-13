@@ -53,7 +53,7 @@ public class QuestionController {
      * 질문 상세 페이지
      */
     @GetMapping("/{id}")
-    public String questionDetail (@PathVariable Long id , Model model) {
+    public String questionDetail (@PathVariable  Long id , Model model) {
 
         QuestionResponse questionResponse = questionService.findQuestion(id);
 

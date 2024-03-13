@@ -59,7 +59,7 @@ public class QuestionService {
 
         writeRequest.setImagePath(filePath + fileName);
 
-            return questionRepository.save(writeRequest.toEntity()).getCustomerQId(); //질문 저장
+        return questionRepository.save(writeRequest.toEntity()).getCustomerQId(); //질문 저장
 
     }
 
