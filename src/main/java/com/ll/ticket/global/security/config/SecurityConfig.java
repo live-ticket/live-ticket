@@ -50,8 +50,7 @@ public class SecurityConfig {
                 .exceptionHandling(
                         except ->
                                 except.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                );
-        ;
+                );;
 
 
         return http.build();
