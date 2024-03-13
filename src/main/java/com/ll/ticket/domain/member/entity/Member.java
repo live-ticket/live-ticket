@@ -54,6 +54,7 @@ public class Member extends BaseEntity implements Serializable {
         } else {
             authorities.add(new SimpleGrantedAuthority("MEMBER"));
         }
+
         return authorities;
     }
 
