@@ -4,11 +4,11 @@ import com.ll.ticket.domain.customer.answer.dto.AnswerResponse;
 import com.ll.ticket.domain.customer.answer.dto.AnswerUpdateRequest;
 import com.ll.ticket.domain.customer.answer.dto.AnswerWriteRequest;
 import com.ll.ticket.domain.customer.answer.service.AnswerService;
+import com.ll.ticket.domain.customer.question.service.QuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -17,19 +17,15 @@ import org.springframework.web.bind.annotation.*;
 public class AnswerController {
 
     private final AnswerService answerService;
-
-
+    private final QuestionService  questionService;
     @PostMapping("/{id}")
-    public String createAnswer(@PathVariable Long id  , @Valid AnswerWriteRequest answerWriteRequest , BindingResult bindingResult ,  Model model) {
+    public String createAnswer(@PathVariable Long id  , @Valid AnswerWriteRequest answerWriteRequest , Model model) {
 
-        if (bindingResult.hasErrors()) {
-            return "domain/customer/question/questionDetail";
-        }
+        model.addAttribute("answerWriteRequest" , answerWriteRequest);
 
 
         Long answerQid = answerService.createAnswer(answerWriteRequest, id);
 
-        model.addAttribute("answerWriteRequest" , answerWriteRequest);
 
 
         return "redirect:/help/question/%s".formatted(answerQid);

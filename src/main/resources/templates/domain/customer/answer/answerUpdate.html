@@ -23,6 +23,7 @@
 <div class="comment-section mt-20" sec:authorize="hasAuthority('ADMIN')" >
     <form th:object="${answerResponse}" method="post">
         <input type="hidden" name="_method" value="PUT">
+
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
         <textarea class ="textarea textarea-bordered w-full" th:field="*{answerContent}" id="answerContent" rows="4" cols="50" placeholder="댓글을 입력하세요..."></textarea><br>

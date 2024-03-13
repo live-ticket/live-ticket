@@ -87,43 +87,39 @@
                 </div>
             </div>
             <!--답변 입력창 시작-->
-            <div class="comment-section mt-20" sec:authorize="hasAuthority('ADMIN')" >
-                <form th:action="@{|/answer/${questionResponse.getCustomerQId()}|}" th:object="${answerWriteRequest}" method="post" >
+            <div class="mt-20" sec:authorize="hasAuthority('ADMIN')">
+                <form th:action="@{|/answer/${questionResponse.getCustomerQId()}|}"  method="post" onsubmit="submitWriteForm(this); return false;">
 
-                    <textarea class ="textarea textarea-bordered w-full" name="answerContent" rows="4" cols="50" placeholder="댓글을 입력하세요..."></textarea><br>
+                    <textarea class ="textarea textarea-bordered w-full" id="answerContent" name="answerContent"  rows="4" cols="50" placeholder="댓글을 입력하세요..."></textarea><br>
 
-                    <button class="btn btn-neutral ">댓글 작성</button>
+                    <button class="btn btn-neutral">댓글 작성</button>
                 </form>
+                <script>
+                    function submitWriteForm(form) {
+                        const inputBody = form.answerContent;
+
+                        inputBody.value = inputBody.value.trim();
+
+                        const body = inputBody.value;
+
+                        if (body.length == 0) {
+                            alert('내용을 입력해주세요.');
+                            inputBody.focus();
+
+                            return;
+                        }
+
+                        form.submit();
+                    }
+                </script>
+
             </div> <!--답변 입력창끝 -->
-
-
         </div>
 
     </div>
-
 </html>
 
 
-
-
-<!--<script>-->
-<!--    function submitModifyForm(form) {-->
-<!--        const inputBody = form.body;-->
-
-<!--        inputBody.value = inputBody.value.trim();-->
-
-<!--        const body = inputBody.value;-->
-
-<!--        if (body.length == 0) {-->
-<!--            alert('내용을 입력해주세요.');-->
-<!--            inputBody.focus();-->
-
-<!--            return;-->
-<!--        }-->
-
-<!--        form.submit();-->
-<!--    }-->
-<!--</script>-->
 
 
 

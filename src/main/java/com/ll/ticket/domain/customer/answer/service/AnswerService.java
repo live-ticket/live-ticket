@@ -40,8 +40,8 @@ public class AnswerService {
         answerWriteRequest.setMember(member);
         answerWriteRequest.setQuestion(question);
 
-       Answer saveAnswer = answerRepository.save(answerWriteRequest.toEntity());
-        return  new AnswerResponse(saveAnswer).getCustomerQId();
+      return answerRepository.save(answerWriteRequest.toEntity()).getQuestion().getCustomerQId();
+//        return  new AnswerResponse(saveAnswer).getCustomerQId();
 
     }
 
