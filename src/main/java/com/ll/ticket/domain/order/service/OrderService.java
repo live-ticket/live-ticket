@@ -47,7 +47,7 @@ public class OrderService {
 
         Order order = Order.builder()
                 .member(member)
-                .orderPrice(concert.getSeatPrice() * seatNumbers.size())
+                .orderPrice(Long.valueOf(concert.getSeatPrice() * seatNumbers.size()))
                 .build();
 
         orderRepository.save(order);

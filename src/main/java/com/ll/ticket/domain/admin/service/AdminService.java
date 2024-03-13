@@ -7,6 +7,8 @@ import com.ll.ticket.domain.place.entity.Place;
 import com.ll.ticket.domain.place.repository.PlaceRepository;
 import com.ll.ticket.global.enums.ConcertCategory;
 import com.ll.ticket.global.enums.ConcertStatus;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,10 @@ public class AdminService {
 
     public void register(RegisterConcertDto registerConcertDto){
         String name = registerConcertDto.getName();
+        String concertNameKr = registerConcertDto.getConcertNameKr();
+        String concertNameEng = registerConcertDto.getConcertNameEng();
+        String artistNameKr = registerConcertDto.getArtistNameKr();
+        String artistNameEng = registerConcertDto.getArtistNameEng();
 
         Place place = Place.builder()
                 .longitude(registerConcertDto.getLongitude())
@@ -35,10 +41,14 @@ public class AdminService {
 
         ConcertCategory category = registerConcertDto.getCategory();
         ConcertStatus status = registerConcertDto.getStatus();
-        Long seatPrice = registerConcertDto.getSeatPrice();
+        int seatPrice = registerConcertDto.getSeatPrice();
 
         Concert concert = Concert.builder()
                 .name(name)
+                .concertNameKr(concertNameKr)
+                .concertNameEng(concertNameEng)
+                .artistNameKr(artistNameKr)
+                .artistNameEng(artistNameEng)
                 .place(place)
                 .releaseTime(releaseTime)
                 .startTime(startTime)

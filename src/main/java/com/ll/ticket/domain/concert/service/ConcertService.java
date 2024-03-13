@@ -8,6 +8,9 @@ import com.ll.ticket.domain.concert.repository.ConcertRepository;
 import com.ll.ticket.domain.concert.repository.ConcertSeatHistoryRepository;
 import com.ll.ticket.global.enums.ConcertStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +42,11 @@ public class ConcertService {
         });
     }
 
+    public Page<Concert> getConcertList(int page) {
+        Pageable pageable = PageRequest.of(page, 15);
+        return this.concertRepository.findAll(pageable);
+    }
+
     public Concert findById(Long id) {
         Optional<Concert> concert = concertRepository.findById(id);
         if (concert.isPresent()) {
@@ -65,5 +73,9 @@ public class ConcertService {
                 .collect(Collectors.toList());
 
         return seatNumbers;
+    }
+
+    public void delete(Concert concert) {
+        this.concertRepository.delete(concert);
     }
 }
