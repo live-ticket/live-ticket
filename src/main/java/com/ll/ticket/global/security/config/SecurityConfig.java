@@ -1,5 +1,6 @@
 package com.ll.ticket.global.security.config;
 
+import com.ll.ticket.domain.member.entity.MemberRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,7 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(new AntPathRequestMatcher("/members/revoke")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/members/**")).anonymous()
-//                        .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole(MemberRole.ADMIN.getValue())
+                        .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole(MemberRole.ADMIN.getValue())
                         .requestMatchers(new AntPathRequestMatcher("/help/**")).authenticated() //고객 센터
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
                 )
