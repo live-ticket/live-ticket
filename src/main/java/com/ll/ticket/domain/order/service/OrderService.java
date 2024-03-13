@@ -47,7 +47,7 @@ public class OrderService {
 
         Order order = Order.builder()
                 .member(member)
-                .orderPrice(concert.getSeatPrice() * seatNumbers.size())
+                .orderPrice(Long.valueOf(concert.getSeatPrice() * seatNumbers.size()))
                 .build();
 
         orderRepository.save(order);
@@ -123,11 +123,8 @@ public class OrderService {
 
     @Transactional
     public void saveOrderPayInfo(Order order, OrderPayInfoDto orderPayInfoDto) {
-        order.setName(orderPayInfoDto.getCustomerName());
-        order.setPhoneNumber(orderPayInfoDto.getCustomerMobilePhoneNumber());
-        order.setOrderPrice(order.getOrderPrice());
-        order.setAddress1(orderPayInfoDto.getAddress1());
-        order.setAddress2(orderPayInfoDto.getAddress2());
-        order.setZipcode(orderPayInfoDto.getZipcode());
+        order.savePayInfo(orderPayInfoDto);
+
+        orderRepository.save(order);
     }
 }
