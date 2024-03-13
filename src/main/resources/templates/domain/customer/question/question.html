@@ -6,15 +6,15 @@
     <aside th:replace="~{global/fragments/sidebar :: asideFragment}"></aside>
 
     <div style="width: 600px" class="mx-auto">
-        <form th:action="@{/help/question}" th:object="${writeRequest}" method="post" class="mb-3" enctype="multipart/form-data">
-            <div id="error" class="alert alert-error" role="alert" th:if="${#fields.hasAnyErrors()}">
-                <div th:each="error : ${#fields.allErrors()}" th:text="${error}"></div>
-            </div>
+        <form th:action="@{/help/question}" th:object="${writeRequest}" method="post" class="mb-3" enctype="multipart/form-data" onsubmit="submitWriteForm(this); return false;">
+<!--            <div id="error" class="alert alert-error" role="alert" th:if="${#fields.hasAnyErrors()}">-->
+<!--                <div th:each="error : ${#fields.allErrors()}" th:text="${error}"></div>-->
+<!--            </div>-->
 
             <div class="mb-3">
                 <!--문의 유형 시작-->
                 <label for="questionCategory" class="form-label">문의 유형</label>
-                <select name="questionCategory" class="select select-bordered w-full">
+                <select name="questionCategory" class="select select-bordered w-full" >
                     <option disabled selected>문의 할 내용을 선택 해주세요.</option>
                     <option th:each="Category : ${T(com.ll.ticket.domain.customer.question.entity.QuestionCategory).values()}"
                             th:value="${Category}" th:text="${Category.getValue()}"></option>
@@ -23,11 +23,11 @@
             </div>
             <div class="mb-3">
                 <label for="questionTitle" class="form-label">제목</label>
-                <input type="text" th:field="*{questionTitle}" class="form-control" placeholder="제목을 입력해주세요">
+                <input type="text" name="questionTitle" th:field="*{questionTitle}" class="form-control" placeholder="제목을 입력해주세요">
             </div>
             <div class="mb-3">
                 <label for="questionContent" class="form-label">내용</label>
-                <textarea th:field="*{questionContent}" class="textarea textarea-bordered w-full" placeholder="내용을 입력해주세요" rows="18"></textarea>
+                <textarea name="questionContent" th:field="*{questionContent}" class="textarea textarea-bordered w-full" placeholder="내용을 입력해주세요" rows="18"></textarea>
             </div>
             <div class="mb-3">
                 <input type="file" name="multipartFile" class="file-input file-input-bordered w-full">
@@ -44,7 +44,42 @@
         </form>
     </div>
 
+    <script>
+        function submitWriteForm(form) {
+            const inputTitle = form.questionTitle;
+            const inputBody = form.questionContent;
 
+            inputTitle.value = inputTitle.value.trim();
+            inputBody.value = inputBody.value.trim();
+
+            const title = inputTitle.value;
+            const body = inputBody.value;
+
+
+            if (title.length == 0) {
+                alert('제목을 입력해주세요.');
+                inputTitle.focus();
+
+                return;
+            }
+
+            if (body.length == 0) {
+                alert('내용을 입력해주세요.');
+                inputBody.focus();
+
+                return;
+            }
+            //카테고리 유효성 검사
+            if (form.questionCategory.selectedIndex === 0) {
+                alert('문의 유형을 선택해주세요.');
+                form.questionCategory.focus();
+                return;
+            }
+
+
+            form.submit();
+        }
+    </script>
 </div>
 
 

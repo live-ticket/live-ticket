@@ -7,12 +7,10 @@
             <!-- 본문 내용 -->
             <div class="w-3/4">
                 <div style="width: 600px" class="mx-auto">
-                    <form th:object="${updateRequest}" method="post" class="mb-3" enctype="multipart/form-data">
+                    <form th:object="${updateRequest}" method="post" class="mb-3" enctype="multipart/form-data" onsubmit="submitModifyForm(this); return false;">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <input type="hidden" name="_method" value="PUT">
-                        <div id="error" class="alert alert-error" role="alert" th:if="${#fields.hasAnyErrors()}">
-                            <div th:each="error : ${#fields.allErrors()}" th:text="${error}"/>
-                        </div>
+
 
                         <div class="mb-3">
                             <!--문의 유형 시작-->
@@ -26,12 +24,12 @@
                         </div>
                         <div class="mb-3">
                             <label for="questionTitle" class="form-label">제목</label>
-                            <input type="text" th:field="*{questionTitle}" class="form-control " placeholder="제목을 입력해주세요" >
+                            <input type="text" name="questionTitle" th:field="*{questionTitle}" class="form-control " placeholder="제목을 입력해주세요" >
 
                         </div>
                         <div class="mb-3">
                             <label for="questionContent" class="form-label">내용</label>
-                            <textarea th:field="*{questionContent}" class="textarea textarea-bordered w-full" placeholder="내용을 입력해주세요" rows="20"></textarea>
+                            <textarea name="questionContent" th:field="*{questionContent}" class="textarea textarea-bordered w-full" placeholder="내용을 입력해주세요" rows="20"></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -46,15 +44,42 @@
                 </div>
             </div>
         </div>
+        <script>
+            function submitModifyForm(form) {
+                const inputTitle = form.questionTitle;
+                const inputBody = form.questionContent;
+
+                inputTitle.value = inputTitle.value.trim();
+                inputBody.value = inputBody.value.trim();
+
+                const title = inputTitle.value;
+                const body = inputBody.value;
+
+
+                if (title.length == 0) {
+                    alert('제목을 입력해주세요.');
+                    inputTitle.focus();
+
+                    return;
+                }
+
+                if (body.length == 0) {
+                    alert('내용을 입력해주세요.');
+                    inputBody.focus();
+
+                    return;
+                }
+                //카테고리 유효성 검사
+                if (form.questionCategory.selectedIndex === 0) {
+                    alert('문의 유형을 선택해주세요.');
+                    form.questionCategory.focus();
+                    return;
+                }
+
+                form.submit();
+            }
+        </script>
     </div>
+
 </div>
 
-<script>
-    // 5초 후에 알림 숨김
-    setTimeout(function() {
-        let errorElement = document.getElementById('error');
-        if (errorElement) {
-            errorElement.style.display = 'none';
-        }
-    }, 5000);
-</script>

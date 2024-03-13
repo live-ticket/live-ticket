@@ -12,7 +12,6 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,11 +41,8 @@ public class QuestionController {
      * 글 작성 , 이미지 업로드
      */
     @PostMapping("")
-    public String questionWrite(@Valid WriteRequest writeRequest , BindingResult bindingResult , MultipartFile multipartFile) {
+    public String questionWrite(@Valid WriteRequest writeRequest  , MultipartFile multipartFile) {
 
-        if (bindingResult.hasErrors()) {
-            return "domain/customer/question/question";
-        }
         //Long 반환
          Long questionId =  questionService.createQuestion(writeRequest , multipartFile);
 
@@ -90,10 +86,8 @@ public class QuestionController {
      */
     @PutMapping("/update/{id}")
     public String questionUpdate(@PathVariable Long id , @Valid UpdateRequest updateRequest ,
-                                 BindingResult bindingResult , MultipartFile multipartFile) {
-        if (bindingResult.hasErrors()) {
-            return "domain/customer/question/questionUpdate";
-        }
+                                 MultipartFile multipartFile) {
+
         questionService.updateQuestion(id , updateRequest , multipartFile);
 
         return "redirect:/help/question/%s".formatted(id);
