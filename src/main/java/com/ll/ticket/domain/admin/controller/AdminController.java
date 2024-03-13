@@ -57,7 +57,7 @@ public class AdminController {
     //관리자용 콘서트 글 상세 페이지
     @GetMapping(value = "/concertDetail/{id}")
     public String concertDetail(Model model, @PathVariable("id") Long id){
-        Concert concert = this.concertService.getConcert(id);
+        Concert concert = this.concertService.findById(id);
         model.addAttribute("concert", concert);
 
         return "domain/admin/concert_detail";
@@ -69,7 +69,7 @@ public class AdminController {
     //콘서트 글 삭제
     @GetMapping(value = "/concertDelete/{id}")
     public String concertDelete(@PathVariable("id") Long id){
-        Concert concert = this.concertService.getConcert(id);
+        Concert concert = this.concertService.findById(id);
         this.concertService.delete(concert);
 
         return "redirect:/admin/concertList";

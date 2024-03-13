@@ -63,7 +63,6 @@ dependencies {
 
     //VALIDATION
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-<<<<<<< HEAD
 
     // OAUTH2
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
@@ -71,8 +70,6 @@ dependencies {
     //Open Feign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0'
 
-=======
->>>>>>> 2c0a23a (feat : 콘서트 등록 폼 작성)
 }
 
 

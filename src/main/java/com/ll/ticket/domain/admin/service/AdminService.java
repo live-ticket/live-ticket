@@ -22,6 +22,10 @@ public class AdminService {
 
     public void register(RegisterConcertDto registerConcertDto){
         String name = registerConcertDto.getName();
+        String concertNameKr = registerConcertDto.getConcertNameKr();
+        String concertNameEng = registerConcertDto.getConcertNameEng();
+        String artistNameKr = registerConcertDto.getArtistNameKr();
+        String artistNameEng = registerConcertDto.getArtistNameEng();
 
         Place place = Place.builder()
                 .longitude(registerConcertDto.getLongitude())
@@ -41,6 +45,10 @@ public class AdminService {
 
         Concert concert = Concert.builder()
                 .name(name)
+                .concertNameKr(concertNameKr)
+                .concertNameEng(concertNameEng)
+                .artistNameKr(artistNameKr)
+                .artistNameEng(artistNameEng)
                 .place(place)
                 .releaseTime(releaseTime)
                 .startTime(startTime)

@@ -22,6 +22,10 @@ public class Concert extends BaseEntity {
     private Long concertId;
 
     private String name;
+    private String concertNameKr;
+    private String concertNameEng;
+    private String artistNameKr;
+    private String artistNameEng;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")

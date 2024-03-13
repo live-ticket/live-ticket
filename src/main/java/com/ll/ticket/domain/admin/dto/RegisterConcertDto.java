@@ -18,6 +18,18 @@ public class RegisterConcertDto {
     @NotBlank(message = "제목을 입력하세요")
     private String name;
 
+    @NotBlank(message = "콘서트명을 입력하세요")
+    private String concertNameKr;
+
+    @NotBlank(message = "콘서트 영문명을 입력하세요")
+    private String concertNameEng;
+
+    @NotBlank(message = "출연자를 입력하세요")
+    private String artistNameKr;
+
+    @NotBlank(message = "출연자 영문명을 입력하세요")
+    private String artistNameEng;
+
     @NotNull(message = "경도를 입력하세요")
     private Double longitude;
 
