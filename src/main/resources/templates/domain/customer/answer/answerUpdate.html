@@ -21,19 +21,45 @@
 
     <!--답변 입력창 시작-->
 <div class="comment-section mt-20" sec:authorize="hasAuthority('ADMIN')" >
-    <form th:object="${answerResponse}" method="post">
+    <form th:object="${answerResponse}" method="post" onsubmit="submitModifyForm(this); return false;">
         <input type="hidden" name="_method" value="PUT">
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-        <textarea class ="textarea textarea-bordered w-full" th:field="*{answerContent}" id="answerContent" rows="4" cols="50" placeholder="댓글을 입력하세요..."></textarea><br>
+        <textarea class ="textarea textarea-bordered w-full" name="answerContent" th:field="*{answerContent}" id="answerContent" rows="4" cols="50" placeholder="댓글을 입력하세요..."></textarea><br>
 
         <button class="btn btn-neutral ">댓글 작성</button>
     </form>
+
+
 
 </div> <!--답변 입력창끝 -->
 
 
 </div>
+
 </div>
+    <script>
+        function submitModifyForm(form) {
+            const inputBody = form.answerContent;
+
+            inputBody.value = inputBody.value.trim();
+
+            const body = inputBody.value;
+
+            if (body.length == 0) {
+                alert('내용을 입력해주세요.');
+                inputBody.focus();
+
+                return;
+            }
+
+            form.submit();
+        }
+    </script>
+
 </div>
+
+
+
+</html>
