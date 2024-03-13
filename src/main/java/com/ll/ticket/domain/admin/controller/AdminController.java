@@ -7,13 +7,10 @@ import com.ll.ticket.domain.concert.service.ConcertService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @RequiredArgsConstructor
 @Controller
@@ -67,9 +64,9 @@ public class AdminController {
     }
 
     //콘서트 글 수정
+    //TO DO
 
     //콘서트 글 삭제
-    //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/concertDelete/{id}")
     public String concertDelete(@PathVariable("id") Long id){
         Concert concert = this.concertService.getConcert(id);
