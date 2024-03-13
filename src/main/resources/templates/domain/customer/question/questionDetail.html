@@ -9,7 +9,7 @@
             <div class="post-header ">
 
                 <h2 class="text-center text-4xl font-bold text-gray-800 mb-4">고객 센터</h2>
-                <div class="border-b py-2" th:text="${questionResponse.getQuestionCategory()}"> </div>
+                <div class="border-b py-2" th:text="${questionResponse.getQuestionCategory().getValue()}"> </div>
 
                 <h2 class="border-b py-2" th:text="${questionResponse.getQuestionTitle()}"></h2>
                 <div class="post-meta flex justify-end items-center">
