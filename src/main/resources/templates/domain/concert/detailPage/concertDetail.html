@@ -1,21 +1,48 @@
+
 <html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
-<div layout:fragment="content">
+<div layout:fragment="content" class="container mx-auto p-4 bg-white rounded flex">
 
-    <div th:text="${concert.getName()}"></div>
-
-    <div th:text="${concert.getCreateDate()}"></div>
-    <div th:text="${concert.getModifyDate()}"></div>
-    <div th:text="${concert.getPlace()}"></div>
-    <div th:text="${concert.getRunningTime()}"></div>
-    <div th:text="${concert.getEndTime()}"></div>
-    <div th:text="${concert.getStartTime()}"></div>
-    <div th:text="${concert.getStatus()}"></div>
-    <div th:text="${concert.getName()}"></div>
+    <th:block th:fragment="custom-css">
+        <style>
+            .concert-details p {
+                display: inline-block;
+                margin-right: 20px; /* 각 요소 사이의 간격 조정을 위한 마진 설정 */
+            }
+        </style>
+    </th:block>
 
 
+    <div class="artboard artboard-horizontal phone-6 border">
 
 
+        <h1>공연 상세 정보</h1>
+        <div class="concert-info">
+            <h2 th:text="${concertDTO.getConcertNameKr()}"></h2>
+
+            <p>공연을 보자</p>
+
+            <div class="concert-details">
+            <p>장소: <span th:text="${concertDTO.getPlaceId()}"></span></p>
+            <p>장르: <span th:text="${concertDTO.getConcertNameKr()}"></span></p>
+            </div>
+
+            <div class="concert-details">
+                <p>공연 기간:
+                    <span th:text="${#temporals.format(concertDTO.startTime, 'yyyy-MM-dd')}"></span>
+                    ~
+                    <span th:text="${#temporals.format(concertDTO.endTime, 'yyyy-MM-dd')}"></span>
+                </p>
+            </div>
+
+            <p>공연 시간: <span th:text="${viewingTime.toHours()}"></span></p>
+
+            <p>가격: <span th:text="${concertDTO.getSeatPrice()}"></span></p>
+        </div>
+        <!-- 예약 버튼이나 기타 작업을 위한 요소들 -->
+    </div>
 
 </div>
 </html>
+
+

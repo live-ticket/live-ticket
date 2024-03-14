@@ -4,33 +4,56 @@ package com.ll.ticket.domain.concert.datailPage.dto;
 import com.ll.ticket.domain.concert.entity.Concert;
 import lombok.Getter;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Getter
 public class ConcertDTO {
 
-    private Long concertId;
-    private String name;
-    private Long placeId;
-    private LocalDateTime releaseTime;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private int runningTime;
-    private String category;
-    private String status;
-    private Long seatPrice;
+    private final Long concertId;
+
+    private final Long placeId;
+
+    private final String concertNameKr;
+
+    private final String concertNameEng;
+
+    private final String artistNameKr;
+
+    private final String artistNameEng;
+
+    private final LocalDateTime releaseTime;
+
+    private final LocalDateTime startTime;
+
+    private final LocalDateTime endTime;
+
+    private final int runningTime;
+
+    private final String category;
+
+    private final String status;
+
+    private final int seatPrice;
 
     public ConcertDTO(Concert concert) {
 
-        this.concertId = concert.getConcertId();
-        this.name = concert.getName();
-        this.placeId = concert.getPlace().getPlaceId();
-        this.releaseTime = concert.getReleaseTime();
-        this.startTime = concert.getStartTime();
-        this.endTime = concert.getEndTime();
-        this.runningTime = concert.getRunningTime();
-        this.category = concert.getCategory().name();
-        this.status = concert.getStatus().name();
-        this.seatPrice = concert.getSeatPrice();
+        this.concertId = concert.getConcertId(); //콘서트 ID
+        this.placeId = concert.getPlace().getPlaceId(); //장소
+        this.concertNameKr = concert.getConcertNameKr(); //콘서트 한글명
+        this.concertNameEng = concert.getConcertNameEng();// 콘서트 영문명
+        this.artistNameKr = concert.getArtistNameKr(); // 배우 한글 명
+        this.artistNameEng = concert.getArtistNameEng(); // 배우 영문명
+        this.releaseTime = concert.getReleaseTime(); // 시작시간
+        this.startTime = concert.getStartTime(); // 공연 시작시간
+        this.endTime = concert.getEndTime(); // 공연 종료 시간
+        this.runningTime = concert.getRunningTime(); //공연 중 시간
+        this.category = concert.getCategory().name(); // 콘서트 이름
+        this.status = concert.getStatus().name(); //콘서트 상태
+        this.seatPrice = concert.getSeatPrice(); //콘서트 가격
     }
+    public Duration calculateViewingTime() {
+        return Duration.between(startTime, endTime);
+    }
+
 }

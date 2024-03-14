@@ -23,10 +23,7 @@ public class AnswerController {
 
         model.addAttribute("answerWriteRequest" , answerWriteRequest);
 
-
         Long answerQid = answerService.createAnswer(answerWriteRequest, id);
-
-
 
         return "redirect:/help/question/%s".formatted(answerQid);
 

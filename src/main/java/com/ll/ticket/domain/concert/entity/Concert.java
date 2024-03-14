@@ -7,7 +7,6 @@ import com.ll.ticket.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 
 @Entity
@@ -46,4 +45,6 @@ public class Concert extends BaseEntity {
     public void setStatus(ConcertStatus status) {
         this.status = status;
     }
+
+
 }
