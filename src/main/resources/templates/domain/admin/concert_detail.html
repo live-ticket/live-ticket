@@ -86,6 +86,7 @@
         </style>
     </th:block>
 
+<<<<<<< HEAD
     <div class="flex flex-col min-h-screen">
         <div class="w-full p-5 bg-white">
             <div class="w-full mx-auto bg-white shadow-md rounded-lg overflow-hidden">
@@ -120,9 +121,24 @@
                 </div>
             </div>
         </div>
+=======
+    <h1 th:text="${concert.name}"></h1>
+<<<<<<< HEAD
+    <div th:text="${concert.concertNameKr}"></div>
+    <div th:text="${concert.concertNameEng}"></div>
+    <div th:text="${concertPerformer.artistNameKr}"></div>
+    <div th:text="${concertPerformer.artistNameEng}"></div>
+    <div id="longtitude" th:text="${place.longitude}"></div>
+    <div id="latitude" th:text="${place.latitude}"></div>
+    <div th:text="${#temporals.format(concert.releaseTime, 'yyyy-MM-dd HH:mm')}"></div>
+    <div th:each="concertDate : ${concertDates}">
+        <div th:text="${concertDate.startTime}"></div>
+        <div th:text="${concertDate.endTime}"></div>
+>>>>>>> 369a2ea (feat: 콘서트 글 삭제)
     </div>
 
 
+<<<<<<< HEAD
     <!--카카오 지도 api-->
     <div id="map" style="width:500px;height:400px;"></div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=801209c5d747fce299c6cb51a4cb0251"></script>
@@ -132,7 +148,19 @@
         <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-lg btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
     </div>
 
+<<<<<<< HEAD
 </div>
+=======
+    </div>
+=======
+    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
+=======
+    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>
+    <!--<a href="javascript:void(0);" th:data-uri="@{|/admin/deleteConcert/${concert.id}|}"
+       class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>-->
+>>>>>>> d175261 (feat: 콘ã콘서트 글 삭제)
+>>>>>>> 7fdf705 (feat: 콘서트 글 삭제)
+>>>>>>> 369a2ea (feat: 콘서트 글 삭제)
 
 </div>
 <div layout:fragment="script">
