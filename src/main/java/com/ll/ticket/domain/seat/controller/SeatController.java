@@ -27,11 +27,13 @@ public class SeatController {
                 throw new IllegalArgumentException("공연 날짜가 존재하지 않습니다.");
             }
 
-            List<Long> concertSeatNumbers = concertService.findAllSeatNumberByConcertDate(concertDate);
+            List<Long> seatIds = concertService.findAllSeatIdByPlace(concert.getPlace());
+            List<Long> reservedSeatIds = concertService.findAllSeatNumberByConcertDate(concertDate);
 
             model.addAttribute("concert", concert);
             model.addAttribute("concertDate", concertDate);
-            model.addAttribute("concertSeatNumbers", concertSeatNumbers);
+            model.addAttribute("reservedSeatIds", reservedSeatIds);
+            model.addAttribute("seatIds", seatIds);
 
             return "domain/seat/seat";
         } catch (IllegalArgumentException e) {
