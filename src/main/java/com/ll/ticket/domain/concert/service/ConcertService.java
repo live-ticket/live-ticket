@@ -6,6 +6,9 @@ import com.ll.ticket.domain.concert.entity.ConcertSeatHistory;
 import com.ll.ticket.domain.concert.repository.ConcertDateRepository;
 import com.ll.ticket.domain.concert.repository.ConcertRepository;
 import com.ll.ticket.domain.concert.repository.ConcertSeatHistoryRepository;
+import com.ll.ticket.domain.place.entity.Place;
+import com.ll.ticket.domain.seat.entity.Seat;
+import com.ll.ticket.domain.seat.repository.SeatRepository;
 import com.ll.ticket.global.enums.ConcertStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +28,7 @@ public class ConcertService {
     private final ConcertRepository concertRepository;
     private final ConcertDateRepository concertDateRepository;
     private final ConcertSeatHistoryRepository concertSeatHistoryRepository;
+    private final SeatRepository seatRepository;
 
     @Transactional
     public void changeStatus(LocalDate todayDate) {
@@ -68,14 +72,23 @@ public class ConcertService {
     public List<Long> findAllSeatNumberByConcertDate(ConcertDate concertDate) {
         List<ConcertSeatHistory> seatHistoryList = concertSeatHistoryRepository.findAllByConcertDate(concertDate);
 
-        List<Long> seatNumbers = seatHistoryList.stream()
-                .map(seatHistory -> seatHistory.getSeat().getSeatNumber())
+        List<Long> reservedSeatIds = seatHistoryList.stream()
+                .map(seatHistory -> seatHistory.getSeat().getSeatId())
                 .collect(Collectors.toList());
 
-        return seatNumbers;
+        return reservedSeatIds;
     }
 
     public void delete(Concert concert) {
         this.concertRepository.delete(concert);
+    }
+
+    public List<Long> findAllSeatIdByPlace(Place place) {
+        List<Seat> seatIdList = seatRepository.findAllByPlaceOrderBySeatIdAsc(place);
+
+        List<Long> seatIds = seatIdList.stream()
+                .map(seat -> seat.getSeatId())
+                .collect(Collectors.toList());
+        return seatIds;
     }
 }
