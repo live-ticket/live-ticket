@@ -67,8 +67,8 @@ public class AdminController {
     //TO DO
 
     //콘서트 글 삭제
-    @GetMapping(value = "/concertDelete/{id}")
-    public String concertDelete(@PathVariable("id") Long id){
+    @GetMapping(value = "/deleteConcert/{id}")
+    public String deleteConcert(@PathVariable("id") Long id){
         Concert concert = this.concertService.findById(id);
         this.concertService.delete(concert);
 
