@@ -18,4 +18,6 @@ public class Place {
 
     private Double longitude;
     private Double latitude;
+
+    private int totalPeople;
 }
