@@ -8,6 +8,7 @@
     </th:block>
 
     <h1 th:text="${concert.name}"></h1>
+<<<<<<< HEAD
     <div th:text="${concert.concertNameKr}"></div>
     <div th:text="${concert.concertNameEng}"></div>
     <!--<div th:text="${concertPerformer.artistNameKr}"></div>
@@ -23,6 +24,11 @@
     <div th:text="${concert.seatPrice}"></div>
 
     <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
+=======
+    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>
+    <!--<a href="javascript:void(0);" th:data-uri="@{|/admin/deleteConcert/${concert.id}|}"
+       class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>-->
+>>>>>>> d175261 (feat: 콘ã콘서트 글 삭제)
 
 </div>
 <div layout:fragment="script">
