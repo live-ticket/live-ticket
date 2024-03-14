@@ -8,6 +8,7 @@
     </th:block>
 
     <h1 th:text="${concert.name}"></h1>
+<<<<<<< HEAD
     <div th:text="${concert.concertNameKr}"></div>
     <div th:text="${concert.concertNameEng}"></div>
     <div th:text="${concertPerformer.artistNameKr}"></div>
@@ -24,6 +25,7 @@
     <div th:text="${place.totalPeople}"></div>
     <div th:text="${concert.seatPrice}"></div>
 
+<<<<<<< HEAD
     <!--카카오 지도 api-->
     <div id="map" style="width:500px;height:400px;"></div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=801209c5d747fce299c6cb51a4cb0251"></script>
@@ -34,6 +36,14 @@
     </div>
 
     </div>
+=======
+    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
+=======
+    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>
+    <!--<a href="javascript:void(0);" th:data-uri="@{|/admin/deleteConcert/${concert.id}|}"
+       class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>-->
+>>>>>>> d175261 (feat: 콘ã콘서트 글 삭제)
+>>>>>>> 7fdf705 (feat: 콘서트 글 삭제)
 
 </div>
 <div layout:fragment="script">
