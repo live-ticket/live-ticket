@@ -9,6 +9,7 @@
 
     <h1 th:text="${concert.name}"></h1>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div th:text="${concert.concertNameKr}"></div>
     <div th:text="${concert.concertNameEng}"></div>
     <!--<div th:text="${concertPerformer.artistNameKr}"></div>
@@ -26,6 +27,9 @@
     <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
 =======
     <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>
+=======
+    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();></a>
+>>>>>>> 833d680 (feat: 삭제  시 확인 추가)
     <!--<a href="javascript:void(0);" th:data-uri="@{|/admin/deleteConcert/${concert.id}|}"
        class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>-->
 >>>>>>> d175261 (feat: 콘ã콘서트 글 삭제)
@@ -40,4 +44,28 @@
     </script>
 </div>
 
+<<<<<<< HEAD
+=======
+<script>
+    function confirmDelete() {
+        // confirm 대화상자를 띄워 사용자에게 삭제 여부를 물어봅니다.
+        var result = confirm("정말로 삭제하시겠습니까?");
+        // 사용자가 '확인'을 누르면 true, '취소'를 누르면 false를 반환합니다.
+        return result;
+    }
+</script>
+
+<!--<script type='text/javascript'>
+
+    const delete_elements = document.getElementsByClassName("delete");
+    Array.from(delete_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            if(confirm("정말로 삭제하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            };
+        });
+    });
+</script>-->
+
+>>>>>>> 833d680 (feat: 삭제  시 확인 추가)
 </html>
