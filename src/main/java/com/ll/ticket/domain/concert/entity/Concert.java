@@ -47,8 +47,11 @@ public class Concert extends BaseEntity {
     private int seatPrice;
 
     private LocalDateTime createDate;
+<<<<<<< HEAD
 
     @Column(nullable = true)
+=======
+>>>>>>> 833d680 (feat: 삭제  시 확인 추가)
     private LocalDateTime modifyDate;
 
     public void setStatus(ConcertStatus status) {
