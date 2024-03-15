@@ -47,6 +47,9 @@ public class Concert extends BaseEntity {
     private ConcertStatus status;
     private int seatPrice;
 
+    private LocalDateTime createDate;
+    private LocalDateTime modifyDate;
+
     public void setStatus(ConcertStatus status) {
         this.status = status;
     }

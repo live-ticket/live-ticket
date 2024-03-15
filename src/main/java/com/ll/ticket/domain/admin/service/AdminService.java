@@ -72,6 +72,7 @@ public class AdminService {
                 .category(category)
                 .status(status)
                 .seatPrice(seatPrice)
+                .createDate(LocalDateTime.now())
                 .build();
 
         //concert.set
