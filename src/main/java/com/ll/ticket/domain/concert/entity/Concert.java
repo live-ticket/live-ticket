@@ -6,8 +6,8 @@ import com.ll.ticket.global.enums.ConcertStatus;
 import com.ll.ticket.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +48,8 @@ public class Concert extends BaseEntity {
     private int seatPrice;
 
     private LocalDateTime createDate;
+
+    @Column(nullable = true)
     private LocalDateTime modifyDate;
 
     public void setStatus(ConcertStatus status) {

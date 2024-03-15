@@ -42,7 +42,7 @@ public class AdminController {
 
         adminService.register(registerConcertDto);
 
-        return "redirect:/";
+        return "redirect:/admin/concertList";
     }
 
     //콘서트 목록
