@@ -48,10 +48,15 @@ public class Concert extends BaseEntity {
 
     private LocalDateTime createDate;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     @Column(nullable = true)
 =======
 >>>>>>> 833d680 (feat: 삭제  시 확인 추가)
+=======
+
+    @Column(nullable = true)
+>>>>>>> 6eeac95 (fix: modifyDate 옵션 수정)
     private LocalDateTime modifyDate;
 
     @OneToMany(mappedBy = "concert", fetch = FetchType.LAZY)

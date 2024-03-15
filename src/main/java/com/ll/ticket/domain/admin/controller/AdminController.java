@@ -57,10 +57,14 @@ public class AdminController {
         adminService.register(registerConcertDto);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         return "redirect:/admin/concertList";
 =======
         return "redirect:/";
 >>>>>>> 8b4294a (feat : 콘서트 등록 구현)
+=======
+        return "redirect:/admin/concertList";
+>>>>>>> 6eeac95 (fix: modifyDate 옵션 수정)
     }
 
     //콘서트 목록
