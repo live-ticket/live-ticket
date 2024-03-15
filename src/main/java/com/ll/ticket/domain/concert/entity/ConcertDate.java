@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -20,4 +21,6 @@ public class ConcertDate {
     private Concert concert;
 
     private LocalDate concertDate;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 }
