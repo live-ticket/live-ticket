@@ -10,6 +10,7 @@
     <h1 th:text="${concert.name}"></h1>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div th:text="${concert.concertNameKr}"></div>
     <div th:text="${concert.concertNameEng}"></div>
     <div th:text="${concertPerformer.artistNameKr}"></div>
@@ -47,7 +48,15 @@
     <!--<a href="javascript:void(0);" th:data-uri="@{|/admin/deleteConcert/${concert.id}|}"
        class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>-->
 >>>>>>> d175261 (feat: 콘ã콘서트 글 삭제)
+<<<<<<< HEAD
 >>>>>>> 7fdf705 (feat: 콘서트 글 삭제)
+=======
+=======
+    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
+    <!--<a href="javascript:void(0);" th:data-uri="@{|/admin/deleteConcert/${concert.id}|}"
+   class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>-->
+>>>>>>> 6eeac95 (fix: modifyDate 옵션 수정)
+>>>>>>> 9806493 (fix: modifyDate 옵션 수정)
 
 </div>
 <div layout:fragment="script">
@@ -83,9 +92,7 @@
 =======
 <script>
     function confirmDelete() {
-        // confirm 대화상자를 띄워 사용자에게 삭제 여부를 물어봅니다.
         var result = confirm("정말로 삭제하시겠습니까?");
-        // 사용자가 '확인'을 누르면 true, '취소'를 누르면 false를 반환합니다.
         return result;
     }
 </script>
