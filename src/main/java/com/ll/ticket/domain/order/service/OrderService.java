@@ -37,7 +37,7 @@ public class OrderService {
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
 
-        List<ConcertSeatHistory> seatHistoryList = concertSeatHistoryRepository.findAllByConcertDate(concertDate);
+        List<ConcertSeatHistory> seatHistoryList = concertSeatHistoryRepository.findAllAndLockByConcertDate(concertDate);
 
         for (ConcertSeatHistory seatHistory : seatHistoryList) {
             if (seatIds.contains(seatHistory.getSeat().getSeatId())) {
@@ -60,7 +60,7 @@ public class OrderService {
 
             ticketRepository.save(ticket);
 
-            Seat seat = seatRepository.findById(seatId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 좌석입니다."));
+            Seat seat = seatRepository.findAndLockBySeatId(seatId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 좌석입니다."));
 
             ConcertSeatHistory concertSeatHistory = ConcertSeatHistory.builder()
                     .concertDate(concertDate)
