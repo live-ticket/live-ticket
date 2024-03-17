@@ -43,16 +43,23 @@
 
                         <div class="concert-info2">
                         <span>공연 기간 </span>
-                            <span th:text="${#temporals.format(concertDTO.startTime, 'yyyy-MM-dd')}"></span>~
 
-                            <span th:text="${#temporals.format(concertDTO.endTime, 'yyyy-MM-dd')}"></span>
+
+                            <!--공연 시작 날짜-->
+                            <span th:text="${#temporals.format(concertDateDTO.getFirst().getStartTime(), 'yyyy-MM-dd')}"></span> ~
+
+                            <!--공연 종료 날짜-->
+                            <span th:text="${#temporals.format(concertDateDTO.getLast().getEndTime(), 'yyyy-MM-dd')}"></span>
+
+
                         </div>
 
                 </div>
 
                 <div class="concert-info" >
                     <div>
-                        <span>공연 시간 </span><span th:text="${viewingTime.toHours()}"></span>시간
+                        <span>관람 시간 </span><span th:text="${viewingTime.toMinutes()}"></span>분
+
                     </div>
 
                     <div>
@@ -62,39 +69,90 @@
 
         </div>
 
+            <!--<div role="tablist" class="tabs tabs-lifted tabs-lg ">
+                <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 1" />
+                <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 1</div>
+
+                <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 2" checked />
+                <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 2</div>
+
+                <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 3" />
+                <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+
+
+                </div>
+            </div>-->
+
 
         </div>
 
       <div class="artboard artboard-horizontal phone-6" >
+
           <div class="flex w-full">
               <div class="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">날짜 선택</div>
+
               <div class="divider divider-horizontal"></div>
+
               <div class="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">시간 선택</div>
           </div>
+
           <div class="divider"></div> <!--중간 라인-->
 
-          <div class="flex flex-col w-full lg:flex-row">
-              <div class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center">content</div>
-              <div class="divider lg:divider-horizontal">OR</div>
-              <div class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center">content</div>
+
+          <div class="flex w-full">
+              <div class="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">
+
+                  <select id="concertDateSelect">
+                      <option disabled selected>== 날짜 선택 ==</option>
+                      <option th:each="concertDate : ${concertDateDTO}" th:value="${concertDate.getConcertId()}" th:utext="${concertDate.getConcertDate()}"></option>
+                  </select>
+
+
+
+              </div>
+
+              <div class="divider divider-horizontal"></div>
+
+
+              <div class="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">
+
+<!--                  <select id="concertDateTime">-->
+<!--                      <option value="0">== 날짜 선택 ==</option>-->
+<!--                      <option th:each="concertDate : ${concertDateDTO}"  th:utext="${#temporals.format(concertDate.getStartTime() , ' HH:mm')}"></option>-->
+<!--                  </select>-->
+
+                  <span th:each="concertDate:${concertDateDTO}" th:value="${concertDate.getConcertDateId()}">
+
+                            <span th:text="${#temporals.format(concertDate.getStartTime(),'HH:mm')}"></span>
+                            </span>
+
+
+              </div>
+
+
+
           </div>
+
+
           <div class="divider"></div> <!--중간 라인-->
-          <button id="submitButton" class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">예매하기</button>
+
+          <div>
+              <form id="seatForm" th:action="|/concert/${concertDTO.concertId}/seat|" method="POST">
+                  <input type="hidden" name="concertDateId" value="0">
+                  <button id="submitButton" class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">예매하기</button>
+              </form>
+          </div>
+
+          <div id="selectedValueOutput"></div>
+
+
       </div>
-    <div class="artboard artboard-horizontal phone-5">
 
-    <div role="tablist" class="tabs tabs-bordered">
-        <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Tab 1" />
-        <div role="tabpanel" class="tab-content p-10">Tab content 1</div>
 
-        <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Tab 2" checked />
-        <div role="tabpanel" class="tab-content p-10">ddddddd</div>
 
-        <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Tab 3" />
-        <div role="tabpanel" class="tab-content p-10">Tab content 3</div>
-    </div>
-    </div>
+
 </div>
+
 </html>
 
 

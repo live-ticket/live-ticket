@@ -7,6 +7,7 @@ import com.ll.ticket.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -41,7 +42,6 @@ public class Concert extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ConcertStatus status;
     private int seatPrice;
-
     public void setStatus(ConcertStatus status) {
         this.status = status;
     }

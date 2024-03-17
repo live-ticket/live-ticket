@@ -3,7 +3,9 @@ package com.ll.ticket.domain.concert.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -20,4 +22,12 @@ public class ConcertDate {
     private Concert concert;
 
     private LocalDate concertDate;
+
+    private LocalDateTime startTime;
+
+    private LocalDateTime endTime;
+
+    public Duration calculateViewingTime() {
+        return Duration.between(startTime, endTime); //관람 시간 계산
+    }
 }
