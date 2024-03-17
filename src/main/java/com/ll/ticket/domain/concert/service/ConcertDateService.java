@@ -20,8 +20,8 @@ private final ConcertTimeRepository concertTimeRepository;
 
     public List<ConcertDateDTO> findConcertDateByConcert(Concert concert) {
         return concertTimeRepository.findByConcert(concert).stream()
-                .map(ConcertDateDTO::new) // ConcertDate를 ConcertDate DTO로 변환
                 .distinct()
+                .map(ConcertDateDTO::new) // ConcertDate를 ConcertDate DTO로 변환
                 .collect(Collectors.toList());
     }
 
