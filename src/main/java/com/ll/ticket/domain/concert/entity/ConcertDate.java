@@ -24,4 +24,3 @@ public class ConcertDate {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 }
-}

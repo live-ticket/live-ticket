@@ -6,12 +6,7 @@ import com.ll.ticket.global.enums.ConcertStatus;
 import com.ll.ticket.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
 
-<<<<<<< HEAD
-import java.time.Duration;
-=======
->>>>>>> f6d30a3cbdc8007f65189f25c1f9462a6463ba5e
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
