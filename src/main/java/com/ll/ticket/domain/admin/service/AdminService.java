@@ -81,7 +81,6 @@ public class AdminService {
 
         this.concertRepository.save(concert);
     }
-<<<<<<< HEAD
 
     public void modify(RegisterConcertDto registerConcertDto, Concert concert, Place place, ConcertPerformer concertPerformer, List<ConcertDate> concertDates){
         String name = registerConcertDto.getName();
@@ -136,6 +135,7 @@ public class AdminService {
 
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 =======
 }
@@ -143,3 +143,6 @@ public class AdminService {
 }
 >>>>>>> 8b4294a (feat : 콘서트 등록 구현)
 >>>>>>> 5cd886a (feat : 콘서트 등록 구현)
+=======
+}
+>>>>>>> fd2939e (feat: 관리자용 글 상세 페이지 카카오 지도 추가)

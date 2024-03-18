@@ -123,16 +123,15 @@
         </div>
 =======
     <h1 th:text="${concert.name}"></h1>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> fb33f1c (ãfix: ìãx: 엔티티 관련 서비스 객체 추가)
     <div th:text="${concert.concertNameKr}"></div>
     <div th:text="${concert.concertNameEng}"></div>
+<<<<<<< HEAD
     <div th:text="${concertPerformer.artistNameKr}"></div>
     <div th:text="${concertPerformer.artistNameEng}"></div>
+=======
+    <!--<div th:text="${concertPerformer.artistNameKr}"></div>
+    <div th:text="${concertPerformer.artistNameEng}"></div>-->
+>>>>>>> fd2939e (feat: 관리자용 글 상세 페이지 카카오 지도 추가)
     <div id="longtitude" th:text="${place.longitude}"></div>
     <div id="latitude" th:text="${place.latitude}"></div>
     <div th:text="${#temporals.format(concert.releaseTime, 'yyyy-MM-dd HH:mm')}"></div>
@@ -144,10 +143,14 @@
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fd2939e (feat: 관리자용 글 상세 페이지 카카오 지도 추가)
     <!--카카오 지도 api-->
     <div id="map" style="width:500px;height:400px;"></div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=801209c5d747fce299c6cb51a4cb0251"></script>
 
+<<<<<<< HEAD
     <div class="my-3">
         <a th:href="@{|/admin/modifyConcert/${concert.concertId}|}" class="modify btn btn-lg btn-outline-secondary" th:text="수정"></a>
         <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-lg btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
@@ -188,7 +191,13 @@
 =======
 >>>>>>> d3aaa15 (fix: 콘서트 게시글 confirm 수정)
 >>>>>>> febe355 (fix: 콘서트 게시글 confirm 수정)
+<<<<<<< HEAD
 >>>>>>> c7cf079 (fix: 콘서트 게시글 confirm 수정)
+=======
+=======
+    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
+>>>>>>> fd2939e (feat: 관리자용 글 상세 페이지 카카오 지도 추가)
+>>>>>>> 021c399 (feat: 관리자용 글 상세 페이지 카카오 지도 추가)
 
 </div>
 <div layout:fragment="script">
@@ -220,29 +229,4 @@
     </script>
 </div>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<script>
-    function confirmDelete() {
-        var result = confirm("정말로 삭제하시겠습니까?");
-        return result;
-    }
-</script>
-
-<!--<script type='text/javascript'>
-
-    const delete_elements = document.getElementsByClassName("delete");
-    Array.from(delete_elements).forEach(function(element) {
-        element.addEventListener('click', function() {
-            if(confirm("정말로 삭제하시겠습니까?")) {
-                location.href = this.dataset.uri;
-            };
-        });
-    });
-</script>-->
-
->>>>>>> 833d680 (feat: 삭제  시 확인 추가)
-=======
->>>>>>> d3aaa15 (fix: 콘서트 게시글 confirm 수정)
 </html>
