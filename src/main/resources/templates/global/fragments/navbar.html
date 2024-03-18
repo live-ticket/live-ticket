@@ -14,9 +14,10 @@
                 <div class="inputset inputset-lg">
                     <button class="inputset-icon icon-right icon-search btn" type="button" aria-label="아이콘"
                             onclick="search()"></button>
+                    <!-- https://live-ticket.com/concerts/keyword=서울극장 -->
                     <input id="searchInput" type="text" class="inputset-input form-control border border-gray-300 rounded-md"
                            style="height:35px;"
-                           th:value="${q != null} ? ${q} : ''"
+                           th:value="${keyword != null} ? ${keyword} : ''"
                            placeholder="검색어를 입력해주세요." aria-label="내용" onkeydown="handleEnterKey(event)">
                 </div>
                 <div class="header-right" style="justify-items: center; justify-content: center; align-items: center;">
@@ -78,7 +79,7 @@
         function search() {
             var searchInput = document.getElementById('searchInput').value;
             if (searchInput.trim() !== "") {
-                var searchUrl = '/concerts/search?q=' + encodeURIComponent(searchInput);
+                var searchUrl = '/concert/search?keyword=' + encodeURIComponent(searchInput);
                 window.location.href = searchUrl;
             }
         }
