@@ -21,7 +21,7 @@ public class ConcertDate {
     private Concert concert;
 
     private LocalDate concertDate;
-
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+}
 }

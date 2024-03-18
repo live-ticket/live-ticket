@@ -49,6 +49,10 @@ public class RegisterConcertDto {
 
     private ConcertStatus status;
 
+    @NotNull(message = "좌석수를 입력하세요")
+    @Min(0)
+    private int totalPeople;
+
     @NotNull(message = "좌석 가격을 입력하세요")
     @Min(0)
     private int seatPrice;

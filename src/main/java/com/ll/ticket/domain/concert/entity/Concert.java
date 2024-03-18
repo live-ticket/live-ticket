@@ -6,9 +6,15 @@ import com.ll.ticket.global.enums.ConcertStatus;
 import com.ll.ticket.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
+<<<<<<< HEAD
 import java.time.Duration;
+=======
+>>>>>>> f6d30a3cbdc8007f65189f25c1f9462a6463ba5e
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,16 +30,18 @@ public class Concert extends BaseEntity {
     private String name;
     private String concertNameKr;
     private String concertNameEng;
-    private String artistNameKr;
-    private String artistNameEng;
+
+    @OneToOne(cascade = CascadeType.REMOVE)
+    private ConcertPerformer concertPerformer;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
 
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<ConcertDate> concertDates = new ArrayList<>();
+
     private LocalDateTime releaseTime;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
     private int runningTime;
 
     @Enumerated(EnumType.STRING)
@@ -42,9 +50,13 @@ public class Concert extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ConcertStatus status;
     private int seatPrice;
+
+    private LocalDateTime createDate;
+
+    @Column(nullable = true)
+    private LocalDateTime modifyDate;
+
     public void setStatus(ConcertStatus status) {
         this.status = status;
     }
-
-
 }

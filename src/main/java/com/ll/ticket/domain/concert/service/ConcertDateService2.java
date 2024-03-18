@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.ll.ticket.domain.concert.service;
 
 import com.ll.ticket.domain.concert.datailPage.dto.ConcertDateDTO;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ConcertDateService {
+public class ConcertDateService2 {
 
 private  final ConcertDateRepository concertDateRepository;
 private final ConcertTimeRepository concertTimeRepository;
