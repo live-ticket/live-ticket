@@ -3,7 +3,13 @@ package com.ll.ticket.domain.admin.controller;
 import com.ll.ticket.domain.admin.dto.RegisterConcertDto;
 import com.ll.ticket.domain.admin.service.AdminService;
 import com.ll.ticket.domain.concert.entity.Concert;
+import com.ll.ticket.domain.concert.entity.ConcertDate;
+import com.ll.ticket.domain.concert.entity.ConcertPerformer;
+import com.ll.ticket.domain.concert.service.ConcertDateService;
+import com.ll.ticket.domain.concert.service.ConcertPerformerService;
 import com.ll.ticket.domain.concert.service.ConcertService;
+import com.ll.ticket.domain.place.entity.Place;
+import com.ll.ticket.domain.place.service.PlaceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +25,9 @@ public class AdminController {
 
     private final AdminService adminService;
     private final ConcertService concertService;
+    private final ConcertDateService concertDateService;
+    private final ConcertPerformerService concertPerformerService;
+    private final PlaceService placeService;
 
     //관리자 페이지 메인화면
     @GetMapping(value = "/main")
@@ -42,7 +51,7 @@ public class AdminController {
 
         adminService.register(registerConcertDto);
 
-        return "redirect:/";
+        return "redirect:/admin/concertList";
     }
 
     //콘서트 목록
@@ -58,7 +67,10 @@ public class AdminController {
     @GetMapping(value = "/concertDetail/{id}")
     public String concertDetail(Model model, @PathVariable("id") Long id){
         Concert concert = this.concertService.findById(id);
+        //ConcertDate concertDate = this.
+
         model.addAttribute("concert", concert);
+        //model.addAttribute("")
 
         return "domain/admin/concert_detail";
     }
@@ -67,9 +79,10 @@ public class AdminController {
     //TO DO
 
     //콘서트 글 삭제
-    @GetMapping(value = "/concertDelete/{id}")
-    public String concertDelete(@PathVariable("id") Long id){
+    @GetMapping(value = "/deleteConcert/{id}")
+    public String deleteConcert(@PathVariable("id") Long id){
         Concert concert = this.concertService.findById(id);
+
         this.concertService.delete(concert);
 
         return "redirect:/admin/concertList";
