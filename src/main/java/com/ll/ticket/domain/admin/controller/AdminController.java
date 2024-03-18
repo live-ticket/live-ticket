@@ -8,19 +8,10 @@ import com.ll.ticket.domain.concert.entity.ConcertPerformer;
 import com.ll.ticket.domain.concert.service.ConcertDateService;
 import com.ll.ticket.domain.concert.service.ConcertPerformerService;
 import com.ll.ticket.domain.concert.service.ConcertService;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import com.ll.ticket.domain.place.entity.Place;
 import com.ll.ticket.domain.place.service.PlaceService;
-=======
->>>>>>> 8b4294a (feat : 콘서트 등록 구현)
-=======
-import com.ll.ticket.domain.place.entity.Place;
-import com.ll.ticket.domain.place.service.PlaceService;
->>>>>>> fb33f1c (ãfix: ìãx: 엔티티 관련 서비스 객체 추가)
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,15 +53,7 @@ public class AdminController {
 
         adminService.register(registerConcertDto);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         return "redirect:/admin/concertList";
-=======
-        return "redirect:/";
->>>>>>> 8b4294a (feat : 콘서트 등록 구현)
-=======
-        return "redirect:/admin/concertList";
->>>>>>> 6eeac95 (fix: modifyDate 옵션 수정)
     }
 
     //콘서트 목록
@@ -86,7 +69,6 @@ public class AdminController {
     @GetMapping(value = "/concertDetail/{id}")
     public String concertDetail(Model model, @PathVariable("id") Long id){
         Concert concert = this.concertService.findById(id);
-<<<<<<< HEAD
         Place place = this.adminService.findPlace(concert);
         ConcertPerformer concertPerformer = this.adminService.findConcertPerformer(concert);
         List<ConcertDate> concertDates = this.adminService.findConcertDates(concert);
@@ -95,12 +77,6 @@ public class AdminController {
         model.addAttribute("place", place);
         model.addAttribute("concertPerformer", concertPerformer);
         model.addAttribute("concertDates", concertDates);
-=======
-        //ConcertDate concertDate = this.
-
-        model.addAttribute("concert", concert);
-        //model.addAttribute("")
->>>>>>> fb33f1c (ãfix: ìãx: 엔티티 관련 서비스 객체 추가)
 
         return "domain/admin/concert_detail";
     }
@@ -112,7 +88,6 @@ public class AdminController {
     @GetMapping(value = "/deleteConcert/{id}")
     public String deleteConcert(@PathVariable("id") Long id){
         Concert concert = this.concertService.findById(id);
-
         this.concertService.delete(concert);
 
         return "redirect:/admin/concertList";
