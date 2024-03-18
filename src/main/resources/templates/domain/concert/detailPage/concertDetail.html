@@ -80,8 +80,8 @@
         <div class="flex w-full">
             <div class="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">
 
-                <select id="concertDateSelect">
-                    <option value="0">== 날짜 선택 ==</option>
+                <select class="select select-bordered select-lg w-full max-w-xs" id="concertDateSelect">
+                    <option value="0">예매 일자를 선택해주세요</option>
                     <option th:each="concertDate : ${concertDateDTO}" th:value="${concertDate.concertDateId}" th:utext="${concertDate.getStartTime()}"></option>
                 </select>
 
@@ -106,7 +106,19 @@
             <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6"></div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="리뷰" checked />
-            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 2</div>
+            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+
+                <!--답변 입력창 시작-->
+                <div class="mt-20" >
+                    <form th:action="@{|/review/${concertDTO.getConcertId()}|}" method="post" onsubmit="submitWriteForm(this); return false;">
+
+                        <textarea class ="textarea textarea-bordered w-full" id="content" name="content"  rows="4" cols="50" placeholder="리뷰를 입력하세요..."></textarea><br>
+
+                        <button class="btn btn-neutral">댓글 작성</button>
+                    </form>
+                </div>
+
+            </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 3" />
             <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 3</div>
@@ -147,6 +159,6 @@
             return true;
         }
     </script>
-
+</div>
 </html>
 
