@@ -8,6 +8,20 @@
     </th:block>
 
     <h1 th:text="${concert.name}"></h1>
+    <div th:text="${concert.concertNameKr}"></div>
+    <div th:text="${concert.concertNameEng}"></div>
+    <!--<div th:text="${concertPerformer.artistNameKr}"></div>
+    <div th:text="${concertPerformer.artistNameEng}"></div>
+    <div th:text="${place.longitude}"></div>
+    <div th:text="${place.latitude}"></div>
+    <div th:text="${concert.releaseTime}"></div>
+    <div th:text="${concertDate.startTime}"></div>
+    <div th:text="${concertDate.endTime}"></div>-->
+    <div th:text="${concert.category}"></div>
+    <div th:text="${concert.status}"></div>
+    <!--<div th:text="${place.totalPeople}"></div>-->
+    <div th:text="${concert.seatPrice}"></div>
+
     <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
 
 </div>
