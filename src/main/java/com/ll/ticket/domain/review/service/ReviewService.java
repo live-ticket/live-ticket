@@ -13,6 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
@@ -37,5 +40,9 @@ public class ReviewService {
 
     }
 
-
+    public List<ReviewResponse> getReviewsByConcertId(Long concertId) {
+        return reviewRepository.findByConcertConcertId(concertId).stream()
+                .map(ReviewResponse::new)
+                .collect(Collectors.toList());
+    }
 }

@@ -9,7 +9,6 @@ import java.util.List;
 
 @Repository
 public interface ConcertTimeRepository extends JpaRepository<ConcertDate , Long> {
-
     List<ConcertDate> findByConcert(Concert concert);
 
 }
