@@ -54,4 +54,6 @@ public class Concert extends BaseEntity {
     public void setStatus(ConcertStatus status) {
         this.status = status;
     }
+
+
 }

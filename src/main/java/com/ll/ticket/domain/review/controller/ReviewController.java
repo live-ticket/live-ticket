@@ -3,6 +3,7 @@ package com.ll.ticket.domain.review.controller;
 import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.service.ConcertService;
 import com.ll.ticket.domain.review.dto.ReviewRequest;
+import com.ll.ticket.domain.review.dto.ReviewResponse;
 import com.ll.ticket.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,15 @@ public class ReviewController {
 
         return "redirect:/concert/detail/%s".formatted(responseId);
     }
+
+    @PutMapping("/update/{id}")
+    @ResponseBody
+    public ReviewResponse reviewUpdate(@PathVariable Long id , @RequestBody  ReviewRequest reviewRequest) {
+
+        return reviewService.reviewUpdate(reviewRequest , id);
+
+    }
+
 
 
 }

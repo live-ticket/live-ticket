@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,5 +45,23 @@ public class ReviewService {
         return reviewRepository.findByConcertConcertId(concertId).stream()
                 .map(ReviewResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    public Review findById (Long id) {
+
+        return reviewRepository.findById(id).orElseThrow(()
+
+                -> new RuntimeException("리뷰를 찾을 수 없습니다. "));
+    }
+    @Transactional
+    public ReviewResponse reviewUpdate(ReviewRequest reviewRequest , Long id) {
+
+        Review review = findById(id);
+
+        review.updateReviewContent(reviewRequest.getContent());
+
+        Review saveReview = reviewRepository.save(review);
+
+       return new ReviewResponse(saveReview);
     }
 }
