@@ -10,12 +10,14 @@ import com.ll.ticket.domain.order.entity.Order;
 import com.ll.ticket.domain.order.service.OrderService;
 import com.ll.ticket.domain.recaptcha.service.RecaptchaService;
 import com.ll.ticket.global.app.AppConfig;
+import com.ll.ticket.global.security.config.SecurityUser;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +30,6 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.security.Principal;
 import java.util.Base64;
 
 @Controller
@@ -41,7 +42,7 @@ public class OrderController {
     private final RecaptchaService recaptchaService;
 
     @GetMapping("/{id}")
-    public String showOrder(@PathVariable("id") long id, Principal principal, Model model) {
+    public String showOrder(@PathVariable("id") long id, @AuthenticationPrincipal SecurityUser securityUser, Model model) {
         try {
             Order order = orderService.findById(id).orElse(null);
 
@@ -49,11 +50,7 @@ public class OrderController {
                 throw new IllegalArgumentException("존재하지 않는 주문입니다.");
             }
 
-            if (principal == null) {
-                throw new IllegalArgumentException("로그인이 필요합니다.");
-            }
-
-            Member member = memberService.getMember(principal.getName());
+            Member member = securityUser.getMember();
 
             if (!orderService.checkOrderAccess(member, order)) {
                 throw new IllegalArgumentException("권한이 없습니다.");
@@ -72,19 +69,16 @@ public class OrderController {
     public String order(@PathVariable("concertId") Long concertId,
                         @RequestParam("concertDateId") String concertDateId,
                         @RequestParam("selectedSeatsData") String selectedSeatsData,
-                        Principal principal,
+                        @AuthenticationPrincipal SecurityUser securityUser,
                         RedirectAttributes redirectAttributes) {
         try {
-            if (principal == null) {
-                throw new IllegalArgumentException("로그인이 필요합니다.");
-            }
 
             if (selectedSeatsData.length() == 0) {
                 throw new IllegalArgumentException("좌석을 선택해주세요.");
             }
 
             Concert concert = concertService.findById(concertId);
-            Member member = memberService.getMember(principal.getName());
+            Member member = securityUser.getMember();
             ConcertDate concertDate = concertService.findConcertDateById(concertDateId).orElse(null);
 
             if (concertDate == null) {
@@ -103,7 +97,7 @@ public class OrderController {
 
     @ResponseBody
     @PostMapping("/{id}/pay")
-    public void saveOrderUserInfo(@PathVariable("id") long id, @RequestBody OrderPayInfoDto orderPayInfoDto, Principal principal) {
+    public void saveOrderUserInfo(@PathVariable("id") long id, @RequestBody OrderPayInfoDto orderPayInfoDto, @AuthenticationPrincipal SecurityUser securityUser) {
         if (!recaptchaService.verifyRecaptcha(orderPayInfoDto.getRecaptcha())) {
             throw new IllegalArgumentException("reCAPTCHA를 확인해주세요.");
         }
@@ -114,11 +108,7 @@ public class OrderController {
             throw new IllegalArgumentException("존재하지 않는 주문입니다.");
         }
 
-        if (principal == null) {
-            throw new IllegalArgumentException("로그인이 필요합니다.");
-        }
-
-        Member member = memberService.getMember(principal.getName());
+        Member member = securityUser.getMember();
 
         if (!orderService.checkOrderAccess(member, order)) {
             throw new IllegalArgumentException("권한이 없습니다.");
