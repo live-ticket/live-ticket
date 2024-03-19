@@ -72,6 +72,13 @@ dependencies {
     //Open Feign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0'
 
+
+    //rabbitmq
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-reactor-netty'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
 }
 
 
