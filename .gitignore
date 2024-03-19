@@ -41,3 +41,5 @@ medium_dev.mv.db
 application-secret.yml
 src/main/generated
 src/main/resources/static/files
+dockerProjects
+docker-compose.yml

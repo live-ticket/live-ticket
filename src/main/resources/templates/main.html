@@ -224,11 +224,19 @@
                 }
             }
 
+            if (body === '') {
+                alert('내용을 입력해주세요.');
+                return;
+            }
+
             stompClient.send(
                 `/app/chat/messages/create`,
                 {},
                 JSON.stringify({writerName, body, memberId})
             );
+
+            // 메시지 전송 후 입력란 비우기
+            form.body.value = '';
         }
 
         // 현재 날짜를 가져오는 함수
