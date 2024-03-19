@@ -6,6 +6,7 @@ import com.ll.ticket.domain.review.dto.ReviewRequest;
 import com.ll.ticket.domain.review.dto.ReviewResponse;
 import com.ll.ticket.domain.review.entity.Review;
 import com.ll.ticket.domain.review.service.ReviewService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -23,7 +24,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/{id}")
-    public String reviewWrite(@PathVariable Long id , ReviewRequest reviewWriteRequest) {
+    public String reviewWrite(@PathVariable Long id ,@Valid ReviewRequest reviewWriteRequest) {
 
         Concert concert =  concertService.findById(id);
 
@@ -34,7 +35,7 @@ public class ReviewController {
 
     @PatchMapping("/update/{id}")
     @ResponseBody
-    public ReviewResponse reviewUpdate(@PathVariable Long id , @RequestBody  ReviewRequest reviewRequest , Authentication authentication) {
+    public ReviewResponse reviewUpdate(@PathVariable Long id , @RequestBody  @Valid ReviewRequest reviewRequest , Authentication authentication) {
 
         return reviewService.reviewUpdate(reviewRequest , id , authentication);
 

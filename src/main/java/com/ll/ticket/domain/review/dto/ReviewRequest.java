@@ -17,7 +17,7 @@ public class ReviewRequest {
 
     private Member member;
 
-    @NotBlank
+    @NotBlank(message = "내용을 입력 해주세요.")
     private String content;
 
     private Concert concert;

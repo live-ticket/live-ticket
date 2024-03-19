@@ -42,7 +42,7 @@ public class DetailPageController {
 
         Duration viewingTime = concertDateCalService.calculateTotalViewingTime(concertDateDTO);
 
-        List<ReviewResponse> reviews = reviewService.getReviewsByConcertId(concert.getConcertId()); //상세페이지 댓글 목록
+        List<ReviewResponse> reviews = reviewService.getReviewsByConcertId(concert.getConcertId()); //상세페이지 리뷰 목록
 
         model.addAttribute("reviews" , reviews); //리뷰
         model.addAttribute("concertDateDTO" , concertDateDTO);

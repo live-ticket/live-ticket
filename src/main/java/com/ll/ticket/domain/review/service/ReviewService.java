@@ -43,7 +43,7 @@ public class ReviewService {
         return new ReviewResponse(review).getConcertId();
 
     }
-
+    //리뷰 목록
     public List<ReviewResponse> getReviewsByConcertId(Long concertId) {
         return reviewRepository.findByConcertConcertId(concertId).stream()
                 .map(ReviewResponse::new)
