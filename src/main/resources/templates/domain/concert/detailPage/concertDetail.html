@@ -1,4 +1,5 @@
-<html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+     >
 
 <div layout:fragment="content" class="mx-auto ">
 
@@ -127,7 +128,6 @@
                             <span>작성일: <span th:text="${#temporals.format(review.getCreatedDate(), 'yyyy-MM-dd HH:mm')}"></span></span>
                             <span>&nbsp;&nbsp;&nbsp;</span>
 
-<!--                            <a class="btn btn-sm edit-answer-btn" th:href="@{|/answer/update/${answer.getCustomerAId()}|}" sec:authorize="hasAuthority('ADMIN')"><i class="fa-solid fa-pen" ></i>수정</a>-->
 
                             <!-- 수정 버튼 시작 -->
                             <label for="edit-review-modal" class="btn btn-sm edit-review-btn"
@@ -178,10 +178,37 @@
 
 </div>
 
-<div layout:fragment="script">
 
+<div layout:fragment="script">
     <script th:inline="javascript">
+        window.onload = function() {
+            var errorMessage = /*[[${errorMessage}]]*/ null;
+            if (errorMessage) {
+                alert(errorMessage);
+            }
+        };
+
+        document.getElementById('submitButton').addEventListener('click', function(event) {
+            if (!submitConcertDate(document.getElementById('seatForm'))) {
+                event.preventDefault();
+            }
+        });
+
+        function submitConcertDate(form) {
+            var concertDateSelectElement = document.getElementById('concertDateSelect');
+            var concertDateId = concertDateSelectElement.options[concertDateSelectElement.selectedIndex].value;
+
+            if (concertDateId.length == 0 || concertDateId == 0) {
+                alert('날짜를 선택해주세요.');
+                return false;
+            }
+
+            form.concertDateId.value = concertDateId;
+            return true;
+        }
+
         /**
+         * 여기서 부터 리뷰 수정
          * 모달박스에 리뷰내용을 가지고온다.
          */
         function openEditModal(btn) {
@@ -235,39 +262,10 @@
         }
 
     </script>
-</div>
-
-
-<!--<div layout:fragment="script">-->
-<!--    <script th:inline="javascript">-->
-<!--        window.onload = function() {-->
-<!--            var errorMessage = /*[[${errorMessage}]]*/ null;-->
-<!--            if (errorMessage) {-->
-<!--                alert(errorMessage);-->
-<!--            }-->
-<!--        };-->
-
-<!--        document.getElementById('submitButton').addEventListener('click', function(event) {-->
-<!--            if (!submitConcertDate(document.getElementById('seatForm'))) {-->
-<!--                event.preventDefault();-->
-<!--            }-->
-<!--        });-->
-
-<!--        function submitConcertDate(form) {-->
-<!--            var concertDateSelectElement = document.getElementById('concertDateSelect');-->
-<!--            var concertDateId = concertDateSelectElement.options[concertDateSelectElement.selectedIndex].value;-->
-
-<!--            if (concertDateId.length == 0 || concertDateId == 0) {-->
-<!--                alert('날짜를 선택해주세요.');-->
-<!--                return false;-->
-<!--            }-->
-
-<!--            form.concertDateId.value = concertDateId;-->
-<!--            return true;-->
-<!--        }-->
-<!--    </script>-->
 
 </div>
+
+
 
 
 </html>
