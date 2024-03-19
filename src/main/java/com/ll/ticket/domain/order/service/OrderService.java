@@ -113,7 +113,7 @@ public class OrderService {
     }
 
     public boolean checkOrderAccess(Member member, Order order) {
-        return order.getMember().equals(member);
+        return order.getMember().getUserId().equals(member.getUserId());
     }
 
     @Transactional
