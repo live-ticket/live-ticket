@@ -82,7 +82,9 @@
 
                 <select class="select select-bordered select-lg w-full max-w-xs" id="concertDateSelect">
                     <option value="0">예매 일자를 선택해주세요</option>
-                    <option th:each="concertDate : ${concertDateDTO}" th:value="${concertDate.concertDateId}" th:utext="${concertDate.getStartTime()}"></option>
+                    <option th:each="concertDate : ${concertDateDTO}"
+                            th:value="${concertDate.concertDateId}"
+                            th:utext="${#temporals.format(concertDate.getStartTime(), 'yyyy-MM-dd HH:mm')}"></option>
                 </select>
 
             </div>

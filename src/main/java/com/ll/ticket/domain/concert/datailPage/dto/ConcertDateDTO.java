@@ -3,6 +3,7 @@ package com.ll.ticket.domain.concert.datailPage.dto;
 import com.ll.ticket.domain.concert.entity.ConcertDate;
 import lombok.Getter;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -29,5 +30,8 @@ public class ConcertDateDTO {
         this.endTime = concertDate.getEndTime();
     }
 
-
+    public String getFormattedStartTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yy년 MM월 dd일 HH시 mm분");
+        return sdf.format(this.startTime);
+    }
 }

@@ -45,7 +45,7 @@ public class ReviewService {
     }
     //리뷰 목록
     public List<ReviewResponse> getReviewsByConcertId(Long concertId) {
-        return reviewRepository.findByConcertConcertId(concertId).stream()
+        return reviewRepository.findByConcertConcertIdOrderByDateDesc(concertId).stream()//최신 날짜 순
                 .map(ReviewResponse::new)
                 .collect(Collectors.toList());
     }
