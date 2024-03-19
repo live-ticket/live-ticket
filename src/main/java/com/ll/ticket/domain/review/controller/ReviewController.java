@@ -35,6 +35,14 @@ public class ReviewController {
 
     }
 
+    @GetMapping("/delete/{id}")
+    public String reviewDelete(@PathVariable("id") Long id) {
+        ReviewResponse reviewResponse = reviewService.findReviewResponse(id);
+
+        reviewService.deleteById(reviewResponse.getReviewId());
+
+        return "redirect:/concert/detail/%s".formatted(reviewResponse.getConcertId());
+    }
 
 
 }

@@ -130,21 +130,21 @@
 <!--                            <a class="btn btn-sm edit-answer-btn" th:href="@{|/answer/update/${answer.getCustomerAId()}|}" sec:authorize="hasAuthority('ADMIN')"><i class="fa-solid fa-pen" ></i>수정</a>-->
 
                             <!-- 수정 버튼 시작 -->
-                            <label for="edit-review-modal" class="btn edit-review-btn"
+                            <label for="edit-review-modal" class="btn btn-sm edit-review-btn"
                                    onclick="openEditModal(this)"
                                    th:attr="data-review-id=${review.getReviewId()},
                                             data-review-content=${review.getContent()},
-                                            data-concert-id=${review.getConcertId()}">수정</label>
+                                            data-concert-id=${review.getConcertId()}">수정<i class="fa-solid fa-pen" ></i></label>
 
 
                             <input type="checkbox" id="edit-review-modal" class="modal-toggle"/>
                             <div class="modal" role="dialog">
                                 <div class="modal-box" >
                                     <form>
-                                        <input type="hidden" name="method" value="PATCH">
+<!--                                        <input type="hidden" name="method" value="PATCH">-->
 
                                         <textarea class ="textarea textarea-bordered w-full" id="edit-review"  rows="4" cols="50" placeholder="리뷰를 입력하세요..." ></textarea><br>
-                                        <input type="hidden" id="edit-review-id" th:value="${review.getReviewId()}">
+                                        <input type="hidden" id="edit-review-id" th:value="${review.reviewId}">
                                         <input type="hidden" id="edit-review-concert-id" th:value="${review.getConcertId()}">
                                         <div class="modal-action">
                                             <button class="btn btn-neutral" id="edit-Review-btn">리뷰 수정</button>
@@ -153,11 +153,9 @@
                                     </form>
                                 </div>
                             </div>
-
                             <!-- 수정 버튼 끝 -->
-
-                            <!--                            <a onclick="return confirm('정말로 삭제하시겠습니까?');" class="btn btn-sm" th:href="@{|/answer/delete/${answer.getCustomerAId()}|}" sec:authorize="hasAuthority('ADMIN')"><i class="fa-solid fa-trash"></i> 삭제 </a>-->
-
+                            <a onclick="return confirm('정말로 삭제하시겠습니까?');" th:href="@{|/review/delete/${review.getReviewId()}|}" class="btn btn-sm" >
+                                <i class="fa-solid fa-trash"></i> 삭제 </a>
                         </div>
 
                         <div class="mt-5" th:text="${review.getContent()}"></div>

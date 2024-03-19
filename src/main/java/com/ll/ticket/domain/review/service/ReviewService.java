@@ -53,6 +53,13 @@ public class ReviewService {
 
                 -> new RuntimeException("리뷰를 찾을 수 없습니다. "));
     }
+
+    public ReviewResponse findReviewResponse(Long id) {
+
+        Review review = findById(id);
+
+        return new ReviewResponse(review);
+    }
     @Transactional
     public ReviewResponse reviewUpdate(ReviewRequest reviewRequest , Long id) {
 
@@ -63,5 +70,11 @@ public class ReviewService {
         Review saveReview = reviewRepository.save(review);
 
        return new ReviewResponse(saveReview);
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+
+     reviewRepository.deleteById(id);
     }
 }
