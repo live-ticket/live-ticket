@@ -146,13 +146,11 @@
                                         <textarea class ="textarea textarea-bordered w-full" id="edit-review"  rows="4" cols="50" placeholder="리뷰를 입력하세요..." ></textarea><br>
                                         <input type="hidden" id="edit-review-id" th:value="${review.getReviewId()}">
                                         <input type="hidden" id="edit-review-concert-id" th:value="${review.getConcertId()}">
-                                        <button class="btn btn-neutral" id="edit-Review-btn">리뷰 작성</button>
-
+                                        <div class="modal-action">
+                                            <button class="btn btn-neutral" id="edit-Review-btn">리뷰 수정</button>
+                                            <label for="edit-review-modal" class="btn">Close!</label>
+                                        </div>
                                     </form>
-                                    <div class="modal-action">
-
-                                    </div>
-                                    <label for="edit-review-modal" class="btn">Close!</label>
                                 </div>
                             </div>
 
@@ -185,6 +183,9 @@
 <div layout:fragment="script">
 
     <script th:inline="javascript">
+        /**
+         * 모달박스에 리뷰내용을 가지고온다.
+         */
         function openEditModal(btn) {
             const modal = document.getElementById('edit-review-modal');
             const reviewId = btn.getAttribute('data-review-id');
@@ -199,7 +200,9 @@
         }
 
         {
-            // 수정 완료 버튼 선택
+            /**
+             * 수정 내용 + csrf 토큰 전송
+             */
             const reviewUpdateBtn = document.getElementById("edit-Review-btn");
 
             // 클릭 이벤트 처리
@@ -214,13 +217,13 @@
 
                 };
                 console.log(review);
-                // 수정 REST API 호출
+                // 수정  API 호출
                 const url = "/review/update/" + review.id
                 fetch(url, {
                     method: "PATCH", // PATCH 요청
                     headers: { // 전송 데이터 타입(JSON) 정보
                         "Content-Type": "application/json",
-                        [csrfTokenHeaderName]: csrfTokenValue //CSRF 토큰 전송
+                        [csrfTokenHeaderName]: csrfTokenValue
                     },
                     body: JSON.stringify(review) //comment 객체를 JSON 문자열로 변환 전송
                 }).then(response => {
@@ -245,7 +248,6 @@
 <!--                alert(errorMessage);-->
 <!--            }-->
 <!--        };-->
-
 
 <!--        document.getElementById('submitButton').addEventListener('click', function(event) {-->
 <!--            if (!submitConcertDate(document.getElementById('seatForm'))) {-->
