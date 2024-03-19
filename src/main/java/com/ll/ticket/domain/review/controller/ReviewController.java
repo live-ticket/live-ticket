@@ -27,7 +27,7 @@ public class ReviewController {
         return "redirect:/concert/detail/%s".formatted(responseId);
     }
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     @ResponseBody
     public ReviewResponse reviewUpdate(@PathVariable Long id , @RequestBody  ReviewRequest reviewRequest) {
 
