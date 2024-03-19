@@ -8,11 +8,14 @@ import com.ll.ticket.domain.review.dto.ReviewResponse;
 import com.ll.ticket.domain.review.entity.Review;
 import com.ll.ticket.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,10 +64,15 @@ public class ReviewService {
         return new ReviewResponse(review);
     }
     @Transactional
-    public ReviewResponse reviewUpdate(ReviewRequest reviewRequest , Long id) {
+    public ReviewResponse reviewUpdate(ReviewRequest reviewRequest , Long id , Authentication authentication) {
 
         Review review = findById(id);
 
+        if (!authentication.getName().equals(review.getMember().getEmail()) &&
+                !authentication.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "수정 할 수 있는 권한이 없습니다.");
+        }
+        //작성자 및 관리자는 수정 가능
         review.updateReviewContent(reviewRequest.getContent());
 
         Review saveReview = reviewRepository.save(review);
@@ -75,6 +83,6 @@ public class ReviewService {
     @Transactional
     public void deleteById(Long id) {
 
-     reviewRepository.deleteById(id);
+        reviewRepository.deleteById(id);
     }
 }

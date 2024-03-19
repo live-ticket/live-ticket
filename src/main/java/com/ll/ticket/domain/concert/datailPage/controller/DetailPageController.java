@@ -44,7 +44,7 @@ public class DetailPageController {
 
         List<ReviewResponse> reviews = reviewService.getReviewsByConcertId(concert.getConcertId()); //상세페이지 댓글 목록
 
-        model.addAttribute("reviews" , reviews);
+        model.addAttribute("reviews" , reviews); //리뷰
         model.addAttribute("concertDateDTO" , concertDateDTO);
         model.addAttribute("concertDTO" , concertDTO);
         model.addAttribute("viewingTime" , viewingTime);

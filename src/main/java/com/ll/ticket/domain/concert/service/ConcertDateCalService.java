@@ -26,6 +26,8 @@ public class ConcertDateCalService {
     /**
      *
      * 관람시간 계산
+     *
+     * concertDate : endtime - startime
      * */
     public Duration calculateTotalViewingTime(List<ConcertDateDTO> concertDates) {
         return concertDates.stream()
