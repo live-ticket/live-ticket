@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 public class ConcertPerformer {
 
     @Id
@@ -22,6 +22,6 @@ public class ConcertPerformer {
     @JoinColumn(name = "image_id")
     private Image image;
 
-    private String name;
-
+    private String artistNameKr;
+    private String artistNameEng;
 }

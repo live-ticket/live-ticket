@@ -32,27 +32,27 @@ public class OrderService {
     @Transactional
     public Order order(Concert concert, ConcertDate concertDate, Member member, String selectedSeatsData) {
         String selectedSeatsString = selectedSeatsData.substring(1, selectedSeatsData.length() - 1);
-        String[] seatNumbersArray = selectedSeatsString.split(",");
-        List<Long> seatNumbers = Arrays.stream(seatNumbersArray)
+        String[] seatIdsArray = selectedSeatsString.split(",");
+        List<Long> seatIds = Arrays.stream(seatIdsArray)
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
 
-        List<ConcertSeatHistory> seatHistoryList = concertSeatHistoryRepository.findAllByConcertDate(concertDate);
+        List<ConcertSeatHistory> seatHistoryList = concertSeatHistoryRepository.findAllAndLockByConcertDate(concertDate);
 
         for (ConcertSeatHistory seatHistory : seatHistoryList) {
-            if (seatNumbers.contains(seatHistory.getSeat().getSeatNumber())) {
+            if (seatIds.contains(seatHistory.getSeat().getSeatId())) {
                 throw new IllegalArgumentException("이미 예약된 좌석입니다.");
             }
         }
 
         Order order = Order.builder()
                 .member(member)
-                .orderPrice(concert.getSeatPrice() * seatNumbers.size())
+                .orderPrice(Long.valueOf(concert.getSeatPrice() * seatIds.size()))
                 .build();
 
         orderRepository.save(order);
 
-        for (Long seatNumber : seatNumbers) {
+        for (Long seatId : seatIds) {
             Ticket ticket = Ticket.builder()
                     .order(order)
                     .concert(concert)
@@ -60,12 +60,7 @@ public class OrderService {
 
             ticketRepository.save(ticket);
 
-            Seat seat = Seat.builder()
-                    .place(concert.getPlace())
-                    .seatNumber(seatNumber)
-                    .build();
-
-            seatRepository.save(seat);
+            Seat seat = seatRepository.findAndLockBySeatId(seatId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 좌석입니다."));
 
             ConcertSeatHistory concertSeatHistory = ConcertSeatHistory.builder()
                     .concertDate(concertDate)
@@ -118,16 +113,13 @@ public class OrderService {
     }
 
     public boolean checkOrderAccess(Member member, Order order) {
-        return order.getMember().equals(member);
+        return order.getMember().getUserId().equals(member.getUserId());
     }
 
     @Transactional
     public void saveOrderPayInfo(Order order, OrderPayInfoDto orderPayInfoDto) {
-        order.setName(orderPayInfoDto.getCustomerName());
-        order.setPhoneNumber(orderPayInfoDto.getCustomerMobilePhoneNumber());
-        order.setOrderPrice(order.getOrderPrice());
-        order.setAddress1(orderPayInfoDto.getAddress1());
-        order.setAddress2(orderPayInfoDto.getAddress2());
-        order.setZipcode(orderPayInfoDto.getZipcode());
+        order.savePayInfo(orderPayInfoDto);
+
+        orderRepository.save(order);
     }
 }

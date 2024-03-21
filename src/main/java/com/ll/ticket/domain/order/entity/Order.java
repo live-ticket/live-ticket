@@ -1,6 +1,7 @@
 package com.ll.ticket.domain.order.entity;
 
 import com.ll.ticket.domain.member.entity.Member;
+import com.ll.ticket.domain.order.dto.OrderPayInfoDto;
 import com.ll.ticket.domain.ticket.entity.Ticket;
 import com.ll.ticket.global.jpa.BaseEntity;
 import jakarta.persistence.*;
@@ -78,5 +79,13 @@ public class Order extends BaseEntity {
         if (name != null && phoneNumber != null && address1 != null && address2 != null && zipcode != null ) return true;
 
         return false;
+    }
+
+    public void savePayInfo(OrderPayInfoDto orderPayInfoDto) {
+        this.name = orderPayInfoDto.getCustomerName();
+        this.phoneNumber = orderPayInfoDto.getCustomerMobilePhoneNumber();
+        this.address1 = orderPayInfoDto.getAddress1();
+        this.address2 = orderPayInfoDto.getAddress2();
+        this.zipcode = orderPayInfoDto.getZipcode();
     }
 }

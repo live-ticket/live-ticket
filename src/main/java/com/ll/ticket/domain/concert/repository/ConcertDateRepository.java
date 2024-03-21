@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ConcertDateRepository extends JpaRepository<ConcertDate, Long>, ConcertDateRepositoryCustom {
     List<ConcertDate> findAllByConcert(Concert concert);
+
 }
+

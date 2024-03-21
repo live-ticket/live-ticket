@@ -1,18 +1,256 @@
 <html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <div layout:fragment="content">
-  <h1>Main Page</h1>
-  <h1>Main Page</h1>
-  <a href="/concert/1" style="color: blue;">박재정 콘서트 예매</a>
+    <th:block th:fragment="custom-css">
+        <style>
+            .custom-chat-btn svg:hover polygon {
+                fill: #999; /* 원하는 회색으로 변경하세요 */
+            }
+            .overflow-auto {
+                overflow-y: auto; /* 수직 스크롤바 표시 */
+                /* 필요한 경우 가로 스크롤바를 표시하려면 아래의 주석을 제거하세요. */
+                /* overflow-x: auto; */
+            }
+        </style>
+    </th:block>
+    <div class="container mx-auto" style="height: 500px; width: 400px">
+        <div class="py-6 h-full">
+            <div class="flex border border-grey rounded shadow-lg h-full" style="border: 1px solid red;">
+
+                <!-- Right -->
+                <div class="w-full border flex flex-col h-full" style="">
+                    <!-- Messages -->
+                    <div class="flex-1 overflow-auto h-full"
+                         style="background-color: #DAD3CC; border: 1px solid black;" id="test1">
+                        <div class="py-2 px-3" id="test"  style="overflow-y: auto;">
+                            <!-- 오늘 날짜 -->
+                            <div class="flex justify-center mb-2">
+                                <div class="rounded py-2 px-4" style="background-color: #DDECF2">
+                                    <p class="text-sm uppercase" id="currentDate">
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-center mb-4">
+                                <div class="rounded py-2 px-4" style="background-color: #FCF4CB">
+                                    <p class="text-base">
+                                        비방·비하·욕설 자제해주시길 바랍니다.
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <form class="bg-grey-lighter px-4 py-4 flex items-center"
+                          onsubmit="submitSendForm(this); return false;">
+                        <div class="flex-1 mx-4">
+                            <input class="w-full border rounded px-2 py-2" type="text" name="writerName"
+                                   th:value="${loginUser ? member.name : ''}" placeholder="작성자" readonly
+                                   style="display: none;">
+                            <input class="w-full border rounded px-2 py-2" type="text" name="memberId"
+                                   th:value="${loginUser ? member.userId : ''}" placeholder="아이디값" readonly
+                                   style="display: none;">
+                            <input class="w-full border rounded px-2 py-2" type="text" name="body" placeholder="내용">
+                        </div>
+                        <div>
+                            <button type="submit" class="custom-chat-btn">
+                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                     width="24px" height="24px" viewBox="0 0 535.5 535.5"
+                                     style="enable-background:new 0 0 535.5 535.5;" xml:space="preserve"
+                                >
+                                    <g>
+                                        <g id="send">
+                                            <polygon
+                                                    points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75"/>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <a href="/concert/1" style="color: blue;">박재정 콘서트 예매</a>
 </div>
 <div layout:fragment="script">
-  <script th:inline="javascript">
-    window.onload = function() {
-      var errorMessage = /*[[${errorMessage}]]*/ null;
-      if (errorMessage) {
-        alert(errorMessage);
-      }
-    };
-  </script>
+    <script th:inline="javascript">
+        window.onload = function () {
+            var errorMessage = /*[[${errorMessage}]]*/ null;
+            if (errorMessage) {
+                alert(errorMessage);
+            }
+        };
+
+        const socket = new SockJS('/ws');
+        const stompClient = Stomp.over(socket);
+
+
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+
+            stompClient.subscribe(`/topic/chatMessageCreated`, function (data) {
+
+                const memberId = /*[[${member != null ? member.userId : null}]]*/ null;
+
+                const jsonData = JSON.parse(data.body);
+
+                console.log('모델값')
+                console.log(memberId)
+                console.log('데이터아이디')
+                // console.log(data.memberId)
+                console.log(jsonData)
+                if (memberId === null || memberId !== jsonData.memberId){
+                    oppChatMessage(jsonData);
+                }
+                if (memberId === jsonData.memberId){
+                    ownChatMessage(jsonData);
+                }
+
+                // 새로운 채팅 메시지가 도착하면 스크롤을 아래로 이동
+                const chatMessages = document.getElementById('test1');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+        });
+
+        function ownChatMessage(message) {
+
+            const chatMessages = document.getElementById('test');
+            const chatMessage = document.createElement('div');
+            chatMessage.classList.add('flex', 'justify-end', 'mb-2');
+
+            const chatMessageId = document.createElement('div');
+            chatMessageId.classList.add('rounded', 'py-2', 'px-3');
+            chatMessageId.style.background = '#E2F7CB';
+            // chatMessageId.innerText = message.id;
+
+            const chatMessageWriterName = document.createElement('p');
+            chatMessageWriterName.classList.add('text-sm', 'text-teal');
+            chatMessageWriterName.innerText = message.writerName;
+
+            const chatMessageBody = document.createElement('p');
+            chatMessageBody.classList.add('text-sm', 'mt-1');
+            chatMessageBody.innerText = message.body;
+
+            const chatMessageTime = document.createElement('p');
+            chatMessageTime.classList.add('text-right','text-base','text-grey-dark','mt-1');
+            // 메시지의 전체 시간을 가져옵니다
+            const fullTime = message.time;
+
+            // 시간을 공백을 기준으로 나누어 시간과 분으로 분리합니다
+            const [date, time] = fullTime.split(' ');
+            const [hour, minute] = time.split(':');
+
+            // 시간과 분을 합쳐서 새로운 형식으로 표시합니다
+            const formattedTime = `${hour}:${minute}`;
+
+            chatMessageTime.innerText = formattedTime;
+
+            chatMessageId.appendChild(chatMessageWriterName);
+            chatMessageId.appendChild(chatMessageBody);
+
+            chatMessage.appendChild(chatMessageId);
+
+            // chatMessages 요소의 마지막 자식으로 메시지 추가
+            chatMessages.appendChild(chatMessage);
+            chatMessageId.appendChild(chatMessageTime);
+
+        }
+
+        function oppChatMessage(message) {
+
+            const chatMessages = document.getElementById('test');
+            const chatMessage = document.createElement('div');
+            chatMessage.classList.add('flex', 'mb-2');
+
+            const chatMessageId = document.createElement('div');
+            chatMessageId.classList.add('rounded', 'py-2', 'px-3');
+            chatMessageId.style.background = '#F2F2F2';
+            // chatMessageId.innerText = message.id;
+
+            const chatMessageWriterName = document.createElement('p');
+            chatMessageWriterName.classList.add('text-sm', 'text-teal');
+            chatMessageWriterName.innerText = message.writerName;
+
+            const chatMessageBody = document.createElement('p');
+            chatMessageBody.classList.add('text-sm', 'mt-1');
+            chatMessageBody.innerText = message.body;
+
+            const chatMessageTime = document.createElement('p');
+            chatMessageTime.classList.add('text-right','text-base','text-grey-dark','mt-1','mt-2');
+            // 메시지의 전체 시간을 가져옵니다
+            const fullTime = message.time;
+
+            // 시간을 공백을 기준으로 나누어 시간과 분으로 분리합니다
+            const [date, time] = fullTime.split(' ');
+            const [hour, minute] = time.split(':');
+
+            // 시간과 분을 합쳐서 새로운 형식으로 표시합니다
+            const formattedTime = `${hour}:${minute}`;
+
+            chatMessageTime.innerText = formattedTime;
+
+            chatMessageId.appendChild(chatMessageWriterName);
+            chatMessageId.appendChild(chatMessageBody);
+
+            chatMessage.appendChild(chatMessageId);
+
+            // chatMessages 요소의 마지막 자식으로 메시지 추가
+            chatMessages.appendChild(chatMessage);
+            chatMessageId.appendChild(chatMessageTime);
+
+        }
+
+        function submitSendForm(form) {
+            const memberName = /*[[${member != null ? member.name : null}]]*/ null;
+            const writerName = form.writerName.value.trim();
+            const body = form.body.value.trim();
+            const memberId = /*[[${member != null ? member.userId : null}]]*/ null;
+
+            console.log(memberName);
+
+            if (memberName === null || writerName === null) {
+                const confirmed = confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?");
+                if (confirmed) {
+                    window.location.href = "/members/login";
+                    return; // 로그인 페이지로 이동한 후 함수를 더 이상 실행하지 않음
+                } else {
+                    // 사용자가 취소를 선택한 경우 아무런 동작을 하지 않음
+                    return;
+                }
+            }
+
+            if (body === '') {
+                alert('내용을 입력해주세요.');
+                return;
+            }
+
+            stompClient.send(
+                `/app/chat/messages/create`,
+                {},
+                JSON.stringify({writerName, body, memberId})
+            );
+
+            // 메시지 전송 후 입력란 비우기
+            form.body.value = '';
+        }
+
+        // 현재 날짜를 가져오는 함수
+        function getCurrentDate() {
+            const now = new Date();
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const month = months[now.getMonth()];
+            const day = now.getDate();
+            const year = now.getFullYear();
+            return `${month} ${day}, ${year}`;
+        }
+
+        // HTML 요소에 현재 날짜를 채웁니다
+        document.getElementById('currentDate').innerText = getCurrentDate();
+    </script>
 </div>
 </html>

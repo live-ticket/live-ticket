@@ -1,6 +1,6 @@
 <html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
-<div layout:fragment="content">
+<div layout:fragment="content" class="mx-auto">
     <th:block th:fragment="custom-css">
         <style>
             .container {
@@ -10,9 +10,9 @@
                 border-radius: 10px;
                 box-shadow: 0 0 20px rgba(3, 3, 3, 0.1);
                 padding: 20px;
-                width: 80%;
+                /*width: 80%;*/
                 max-width: 900px;
-                height: 80%;
+                /*height: 80%;*/
                 box-sizing: border-box;
             }
 
@@ -272,6 +272,7 @@
                 </div>
             </form>
         </th:block>
+    </div>
 </div>
 
 <div layout:fragment="script">

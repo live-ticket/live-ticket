@@ -7,14 +7,15 @@ import com.ll.ticket.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 public class Concert extends BaseEntity {
 
     @Id
@@ -22,14 +23,20 @@ public class Concert extends BaseEntity {
     private Long concertId;
 
     private String name;
+    private String concertNameKr;
+    private String concertNameEng;
+
+    @OneToOne(cascade = CascadeType.REMOVE)
+    private ConcertPerformer concertPerformer;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
 
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<ConcertDate> concertDates = new ArrayList<>();
+
     private LocalDateTime releaseTime;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
     private int runningTime;
 
     @Enumerated(EnumType.STRING)
@@ -37,9 +44,16 @@ public class Concert extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private ConcertStatus status;
-    private Long seatPrice;
+    private int seatPrice;
+
+    private LocalDateTime createDate;
+
+    @Column(nullable = true)
+    private LocalDateTime modifyDate;
 
     public void setStatus(ConcertStatus status) {
         this.status = status;
     }
+
+
 }
