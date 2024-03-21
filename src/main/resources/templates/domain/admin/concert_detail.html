@@ -10,8 +10,8 @@
     <h1 th:text="${concert.name}"></h1>
     <div th:text="${concert.concertNameKr}"></div>
     <div th:text="${concert.concertNameEng}"></div>
-    <!--<div th:text="${concertPerformer.artistNameKr}"></div>
-    <div th:text="${concertPerformer.artistNameEng}"></div>-->
+    <div th:text="${concertPerformer.artistNameKr}"></div>
+    <div th:text="${concertPerformer.artistNameEng}"></div>
     <div id="longtitude" th:text="${place.longitude}"></div>
     <div id="latitude" th:text="${place.latitude}"></div>
     <div th:text="${#temporals.format(concert.releaseTime, 'yyyy-MM-dd HH:mm')}"></div>
