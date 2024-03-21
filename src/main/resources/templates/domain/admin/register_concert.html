@@ -8,29 +8,31 @@
     </th:block>
 
     <h5 class="my-3 border-bottom pb-2">공연 등록</h5>
-    <form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post">
+    <form th:object="${registerConcertDto}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <!--<form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post">-->
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">제목</label>
-            <input type="text" name="name" id="name" class="form-control">
+            <input type="text" th:field="*{registerConcertDto.name}" name="name" id="name" class="form-control">
         </div>
         <div class="mb-3">
             <label for="concertNameKr" class="form-label">콘서트명</label>
-            <input type="text" name="concertNameKr" id="concertNameKr" class="form-control">
+            <input type="text" th:field="*{registerConcertDto.concertNameKr}" name="concertNameKr" id="concertNameKr" class="form-control">
         </div>
         <div class="mb-3">
             <label for="concertNameEng" class="form-label">콘서트 영문명</label>
-            <input type="text" name="concertNameEng" id="concertNameEng" class="form-control">
+            <input type="text" th:field="*{registerConcertDto.concertNameEng}" name="concertNameEng" id="concertNameEng" class="form-control">
         </div>
         <div class="mb-3">
             <label for="artistNameKr" class="form-label">출연자명</label>
-            <input type="text" name="artistNameKr" id="artistNameKr" class="form-control">
+            <input type="text" th:field="*{registerConcertDto.artistNameKr}" name="artistNameKr" id="artistNameKr" class="form-control">
         </div>
         <div class="mb-3">
             <label for="artistNameEng" class="form-label">출연자 영문명</label>
-            <input type="text" name="artistNameEng" id="artistNameEng" class="form-control">
+            <input type="text" th:field="*{registerConcertDto.artistNameEng}" name="artistNameEng" id="artistNameEng" class="form-control">
         </div>
         <div class="mb-3">
             <label class="col-form-label col-2">장소</label>
@@ -38,11 +40,11 @@
         <div class="mb-3 row">
             <div class="col">
                 <label for="longitude" class="form-label">경도</label>
-                <input type="text" name="longitude" id="longitude" class="form-control">
+                <input type="text" th:field="*{registerConcertDto.longitude}" name="longitude" id="longitude" class="form-control">
             </div>
             <div class="col">
                 <label for="latitude" class="form-label">위도</label>
-                <input type="text" name="latitude" id="latitude" class="form-control">
+                <input type="text" th:field="*{registerConcertDto.latitude}" name="latitude" id="latitude" class="form-control">
             </div>
         </div>
         <div class="mb-3">
@@ -75,11 +77,11 @@
         </div>
         <div class="mb-3">
             <label for="totalPeople" class="form-label">좌석수</label>
-            <input type="text" name="totalPeople" id="totalPeople" class="form-control">
+            <input type="text" th:field="*{registerConcertDto.totalPeople}" name="totalPeople" id="totalPeople" class="form-control">
         </div>
         <div class="mb-3">
             <label for="seatPrice" class="form-label">좌석 가격</label>
-            <input type="text" name="seatPrice" id="seatPrice" class="form-control">
+            <input type="text" th:field="*{registerConcertDto.seatPrice}" name="seatPrice" id="seatPrice" class="form-control">
         </div>
         <input type="submit" value="등록하기" class="btn btn-dark my-2">
     </form>
