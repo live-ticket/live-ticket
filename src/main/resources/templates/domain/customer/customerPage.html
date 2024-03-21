@@ -15,7 +15,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="question : ${questionResponse}">
+            <tr th:each="question  : ${questionResponse}">
+
+<!--                <td th:text="${questionResponse.getTotalElements - (questionResponse.number * questionResponse.size) - question.index}"></td> &lt;!&ndash;게시물 번호 나열&ndash;&gt;-->
+
                 <td th:text="${question.getCustomerQId()}"></td>
                 <td>
                     <a th:href="@{|question/${question.getCustomerQId()}|}" th:text="${question.getQuestionTitle()}"></a>
@@ -25,6 +28,23 @@
             </tr>
             </tbody>
         </table>
+
+        <!--페이징 처리-->
+        <div th:if="${!questionResponse.isEmpty()}">
+            <div  class="join flex justify-center mt-5">
+                <a class="join-item btn " th:classappend="${!questionResponse.hasPrevious} ? 'btn-disabled'"
+                   th:href="@{|?page=${nowPage - 1}|}">« </a> <!-- 이전페이지 -->
+
+                <a th:each="page:${#numbers.sequence(startPage , endPage)}"
+                    th:classappend="${page == nowPage} ? 'btn-active'" class="join-item btn "
+                        th:text="${page}"  th:href="@{|?page=${page}|}"> </a> <!--현재 페이지-->
+
+                <a class="join-item btn " th:classappend="${!questionResponse.hasNext} ? 'btn-disabled'"
+                   th:href="@{|?page=${nowPage + 1}|}">» </a> <!-- 다음페이지 -->
+            </div>
+        </div>
     </div>
+
+
 </div>
 </html>
