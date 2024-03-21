@@ -112,17 +112,16 @@
         <div role="tablist" class="tabs tabs-lifted tabs-lg">
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="상세정보" />
             <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-
-
+                <!--출연진 정보 콜랩스 시작 -->
                 <details class="collapse bg-base-200">
                     <summary class="collapse-title text-xl font-medium">출연진 정보</summary>
                     <div class="collapse-content">
-
+                        <!--출연진 정보 테이블 시작-->
                         <div class="overflow-x-auto">
                             <table class="table">
                                 <!-- head -->
                                 <thead>
-                                <tr>
+                                <tr class="text-xl">
                                     <th th:each="performer : ${performers}">Name</th>
                                 </tr>
                                 </thead>
@@ -130,24 +129,29 @@
                                 <!-- row 1 -->
                                 <tr>   <!--출연진 정보 한 행으로 출력-->
                                     <td th:each="perfomer : ${performers}">
-                                    <p th:text="${perfomer.getArtistNameKr()}"></p>
+                                    <p class="text-xl" th:text="${perfomer.getArtistNameKr()}"></p>
                                     </td>
 
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
+                        <!--출연진 정보 테이블 끝-->
+                    </div>
+                </details>
+                <!--출연진 정보 콜랩스 끝  -->
+
+                <details class="collapse bg-base-200 mt-3">
+                    <summary class="collapse-title text-xl font-medium">공연 시간 </summary>
+                    <div class="collapse-content" th:each="concertDate : ${concertDateDTO}">
+                        <!-- 공연 시작 시간 -->
+                        <span th:text="${#temporals.format(concertDate.startTime, 'yyyy년 MM월 dd일 EEE요일 HH:mm')}"></span>
+                        ~
+                        <!-- 공연 종료 시간 -->
+                        <span th:text="${#temporals.format(concertDate.endTime, 'yyyy년 MM월 dd일 EEE요일 HH:mm')}"></span>
 
                     </div>
                 </details>
-
-                <!--공연 시작 날짜-->
-                <span th:text="${#temporals.format(concertDateDTO.getFirst().getStartTime(), 'yyyy-MM-dd HH:mm')}"></span>
-                ~
-                <!--공연 종료 날짜-->
-                <span th:text="${#temporals.format(concertDateDTO.getLast().getEndTime(), 'yyyy-MM-dd HH:mm')}"></span>
-
-
             </div>
 
             <!--리뷰 작성 탭 시작-->
