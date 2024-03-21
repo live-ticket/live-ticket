@@ -85,7 +85,7 @@ public class AdminController {
 
     //콘서트 글 수정
     @GetMapping("/modifyConcert/{id}")
-    public String modifyConcert(RegisterConcertDto registerConcertDto, @PathVariable("id") Long id){
+    public String modifyConcert(RegisterConcertDto registerConcertDto, @PathVariable("id") Long id, Model model){
         Concert concert = this.concertService.findById(id);
         Place place = this.concertService.findPlace(concert);
         ConcertPerformer concertPerformer = this.concertService.findConcertPerformer(concert);
@@ -106,6 +106,7 @@ public class AdminController {
         registerConcertDto.setTotalPeople(place.getTotalPeople());
         registerConcertDto.setSeatPrice(concert.getSeatPrice());
 
+        model.addAttribute("registerConcertDto", registerConcertDto);
         return "domain/admin/register_concert";
     }
 
