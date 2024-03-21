@@ -53,10 +53,14 @@ public class QuestionController {
      * 질문 상세 페이지
      */
     @GetMapping("/{id}")
-    public String questionDetail (@PathVariable Long id , Model model) {
+    public String questionDetail (@PathVariable  Long id , Model model) {
 
         QuestionResponse questionResponse = questionService.findQuestion(id);
 
+        String fileName = questionResponse.getFileName();
+        boolean fileExists = (fileName != null && !fileName.isEmpty()); // 파일이 존재하는지 여부 확인
+
+        model.addAttribute("fileExists", fileExists);
         model.addAttribute("questionResponse" , questionResponse);
 
         return "domain/customer/question/questionDetail";

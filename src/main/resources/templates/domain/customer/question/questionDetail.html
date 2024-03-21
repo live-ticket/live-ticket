@@ -47,10 +47,12 @@
 
             <div class="border-b py-2">
                 <div class="file-info">
-                    <span class="file-name" th:text="${questionResponse.getFileName()}">파일 이름</span>
+                    <span id="file" class="file-name" th:text="${questionResponse.getFileName()}">파일 이름</span>
                     <a class="file-link btn btn-outline" th:href="@{|/file/${questionResponse.getFileName()}|}"
                        style="color: blue; text-decoration: none;" th:if="${#authorization.expression('hasAuthority(''ADMIN'')') or questionResponse.getLoginId() != null
-                   and #authentication.getName() == questionResponse.getLoginId()}">파일 보기</a> <!--관리자 권한을 가지고 있거나 내가 작성한 글 인 경우만 볼수있음-->
+                   and #authentication.getName() == questionResponse.getLoginId()}"
+                       th:disabled="${questionResponse.getFileName() == ''}">파일 보기</a> <!--관리자 권한을 가지고 있거나 내가 작성한 글 인 경우만 볼수있음-->
+                        <!--파일 이름이 데이터베이스에 존재 하지 않을 경우 버튼 disable-->
                 </div>
             </div>
 
@@ -79,7 +81,7 @@
 
                         </div>
 
-                        <div class="mt-5" th:text="${answer.getAnswerContent()}"></div>
+                        <div class="mt-5" th:text="${answer.getAnswerContent()}" style="white-space: pre-line;"></div>
 
                         <hr>
 
@@ -110,13 +112,16 @@
                         }
 
                         form.submit();
+
                     }
                 </script>
 
             </div> <!--답변 입력창끝 -->
         </div>
 
+
     </div>
+
 </html>
 
 

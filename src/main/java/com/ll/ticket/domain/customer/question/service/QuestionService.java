@@ -12,14 +12,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +60,7 @@ public class QuestionService {
 
         writeRequest.setImagePath(filePath + fileName);
 
-            return questionRepository.save(writeRequest.toEntity()).getCustomerQId(); //질문 저장
+        return questionRepository.save(writeRequest.toEntity()).getCustomerQId(); //질문 저장
 
     }
 
@@ -120,21 +121,21 @@ public class QuestionService {
      *  관리자 로 로그인 하면 모든 문의글을 볼수 있고
      *  사용자로 로그인 하면 내가 작성한 문의 글만 볼수있다.
      */
-    public List<QuestionResponse> getQuestion(String email ) {
+    public Page<QuestionResponse> getQuestion(String email , int page) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); //로그인 사용자의 권한
+
+        Pageable pageable = PageRequest.of(page -1, 10); //페이징
 
         if (auth.getAuthorities().stream().anyMatch(a ->
                 a.getAuthority().equals("ADMIN"))) {
 
-            return questionRepository.findAll().stream()
-                    .map(question -> new QuestionResponse(question))
-                    .toList();
+            Page<Question> pagingAdmin = questionRepository.findAll(pageable);
+            return pagingAdmin.map(QuestionResponse::new);
         }
 
-        return questionRepository.findByMemberEmail(email).stream()
-                .map(question -> new QuestionResponse(question))
-                .toList();
+        Page<Question> pagingMember = questionRepository.findByMemberEmail(email, pageable);
+        return pagingMember.map(QuestionResponse::new);
     }
 
 }

@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -40,7 +39,7 @@ public class AdminController {
 
     //콘서트 등록
     @GetMapping(value = "/registerConcert")
-    public String registerConcert(RegisterConcertDto registerConcertDto) {
+    public String registerConcert(RegisterConcertDto registerConcertDto ) {
         return "domain/admin/register_concert";
     }
 
@@ -51,7 +50,6 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "domain/admin/register_concert";
         }
-
         adminService.register(registerConcertDto);
 
         return "redirect:/admin/concertList";
