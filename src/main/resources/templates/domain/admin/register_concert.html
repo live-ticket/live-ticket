@@ -10,6 +10,7 @@
     <h5 class="my-3 border-bottom pb-2">공연 등록</h5>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post">
 =======
     <form th:object="${registerConcertDto}" method="post">
@@ -17,13 +18,23 @@
         <!--<form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post">-->
 >>>>>>> d36eb5c (feat : 콘서트 등록 폼 작성)
 =======
+=======
+>>>>>>> bdef04e (feat: 콘서트 글 수정)
     <form th:object="${registerConcertDto}" method="post">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <!--<form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post">-->
 =======
     <form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post">
 >>>>>>> 5cd886a (feat : 콘서트 등록 구현)
+<<<<<<< HEAD
 >>>>>>> 7e6ed5b (feat : 콘서트 등록 구현)
+=======
+=======
+    <form th:object="${registerConcertDto}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <!--<form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post">-->
+>>>>>>> f85231d (ìfeat: 콘서트 글 ì수정)
+>>>>>>> bdef04e (feat: 콘서트 글 수정)
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
