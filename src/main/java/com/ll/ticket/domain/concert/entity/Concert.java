@@ -6,7 +6,6 @@ import com.ll.ticket.global.enums.ConcertStatus;
 import com.ll.ticket.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,4 +54,6 @@ public class Concert extends BaseEntity {
     public void setStatus(ConcertStatus status) {
         this.status = status;
     }
+
+
 }

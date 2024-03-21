@@ -9,7 +9,6 @@ public enum ConcertCategory {
     private String value;
 
     ConcertCategory(String value) {
-
     }
 
 }

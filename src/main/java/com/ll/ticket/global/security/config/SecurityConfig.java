@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/members/**")).anonymous()
                         .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAuthority(MemberRole.ADMIN.getValue())
                         .requestMatchers(new AntPathRequestMatcher("/help/**")).authenticated() //고객 센터
+                        .requestMatchers(new AntPathRequestMatcher("/review/**")).authenticated() //리뷰 작성
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
                 )
                 .headers((headers) -> headers
