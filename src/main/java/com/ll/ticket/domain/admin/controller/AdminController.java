@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -40,7 +39,7 @@ public class AdminController {
 
     //콘서트 등록
     @GetMapping(value = "/registerConcert")
-    public String registerConcert(RegisterConcertDto registerConcertDto ) {
+    public String registerConcert(RegisterConcertDto registerConcertDto) {
         return "domain/admin/register_concert";
     }
 
@@ -51,6 +50,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "domain/admin/register_concert";
         }
+
         adminService.register(registerConcertDto);
 
         return "redirect:/admin/concertList";
@@ -69,25 +69,9 @@ public class AdminController {
     @GetMapping(value = "/concertDetail/{id}")
     public String concertDetail(Model model, @PathVariable("id") Long id){
         Concert concert = this.concertService.findById(id);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         Place place = this.concertService.findPlace(concert);
         ConcertPerformer concertPerformer = this.concertService.findConcertPerformer(concert);
         List<ConcertDate> concertDates = this.concertService.findConcertDates(concert);
-=======
-<<<<<<< HEAD
-=======
->>>>>>> fd2939e (feat: 관리자용 글 상세 페이지 카카오 지도 추가)
-        Place place = this.adminService.findPlace(concert);
-        ConcertPerformer concertPerformer = this.adminService.findConcertPerformer(concert);
-        List<ConcertDate> concertDates = this.adminService.findConcertDates(concert);
->>>>>>> dffa87d (fix:  엔티티 관련 서비스 객체 추가)
-=======
-        Place place = this.concertService.findPlace(concert);
-        ConcertPerformer concertPerformer = this.concertService.findConcertPerformer(concert);
-        List<ConcertDate> concertDates = this.concertService.findConcertDates(concert);
->>>>>>> f85231d (ìfeat: 콘서트 글 ì수정)
 
         model.addAttribute("concert", concert);
         model.addAttribute("place", place);
@@ -100,15 +84,7 @@ public class AdminController {
 
     //콘서트 글 수정
     @GetMapping("/modifyConcert/{id}")
-<<<<<<< HEAD
-<<<<<<< HEAD
     public String modifyConcert(RegisterConcertDto registerConcertDto, @PathVariable("id") Long id, Model model){
-=======
-    public String modifyConcert(RegisterConcertDto registerConcertDto, @PathVariable("id") Long id){
->>>>>>> f85231d (ìfeat: 콘서트 글 ì수정)
-=======
-    public String modifyConcert(RegisterConcertDto registerConcertDto, @PathVariable("id") Long id, Model model){
->>>>>>> 069a7ed (fix: 콘ì글 ì글 상세 관련 수정)
         Concert concert = this.concertService.findById(id);
         Place place = this.concertService.findPlace(concert);
         ConcertPerformer concertPerformer = this.concertService.findConcertPerformer(concert);
@@ -129,14 +105,7 @@ public class AdminController {
         registerConcertDto.setTotalPeople(place.getTotalPeople());
         registerConcertDto.setSeatPrice(concert.getSeatPrice());
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         model.addAttribute("registerConcertDto", registerConcertDto);
-=======
->>>>>>> f85231d (ìfeat: 콘서트 글 ì수정)
-=======
-        model.addAttribute("registerConcertDto", registerConcertDto);
->>>>>>> 069a7ed (fix: 콘ì글 ì글 상세 관련 수정)
         return "domain/admin/register_concert";
     }
 
