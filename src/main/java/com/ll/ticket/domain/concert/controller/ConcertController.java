@@ -3,7 +3,9 @@ package com.ll.ticket.domain.concert.controller;
 import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.entity.ConcertDate;
 import com.ll.ticket.domain.concert.service.ConcertService;
+import com.ll.ticket.global.security.config.SecurityUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +19,7 @@ public class ConcertController {
     private final ConcertService concertService;
 
     @GetMapping("/concert/{id}")
-    public String getConcert(@PathVariable("id") Long id, Model model) {
+    public String getConcert(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal SecurityUser user) {
         try {
             Concert concert = concertService.findById(id);
             List<ConcertDate> concertDate = concertService.findConcertDateByConcert(concert);
@@ -28,6 +30,7 @@ public class ConcertController {
 
             model.addAttribute("concert", concert);
             model.addAttribute("concertDate", concertDate);
+            model.addAttribute("member", user);
 
             return "domain/concert/concert";
         } catch (IllegalArgumentException e) {
