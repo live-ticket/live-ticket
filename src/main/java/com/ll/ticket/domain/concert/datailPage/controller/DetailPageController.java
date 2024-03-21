@@ -37,6 +37,12 @@ public class DetailPageController {
 
         ConcertDTO concertDTO = new ConcertDTO(concert);
 
+//        LocalDateTime currentTime = LocalDateTime.now();
+//
+//        if (concertDTO.getReleaseTime().isAfter(currentTime)) {
+//            throw new IllegalStateException("티켓 오픈 시간이 아직 되지 않았습니다.");
+//        }
+
         List<ConcertDateDTO> concertDateDTO = concertDateCalService.findConcertDateByConcert(concert);
 
         if (concertDateDTO.isEmpty()) {

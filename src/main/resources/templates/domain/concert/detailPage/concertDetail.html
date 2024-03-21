@@ -234,7 +234,7 @@
                             <!--삭제 버튼 끝-->
                         </div>
 
-                        <div class="mt-5" th:text="${review.getContent()}" style="white-space: pre-line;"></div> <!--컨텐츠-->
+                        <div class="mt-5" th:text="${review.getContent()}" style="white-space: pre-line;"></div> <!--리뷰 개행 값 넣어줌 -->
 
                         <hr>
 
@@ -356,7 +356,9 @@
                 });
             });
 
-
+            /**
+             *  여기서부터 버튼 비활성화
+             */
             const  releaseTime = new Date(document.getElementById('releaseTime').textContent); // 티켓 오픈 시간
             const  submitButton = document.getElementById('submitButton');
 
