@@ -1,6 +1,14 @@
 <html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <div layout:fragment="content" class="mx-auto">
+    <th:block th:fragment="custom-css">
+        <style>
+            .queue {
+                display: none;
+            }
+        </style>
+    </th:block>
+
     <div>콘서트 이름</div>
     <div th:text="${concert.name}">
     </div>
@@ -19,6 +27,14 @@
             <button id="submitButton" class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">예매하기</button>
         </form>
     </div>
+
+    <div class="queue">
+        <h1>대기열</h1>
+        <div>
+            대기자 <span id="queueCount">0</span>명
+            잠시만 기다려주세요.
+        </div>
+    </div>
 </div>
 
 <div layout:fragment="script">
@@ -29,7 +45,6 @@
                 alert(errorMessage);
             }
         };
-
 
         document.getElementById('submitButton').addEventListener('click', function(event) {
             if (!submitConcertDate(document.getElementById('seatForm'))) {
@@ -47,7 +62,35 @@
             }
 
             form.concertDateId.value = concertDateId;
-            return true;
+
+            const socket = new SockJS('/ws2');
+            const stompClient = Stomp.over(socket);
+            const memberId = /*[[${member != null ? member.id : null}]]*/ null;
+
+            if (memberId === null) {
+                alert('로그인이 필요합니다.');
+                return false;
+            }
+
+            stompClient.connect({}, function() {
+                $('.queue').css('display', 'block');
+
+                stompClient.send('/app/queue/addQueue', {}, JSON.stringify({
+                    concertDateId: concertDateId,
+                    memberId: memberId
+                }));
+
+                stompClient.subscribe(`/queue/processQueue/${memberId}`, (message) => {
+                    // document.querySelector('.queue').style.display = 'none';
+                    stompClient.disconnect();
+                    alert(message.body);
+                    form.submit();
+                });
+
+                stompClient.subscribe(`/queue/listQueue/${memberId}`, (message)=> {
+                    document.getElementById('queueCount').innerText = message.body;
+                });
+            });
         }
     </script>
 </div>
