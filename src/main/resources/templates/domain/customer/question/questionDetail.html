@@ -47,10 +47,10 @@
 
             <div class="border-b py-2">
                 <div class="file-info">
-                    <span class="file-name" th:text="${questionResponse.getFileName()}">파일 이름</span>
+                    <span id="file" class="file-name" th:text="${questionResponse.getFileName()}">파일 이름</span>
                     <a class="file-link btn btn-outline" th:href="@{|/file/${questionResponse.getFileName()}|}"
                        style="color: blue; text-decoration: none;" th:if="${#authorization.expression('hasAuthority(''ADMIN'')') or questionResponse.getLoginId() != null
-                   and #authentication.getName() == questionResponse.getLoginId()}">파일 보기</a> <!--관리자 권한을 가지고 있거나 내가 작성한 글 인 경우만 볼수있음-->
+                   and #authentication.getName() == questionResponse.getLoginId()}" onclick="checkFile()">파일 보기</a> <!--관리자 권한을 가지고 있거나 내가 작성한 글 인 경우만 볼수있음-->
                 </div>
             </div>
 
@@ -111,6 +111,20 @@
 
                         form.submit();
                     }
+
+                    // /*<![CDATA[*/
+                    // function checkFile() {
+                    //     var fileNameWithPrefix = /*[[${questionResponse.getFileName()}]]*/ '';
+                    //     var fileNameParts = fileNameWithPrefix.split('_');
+                    //     var fileName = fileNameParts.length > 1 ? fileNameParts.slice(1).join('_') : ''; // 구분자 "_" 뒤에 있는 문자열을 추출
+                    //
+                    //     if (fileName.trim() === '') {
+                    //         alert('파일이 없습니다.');
+                    //     } else {
+                    //         // 파일이 있을 때 파일 보기 링크를 따라가거나 다른 작업을 수행할 수 있습니다.
+                    //     }
+                    // }
+                    // /*]]>*/
                 </script>
 
             </div> <!--답변 입력창끝 -->

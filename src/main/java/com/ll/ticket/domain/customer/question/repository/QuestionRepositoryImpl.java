@@ -30,7 +30,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom{
                 .where(qQuestion.member.email.eq(email))
                 .orderBy(qQuestion.createDate.desc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(pageable.getPageSize()) //페이지당 사이즈
                 .fetchResults();
 
         List<Question> questions = results.getResults();
