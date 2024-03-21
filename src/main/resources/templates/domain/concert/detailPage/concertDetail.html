@@ -130,7 +130,7 @@
                                 </thead>
                                 <tbody>
                                 <!-- row 1 -->
-                                <tr>   <!--출연진 정보 한 행으로 출력-->
+                                <tr>   <!--출연진 정보를 한 행으로 출력함-->
                                     <td th:each="perfomer : ${performers}">
                                     <p class="text-xl" th:text="${perfomer.getArtistNameKr()}"></p>
                                     </td>
@@ -240,9 +240,26 @@
 
                     </div>
                 </div>
+                <!--페이징 처리-->
+                <div th:if="${!reviews.isEmpty()}">
+                    <div  class="join flex justify-center mt-5">
+                        <a class="join-item btn " th:classappend="${!reviews.hasPrevious} ? 'btn-disabled'"
+                           th:href="@{|?page=${nowPage - 1}|}">« </a> <!-- 이전페이지 -->
+
+                        <a th:each="page:${#numbers.sequence(startPage , endPage)}"
+                           th:classappend="${page == nowPage} ? 'btn-active'" class="join-item btn "
+                           th:text="${page}"  th:href="@{|?page=${page}|}"> </a> <!--현재 페이지-->
+
+                        <a class="join-item btn " th:classappend="${!reviews.hasNext} ? 'btn-disabled'"
+                           th:href="@{|?page=${nowPage + 1}|}">» </a> <!-- 다음페이지 -->
+                    </div>
+                </div>
+                <!--페이징 처리 끝-->
 
             </div>
             <!--리뷰작성 탭 끝 -->
+
+
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 3" />
             <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 3</div>
