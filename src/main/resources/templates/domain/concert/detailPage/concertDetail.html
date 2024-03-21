@@ -185,10 +185,10 @@
                         <button class="btn btn-neutral">리뷰 작성</button>
                     </form>
                 </div>
-                <h5 class="mt-5" th:text="|${#lists.size(reviews)}개의 답변|"></h5>
+                <h5 class="mt-5" th:text="|${reviews.getTotalElements()}개의 답변|"></h5>
 
                 <!--답변 입력창 끝-->
-                <div th:each="review : ${reviews}">
+                <div th:each="review  : ${reviews}">
                     <div class="comment-container">
                         <div class="mt-5" style="font-size: small">
 
