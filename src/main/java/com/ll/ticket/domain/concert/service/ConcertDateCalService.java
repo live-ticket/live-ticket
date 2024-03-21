@@ -1,6 +1,6 @@
 package com.ll.ticket.domain.concert.service;
 
-import com.ll.ticket.domain.concert.datailPage.dto.ConcertDateDTO;
+import com.ll.ticket.domain.concert.datailPage.detailPagedto.ConcertDateDTO;
 import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.repository.ConcertTimeRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class ConcertDateCalService {
     public Duration calculateTotalViewingTime(List<ConcertDateDTO> concertDates) {
         return concertDates.stream()
                 .map(concertDateDTO -> Duration.between(concertDateDTO.getStartTime(), concertDateDTO.getEndTime()))
-                .distinct()
+                .distinct() // 시간 중복 되지않음
                 .reduce(Duration::plus)
                 .orElse(Duration.ZERO);
     }

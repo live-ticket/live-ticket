@@ -1,12 +1,10 @@
-package com.ll.ticket.domain.concert.datailPage.dto;
+package com.ll.ticket.domain.concert.datailPage.detailPagedto;
 
 
 import com.ll.ticket.domain.concert.entity.Concert;
-import com.ll.ticket.domain.review.dto.ReviewResponse;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 public class ConcertDTO {
@@ -29,7 +27,6 @@ public class ConcertDTO {
 
     private final int seatPrice;
 
-    List<ReviewResponse> reviewList;
     public ConcertDTO(Concert concert) {
 
         this.concertId = concert.getConcertId(); //콘서트 ID

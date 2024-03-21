@@ -1,9 +1,11 @@
 package com.ll.ticket.domain.concert.datailPage.controller;
 
-import com.ll.ticket.domain.concert.datailPage.dto.ConcertDTO;
-import com.ll.ticket.domain.concert.datailPage.dto.ConcertDateDTO;
+import com.ll.ticket.domain.concert.datailPage.detailPagedto.ConcertDTO;
+import com.ll.ticket.domain.concert.datailPage.detailPagedto.ConcertDateDTO;
 import com.ll.ticket.domain.concert.entity.Concert;
+import com.ll.ticket.domain.concert.entity.ConcertPerformer;
 import com.ll.ticket.domain.concert.service.ConcertDateCalService;
+import com.ll.ticket.domain.concert.service.ConcertPerformersService;
 import com.ll.ticket.domain.concert.service.ConcertService;
 import com.ll.ticket.domain.review.dto.ReviewResponse;
 import com.ll.ticket.domain.review.service.ReviewService;
@@ -25,6 +27,7 @@ public class DetailPageController {
     private final ConcertService concertService;
     private final ConcertDateCalService concertDateCalService;
     private  final ReviewService reviewService;
+    private final ConcertPerformersService concertPerformersService;
 
     @GetMapping("/detail/{id}")
     public String getConcert(@PathVariable Long id , Model model) {
@@ -44,6 +47,9 @@ public class DetailPageController {
 
         List<ReviewResponse> reviews = reviewService.getReviewsByConcertId(concert.getConcertId()); //상세페이지 리뷰 목록
 
+        List<ConcertPerformer> performers = concertPerformersService.findByConcertConcertId(concertDTO.getConcertId());
+
+        model.addAttribute("performers" , performers);
         model.addAttribute("reviews" , reviews); //리뷰
         model.addAttribute("concertDateDTO" , concertDateDTO);
         model.addAttribute("concertDTO" , concertDTO);

@@ -25,12 +25,18 @@
                 margin-left: 20px;
             }
 
+            .performer {
+                margin-bottom: 10px;
+                font-size: 16px;
+                /* 추가적인 스타일링을 원하는대로 지정하세요 */
+            }
+
         </style>
     </th:block>
 
-    <div class="artboard artboard-horizontal phone-6 border ">
-        <div class="artboard artboard-horizontal phone-1 border mx-auto">
-            <div class="grid h-20 card bg-base-300 rounded-box place-items-center" style="justify-content: flex-start">
+    <div class="artboard artboard-horizontal phone-6  border">
+        <div class="artboard artboard-horizontal phone-1  mx-auto">
+            <div class="grid h-20 card place-items-center" style="justify-content: flex-start">
                 <h2 th:text="${concertDTO.getConcertNameKr()}"></h2>
             </div>
 
@@ -78,7 +84,7 @@
     <div class="flex flex-col w-full border-opacity-50">
 
         <div class="flex w-full">
-            <div class="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">
+            <div class="grid h-20 flex-grow card place-items-center">
 
                 <select class="select select-bordered select-lg w-full max-w-xs" id="concertDateSelect">
                     <option value="0">예매 일자를 선택해주세요</option>
@@ -91,7 +97,7 @@
 
             <div class="divider divider-horizontal"></div>
 
-            <div class="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">
+            <div class="grid h-20 flex-grow card place-items-center">
 
                 <div>
                     <form id="seatForm" th:action="|/concert/${concertDTO.concertId}/seat|" method="POST">
@@ -105,8 +111,46 @@
 
         <div role="tablist" class="tabs tabs-lifted tabs-lg">
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="상세정보" />
-            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6"></div>
+            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 
+
+                <details class="collapse bg-base-200">
+                    <summary class="collapse-title text-xl font-medium">출연진 정보</summary>
+                    <div class="collapse-content">
+
+                        <div class="overflow-x-auto">
+                            <table class="table">
+                                <!-- head -->
+                                <thead>
+                                <tr>
+                                    <th th:each="performer : ${performers}">Name</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- row 1 -->
+                                <tr>   <!--출연진 정보 한 행으로 출력-->
+                                    <td th:each="perfomer : ${performers}">
+                                    <p th:text="${perfomer.getArtistNameKr()}"></p>
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </details>
+
+                <!--공연 시작 날짜-->
+                <span th:text="${#temporals.format(concertDateDTO.getFirst().getStartTime(), 'yyyy-MM-dd HH:mm')}"></span>
+                ~
+                <!--공연 종료 날짜-->
+                <span th:text="${#temporals.format(concertDateDTO.getLast().getEndTime(), 'yyyy-MM-dd HH:mm')}"></span>
+
+
+            </div>
+
+            <!--리뷰 작성 탭 시작-->
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="리뷰" checked />
             <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 
@@ -176,6 +220,7 @@
                 </div>
 
             </div>
+            <!--리뷰작성 탭 끝 -->
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 3" />
             <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 3</div>
@@ -285,7 +330,7 @@
                     const msg = (response.ok) ? "리뷰가 수정되었습니다." : "리뷰 수정 실패..!";
                     alert(msg);
                     // 현재 페이지 새로 고침
-                    window.location.reload();
+                    // window.location.reload();
                 });
             });
         }
