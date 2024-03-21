@@ -28,7 +28,12 @@
     <div id="map" style="width:500px;height:400px;"></div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=801209c5d747fce299c6cb51a4cb0251"></script>
 
-    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
+    <div class="my-3">
+        <a th:href="@{|/admin/modifyConcert/${concert.concertId}|}" class="modify btn btn-lg btn-outline-secondary" th:text="수정"></a>
+        <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-lg btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
+    </div>
+
+    </div>
 
 </div>
 <div layout:fragment="script">

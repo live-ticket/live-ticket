@@ -2,6 +2,7 @@ package com.ll.ticket.domain.concert.service;
 
 import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.entity.ConcertDate;
+import com.ll.ticket.domain.concert.entity.ConcertPerformer;
 import com.ll.ticket.domain.concert.entity.ConcertSeatHistory;
 import com.ll.ticket.domain.concert.repository.ConcertDateRepository;
 import com.ll.ticket.domain.concert.repository.ConcertRepository;
@@ -94,5 +95,17 @@ public class ConcertService {
                 .map(seat -> seat.getSeatId())
                 .collect(Collectors.toList());
         return seatIds;
+    }
+
+    public Place findPlace(Concert concert){
+        return concert.getPlace();
+    }
+
+    public List<ConcertDate> findConcertDates(Concert concert){
+        return concert.getConcertDates();
+    }
+
+    public ConcertPerformer findConcertPerformer(Concert concert){
+        return concert.getConcertPerformer();
     }
 }

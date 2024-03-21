@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class AdminController {
 
     //관리자 페이지 메인화면
     @GetMapping(value = "/main")
-    public String main(){
+    public String adminMain(){
         return "domain/admin/admin_main";
     }
 
@@ -69,9 +70,9 @@ public class AdminController {
     @GetMapping(value = "/concertDetail/{id}")
     public String concertDetail(Model model, @PathVariable("id") Long id){
         Concert concert = this.concertService.findById(id);
-        Place place = this.adminService.findPlace(concert);
-        ConcertPerformer concertPerformer = this.adminService.findConcertPerformer(concert);
-        List<ConcertDate> concertDates = this.adminService.findConcertDates(concert);
+        Place place = this.concertService.findPlace(concert);
+        ConcertPerformer concertPerformer = this.concertService.findConcertPerformer(concert);
+        List<ConcertDate> concertDates = this.concertService.findConcertDates(concert);
 
         model.addAttribute("concert", concert);
         model.addAttribute("place", place);
@@ -82,7 +83,46 @@ public class AdminController {
     }
 
 
-    //TO DO 콘서트 글 수정
+    //콘서트 글 수정
+    @GetMapping("/modifyConcert/{id}")
+    public String modifyConcert(RegisterConcertDto registerConcertDto, @PathVariable("id") Long id){
+        Concert concert = this.concertService.findById(id);
+        Place place = this.concertService.findPlace(concert);
+        ConcertPerformer concertPerformer = this.concertService.findConcertPerformer(concert);
+        List<ConcertDate> concertDates = this.concertService.findConcertDates(concert);
+
+        registerConcertDto.setName(concert.getName());
+        registerConcertDto.setConcertNameKr(concert.getConcertNameKr());
+        registerConcertDto.setConcertNameEng(concert.getConcertNameEng());
+        registerConcertDto.setArtistNameKr(concertPerformer.getArtistNameKr());
+        registerConcertDto.setArtistNameEng(concertPerformer.getArtistNameEng());
+        registerConcertDto.setLatitude(place.getLatitude());
+        registerConcertDto.setLongitude(place.getLongitude());
+        registerConcertDto.setReleaseTime(concert.getReleaseTime());
+        registerConcertDto.setStartTime(concertDates.get(0).getStartTime());
+        registerConcertDto.setEndTime(concertDates.get(0).getEndTime());
+        registerConcertDto.setCategory(concert.getCategory());
+        registerConcertDto.setStatus(concert.getStatus());
+        registerConcertDto.setTotalPeople(place.getTotalPeople());
+        registerConcertDto.setSeatPrice(concert.getSeatPrice());
+
+        return "domain/admin/register_concert";
+    }
+
+    //콘서트 글 수정
+    @PostMapping("/modifyConcert/{id}")
+    public String modifyConcert(@Valid RegisterConcertDto registerConcertDto, @PathVariable("id") Long id, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return "domain/admin/register_concert";
+        }
+        Concert concert = this.concertService.findById(id);
+        Place place = this.concertService.findPlace(concert);
+        ConcertPerformer concertPerformer = this.concertService.findConcertPerformer(concert);
+        List<ConcertDate> concertDates = this.concertService.findConcertDates(concert);
+
+        this.adminService.modify(registerConcertDto, concert, place, concertPerformer, concertDates);
+        return String.format("redirect:/admin//concertDetail/%s", id);
+    }
 
     //콘서트 글 삭제
     @GetMapping(value = "/deleteConcert/{id}")
