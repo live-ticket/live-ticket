@@ -176,7 +176,7 @@
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="리뷰" checked />
             <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 
-                <!--답변 입력창 시작-->
+                <!--리뷰 입력창 시작-->
                 <div class="mt-20" >
                     <form th:action="@{|/review/${concertDTO.getConcertId()}|}" method="post" onsubmit="submitWriteForm(this); return false;">
 
@@ -185,7 +185,7 @@
                         <button class="btn btn-neutral">리뷰 작성</button>
                     </form>
                 </div>
-                <h5 th:text="|${#lists.size(reviews)}개의 답변|"></h5>
+                <h5 class="mt-5" th:text="|${#lists.size(reviews)}개의 답변|"></h5>
 
                 <!--답변 입력창 끝-->
                 <div th:each="review : ${reviews}">
@@ -234,7 +234,7 @@
                             <!--삭제 버튼 끝-->
                         </div>
 
-                        <div class="mt-5" th:text="${review.getContent()}"></div>
+                        <div class="mt-5" th:text="${review.getContent()}" style="white-space: pre-line;"></div> <!--컨텐츠-->
 
                         <hr>
 
