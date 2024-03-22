@@ -1,6 +1,7 @@
 package com.ll.ticket.domain.admin.service;
 
 import com.ll.ticket.domain.admin.dto.RegisterConcertDto;
+import com.ll.ticket.domain.admin.dto.UploadImageDto;
 import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.entity.ConcertDate;
 import com.ll.ticket.domain.concert.entity.ConcertPerformer;
