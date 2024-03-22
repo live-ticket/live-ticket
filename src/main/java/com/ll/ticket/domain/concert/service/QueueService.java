@@ -1,5 +1,6 @@
 package com.ll.ticket.domain.concert.service;
 
+import com.ll.ticket.domain.concert.dto.QueueRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,11 +16,14 @@ public class QueueService {
     private final RedisTemplate<String, String> redisTemplate;
     private final SimpMessageSendingOperations messagingTemplate;
 
-    public void addQueue(String eventName, String memberId) {
-//        String memberId = member.getUserId().toString();
+    public void addQueue(QueueRequestDto queueRequestDto) {
+        String memberId = queueRequestDto.getMemberId();
+        String concertId = queueRequestDto.getConcertId();
         long now = System.currentTimeMillis();
-        redisTemplate.opsForZSet().add(eventName, memberId, now);
-        log.info("대기열 추가: {}", memberId, now);
+
+//        redisTemplate.opsForZSet().add("대기열", memberId, now);
+        redisTemplate.opsForZSet().add(concertId, memberId, now);
+        log.info("대기열 추가: {}, {}", concertId, memberId);
     }
 
     public void processQueue(String eventName) {

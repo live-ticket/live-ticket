@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QueueRequestDto {
-    private Long concertDateId;
+    private String concertId;
     private String memberId;
 }
