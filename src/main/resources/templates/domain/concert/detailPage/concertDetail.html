@@ -161,8 +161,14 @@
                     <summary class="collapse-title text-xl font-medium">예매 공지 사항 </summary>
                     <div class="collapse-content" >
                         <p style="color: #dc0000">※ 티켓 오픈 시간</p>
-                        <span id="releaseTime" th:text="${concertDTO.getReleaseTime()}" style="display: none;"></span> <!--티켓오픈 시간 과 현재시간과 비교 용도 사용자한테 보여서는안됨-->
-                        <span  th:text="${#temporals.format(concertDTO.getReleaseTime(), 'yyyy년 MM월 dd일 EEE요일 HH:mm')}"></span>                        <p class="mt-3" style="color: #dc0000">[ 예매 및 취소 마감 기한 안내 ]</p>
+                        <!--티켓오픈 시간 과 현재시간과 비교 용도 사용자한테 보여서는안됨 ,
+                         시간 포맷을 해 버릴 경우 현재시간 포맷형식이 달라 예매하기버튼 비활성화 ,활성화 동작이 안됨 -->
+                        <span id="releaseTime" th:text="${concertDTO.getReleaseTime()}" style="display: none;"></span>
+
+                        <!--사용자 에게 보이는 용도 (티켓오픈시간)-->
+                        <span  th:text="${#temporals.format(concertDTO.getReleaseTime(), 'yyyy년 MM월 dd일 EEE요일 HH:mm')}"></span>
+
+                        <p class="mt-3" style="color: #dc0000">[ 예매 및 취소 마감 기한 안내 ]</p>
                         <p>티켓 예매, 취소 및 변경, 환불이 불가하오니 유의해주시기 바랍니다. </p>
 
                     </div>
@@ -376,25 +382,22 @@
              *  여기서부터 예매하기 버튼 비 활성화
              */
             const releaseTimeText = document.getElementById('releaseTime').textContent;
-            const releaseTime = new Date(releaseTimeText);
+            const releaseTime = new Date(releaseTimeText); //시간 포맷
 
             const  submitButton = document.getElementById('submitButton');
-
 
             setInterval(function() {
 
                 const  currentTime = new Date(); // 현재 시간
 
-                if (releaseTime <= currentTime) {  //현재시간이 티켓오픈시간 이 같거나 지난경우
+                if (releaseTime <= currentTime) {  //현재시간이 티켓오픈시간 이 같거나 지난 경우
                     submitButton.disabled = false; //버튼을 활성화
-                    console.log("Release Time:", releaseTime);
-                    console.log("currentTime :", currentTime);
+
 
                 } else {
                     submitButton.disabled = true; //버튼 비활성화
                     submitButton.textContent = '예매 가능한 시간이 아닙니다';
-                    console.log("Release Time:", releaseTime);
-                    console.log("currentTime :", currentTime);
+
                 }
             }, 1000); // 30초마다 업데이트
         }
