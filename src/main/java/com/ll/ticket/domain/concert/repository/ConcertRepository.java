@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-public interface ConcertRepository extends JpaRepository<Concert, Long>, ConcertCustomRepository {
+public interface ConcertRepository extends JpaRepository<Concert, Long> {
     Page<Concert> findAll(Pageable pageable);
 
     @Query("SELECT c FROM Concert c join fetch c.place p left join fetch c.concertPerformer cp " +
