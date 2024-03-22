@@ -23,4 +23,6 @@ public class Place {
 
     @OneToOne(mappedBy = "place")
     private Concert concerts;
+
 }
+

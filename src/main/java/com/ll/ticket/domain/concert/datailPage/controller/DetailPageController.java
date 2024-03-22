@@ -7,6 +7,8 @@ import com.ll.ticket.domain.concert.entity.ConcertPerformer;
 import com.ll.ticket.domain.concert.service.ConcertDateCalService;
 import com.ll.ticket.domain.concert.service.ConcertPerformersService;
 import com.ll.ticket.domain.concert.service.ConcertService;
+import com.ll.ticket.domain.place.entity.Place;
+import com.ll.ticket.domain.place.service.PlaceService;
 import com.ll.ticket.domain.review.dto.ReviewResponse;
 import com.ll.ticket.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class DetailPageController {
     private final ConcertDateCalService concertDateCalService;
     private  final ReviewService reviewService;
     private final ConcertPerformersService concertPerformersService;
+    private final PlaceService placeService;
 
     @GetMapping("/detail/{id}")
     public String getConcert(@PathVariable Long id , Model model , @RequestParam(value = "page" , defaultValue = "1") int page) {
@@ -52,14 +55,19 @@ public class DetailPageController {
         }
 
         Duration viewingTime = concertDateCalService.calculateTotalViewingTime(concertDateDTO); // 관람 시간
-        List<ConcertPerformer> performers = concertPerformersService.findByConcertConcertId(concertDTO.getConcertId());
+
+        List<ConcertPerformer> performers = concertPerformersService.findByConcertConcertId(concertDTO.getConcertId()); //출연자 정보
 
         Page<ReviewResponse> reviews = reviewService.getReviewsByConcertId(concert.getConcertId() , page); //상세페이지 리뷰 목록
+
+        Place place = placeService.findById(concert.getConcertId());
+
+        //페이징
         int nowPage = reviews.getPageable().getPageNumber() + 1; // 페이지 0을 1로 설정
         int startPage =  Math.max(1 , ((nowPage - 1) / 5 * 5) + 1 );
         int endPage = Math.min(reviews.getTotalPages(), startPage + 4); // 시작 페이지부터 4페이지까지
 
-
+        model.addAttribute("place" , place);
         model.addAttribute("performers" , performers);
         model.addAttribute("reviews" , reviews); //리뷰
         model.addAttribute("nowPage" , nowPage );

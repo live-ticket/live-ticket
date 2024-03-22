@@ -1,7 +1,6 @@
-<html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
-     >
-
+<html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" >
 <div layout:fragment="content" class="mx-auto ">
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5838a85eb793c1ea2258889f7c67b41b"></script>
 
     <th:block th:fragment="custom-css">
         <style>
@@ -43,7 +42,7 @@
             <div>
                 <div class="concert-info">
                     <div>
-                        <span>장소 </span><span th:text="${concertDTO.getPlaceId()}"></span>
+                        <span>장소 </span><span th:text="${place.getLatitude()}"></span>
                     </div>
 
                     <div>
@@ -114,7 +113,7 @@
 
         <div role="tablist" class="tabs tabs-lifted tabs-lg">
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="상세정보" />
-            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 !block invisible">
                 <!--출연진 정보 콜랩스 시작 -->
                 <details class="collapse bg-base-200">
                     <summary class="collapse-title text-xl font-medium">출연진 정보</summary>
@@ -178,8 +177,8 @@
             </div>
 
             <!--리뷰 작성 탭 시작-->
-            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="리뷰" checked />
-            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="리뷰"  checked/>
+            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 !block invisible">
 
                 <!--리뷰 입력창 시작-->
                 <div class="mt-20" >
@@ -265,12 +264,15 @@
             <!--리뷰작성 탭 끝 -->
 
 
+            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="장소" />
+            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 !block invisible">
 
-            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 3" />
-            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 3</div>
+                    <!-- 지도 -->
+                    <div id="map" style="width: 500px; height: 400px;"></div>
+
+            </div>
+
         </div>
-
-
         <!-------------------여기 까지 컨텐츠 영역-------------------------------------->
     </div>
     <!---------------------------------------여기 까지 phone-6-------------------------->
@@ -278,8 +280,10 @@
 </div>
 
 
+
 <div layout:fragment="script">
     <script th:inline="javascript">
+
         // 리뷰 작성 유효성 검사 체크
         function submitWriteForm(form) {
             const inputBody = form.content;
@@ -399,7 +403,25 @@
                     submitButton.textContent = '예매 가능한 시간이 아닙니다';
 
                 }
-            }, 1000); // 30초마다 업데이트
+            }, 1000); // 1초마다 업데이트
+
+            const latitude = /*[[${place.latitude}]]*/ null;
+            const longitude = /*[[${place.longitude}]]*/ null;
+
+            var container = document.getElementById('map');
+            var options = {
+                center: new kakao.maps.LatLng(latitude, longitude),
+                level: 3
+            };
+
+            var map = new kakao.maps.Map(container, options);
+
+            //탭 메뉴의 블록 처리를 원복
+            setTimeout(function () {
+                document
+                    .querySelectorAll(".tab-content")
+                    .forEach((el) => el.classList.remove("!block", "invisible"));
+            }, 100);
         }
 
     </script>
