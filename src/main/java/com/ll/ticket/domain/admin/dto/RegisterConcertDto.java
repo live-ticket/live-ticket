@@ -1,6 +1,5 @@
 package com.ll.ticket.domain.admin.dto;
 
-import com.ll.ticket.domain.place.entity.Place;
 import com.ll.ticket.global.enums.ConcertCategory;
 import com.ll.ticket.global.enums.ConcertStatus;
 import jakarta.validation.constraints.Min;
@@ -9,7 +8,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 
 @Getter
