@@ -14,6 +14,6 @@ public class QueueController {
 
     @MessageMapping("/queue/addQueue")
     public void addQueue(@RequestBody QueueRequestDto queueRequestDto) {
-        queueService.addQueue("대기열", queueRequestDto.getMemberId());
+        queueService.addQueue(queueRequestDto);
     }
 }
