@@ -3,26 +3,125 @@
 <div layout:fragment="content">
     <th:block th:fragment="custom-css">
         <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            .flex.flex-col.min-h-screen {
+                min-height: 100vh; /* 뷰포트 높이를 최소 높이로 설정 */
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* 너비를 화면에 꽉 차게 설정 */
+            .w-full {
+                width: 100%;
+            }
+
+            /* 중앙 정렬을 위한 설정 */
+            .mx-auto {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .max-w-4xl.mx-auto.bg-white.shadow-md.rounded-lg.overflow-hidden {
+                width: 100%; /* 너비를 100%로 설정하여 화면 너비를 꽉 차게 함 */
+                max-width: none; /* 최대 너비 설정을 제거하고 싶다면 이 줄을 추가 */
+            }
+
+            .p-5 {
+                padding: 1.25rem; /* 20px */
+            }
+
+            .mb-4 {
+                margin-bottom: 1rem; /* 16px */
+            }
+
+            /* 그리드 설정 */
+            .grid {
+                display: grid;
+            }
+
+            .grid-cols-1 {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+
+            .md\\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .gap-4 {
+                gap: 1rem; /* 16px */
+            }
+
+            /* 텍스트 크기, 색상, 여백 설정 */
+            .text-3xl {
+                font-size: 1.875rem; /* 30px */
+                line-height: 2.25rem; /* 36px */
+            }
+
+            .font-bold {
+                font-weight: bold;
+            }
+
+            .text-sm {
+                font-size: 0.875rem; /* 14px */
+            }
+
+            .text-gray-500 {
+                color: #6b7280;
+            }
+
+            .text-xl {
+                font-size: 1.25rem; /* 20px */
+            }
+
+            .font-semibold {
+                font-weight: 600;
+            }
 
         </style>
     </th:block>
 
-    <h1 th:text="${concert.name}"></h1>
-    <div th:text="${concert.concertNameKr}"></div>
-    <div th:text="${concert.concertNameEng}"></div>
-    <div th:text="${concertPerformer.artistNameKr}"></div>
-    <div th:text="${concertPerformer.artistNameEng}"></div>
-    <div id="longtitude" th:text="${place.longitude}"></div>
-    <div id="latitude" th:text="${place.latitude}"></div>
-    <div th:text="${#temporals.format(concert.releaseTime, 'yyyy-MM-dd HH:mm')}"></div>
-    <div th:each="concertDate : ${concertDates}">
-        <div th:text="${concertDate.startTime}"></div>
-        <div th:text="${concertDate.endTime}"></div>
+    <div class="flex flex-col min-h-screen">
+        <div class="w-full p-5 bg-white">
+            <div class="w-full mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+                <h3 class="text-3xl font-bold mb-4 p-5" th:text="${concert.name}"></h3>
+                <div class="p-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div class="text-sm text-gray-500" th:text="${concert.concertNameKr}"></div>
+                        <div class="text-sm text-gray-500" th:text="${concert.concertNameEng}"></div>
+                        <div class="text-sm text-gray-500" th:text="${concertPerformer.artistNameKr}"></div>
+                        <div class="text-sm text-gray-500" th:text="${concertPerformer.artistNameEng}"></div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="text-sm text-gray-500" id="longitude" th:text="${place.longitude}"></div>
+                        <div class="text-sm text-gray-500" id="latitude" th:text="${place.latitude}"></div>
+                    </div>
+                    <div class="text-sm text-gray-500 mb-4" th:text="${#temporals.format(concert.releaseTime, 'yyyy-MM-dd HH:mm')}"></div>
+                    <div>
+                        <h2 class="text-xl font-semibold mb-2">Concert Dates</h2>
+                        <div th:each="concertDate : ${concertDates}">
+                            <div class="flex justify-between mb-2">
+                                <div class="text-sm text-gray-500" th:text="${#temporals.format(concertDate.startTime, 'yyyy-MM-dd HH:mm')}"></div>
+                                <div class="text-sm text-gray-500" th:text="${#temporals.format(concertDate.endTime, 'yyyy-MM-dd HH:mm')}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="text-sm text-gray-500" th:text="${concert.category}"></div>
+                        <div class="text-sm text-gray-500" th:text="${concert.status}"></div>
+                        <div class="text-sm text-gray-500" th:text="${place.totalPeople}"></div>
+                        <div class="text-sm text-gray-500" th:text="${concert.seatPrice}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div th:text="${concert.category}"></div>
-    <div th:text="${concert.status}"></div>
-    <div th:text="${place.totalPeople}"></div>
-    <div th:text="${concert.seatPrice}"></div>
+
 
     <!--카카오 지도 api-->
     <div id="map" style="width:500px;height:400px;"></div>
@@ -33,7 +132,7 @@
         <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-lg btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
     </div>
 
-    </div>
+</div>
 
 </div>
 <div layout:fragment="script">
