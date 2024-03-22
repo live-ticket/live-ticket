@@ -123,6 +123,7 @@
         function submitConcertDate(form) {
             var concertDateSelectElement = document.getElementById('concertDateSelect');
             var concertDateId = concertDateSelectElement.options[concertDateSelectElement.selectedIndex].value;
+            var concertId = /*[[${concert.concertId}]]*/ null;
 
             if (concertDateId.length == 0 || concertDateId == 0) {
                 alert('날짜를 선택해주세요.');
@@ -142,21 +143,25 @@
 
             stompClient.connect({}, function() {
                 // $('.queue').css('display', 'block');
-                $("#popup").css('display','flex').hide().fadeIn();
 
                 stompClient.send('/app/queue/addQueue', {}, JSON.stringify({
-                    concertDateId: concertDateId,
+                    concertId: concertId,
                     memberId: memberId
                 }));
 
                 stompClient.subscribe(`/queue/processQueue/${memberId}`, (message) => {
                     // document.querySelector('.queue').style.display = 'none';
                     stompClient.disconnect();
-                    alert(message.body);
+                    // alert(message.body);
                     form.submit();
                 });
 
+                var queueCount = 0;
                 stompClient.subscribe(`/queue/listQueue/${memberId}`, (message)=> {
+                    if (queueCount == 0) {
+                        $("#popup").css('display','flex').hide().fadeIn();
+                        queueCount = 1;
+                    }
                     document.getElementById('queueCount').innerText = message.body;
                 });
             });
