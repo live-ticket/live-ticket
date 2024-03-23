@@ -42,12 +42,6 @@ public class DetailPageController {
 
         ConcertDTO concertDTO = new ConcertDTO(concert);
 
-//        LocalDateTime currentTime = LocalDateTime.now();
-//
-//        if (concertDTO.getReleaseTime().isAfter(currentTime)) {
-//            throw new IllegalStateException("티켓 오픈 시간이 아직 되지 않았습니다.");
-//        }
-
         List<ConcertDateDTO> concertDateDTO = concertDateCalService.findConcertDateByConcert(concert);
 
         if (concertDateDTO.isEmpty()) {
@@ -60,7 +54,8 @@ public class DetailPageController {
 
         Page<ReviewResponse> reviews = reviewService.getReviewsByConcertId(concert.getConcertId() , page); //상세페이지 리뷰 목록
 
-        Place place = placeService.findById(concert.getConcertId());
+        Place place = placeService.findById(concertDTO.getPlaceId());
+
 
         //페이징
         int nowPage = reviews.getPageable().getPageNumber() + 1; // 페이지 0을 1로 설정
