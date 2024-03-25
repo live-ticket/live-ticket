@@ -26,6 +26,8 @@
             #submitButton:disabled {
                 background-color: grey; /* 비활성화 상태의 배경색 */
                 color: black; /* 비활성화 상태의 텍스트 색상 */
+
+
             }
 
 
@@ -101,10 +103,10 @@
                     <form id="seatForm" th:action="|/concert/${concertDTO.concertId}/seat|" method="POST">
                         <input type="hidden" name="concertDateId" value="0">
                         <button id="submitButton" class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
-                                type="submit">예매하기</button>
-
-<!--                        <button th:if="${#temporals.isAfter(concertDTO.getReleaseTime(), #temporals.createNow())}" type="button">예매하기</button>-->
-<!--                        <button th:unless="${#temporals.isAfter(concertDTO.getReleaseTime(), #temporals.createNow())}" type="button" disabled>예매하기</button>-->
+                                type="submit" th:disabled="${concertDTO.status == 'ABLE'}">
+                            <span th:if="${concertDTO.status == 'ABLE'}">지금은 예매 가능한 시간이 아닙니다.</span>
+                            <span th:unless="${concertDTO.status == 'ABLE'}">예매하기</span>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -264,15 +266,17 @@
             <!--리뷰작성 탭 끝 -->
 
 
-            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="장소" onclick="relayout()" />
+            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="장소" onclick="relayout()"/>
             <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 ">
 
                     <!-- 지도 -->
-                    <div id="map" style="width: 500px; height: 400px;"></div>
-                <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5838a85eb793c1ea2258889f7c67b41b"></script>
+               <div class="mb-10">
+                <h2>공연장 위치</h2>
+               </div>
+                <div id="map" style="width: 500px; height: 400px;"></div>
 
-<!--                  <div id="map" style="width:800px;height:500px;"></div>-->
-<!--                <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=8vuvmn4l1y"></script>-->
+
+                <!--                <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?autoload=false"></script>-->
 
             </div>
 
@@ -386,60 +390,31 @@
                 });
             });
 
-            //공연 상태가 비 활성화 이면 실행
-            const submitButton2 = document.getElementById('submitButton');
-            const status = /*[[${concertDTO.status}]]*/ null;
-            // 버튼 클릭 이벤트 핸들러 함수
-            function submitButtonClickHandler() {
-                if (status !== 'ENABLE') {
-                    // 알림 표시
-                    alert('티켓 판매 시간이 아닙니다.');
-                }
-            }
-            // 버튼 클릭 이벤트 리스너 등록
-            submitButton2.addEventListener('click', submitButtonClickHandler);
-
-
-            /**
-             *  여기서부터 예매하기 버튼 비 활성화
-             */
-            const releaseTimeText = document.getElementById('releaseTime').textContent;
-            const releaseTime = new Date(releaseTimeText); //시간 포맷
-
-            const submitButton = document.getElementById('submitButton');
-
-            setInterval(function () {
-
-                const currentTime = new Date(); // 현재 시간
-
-                if (releaseTime <= currentTime) {  //현재시간이 티켓오픈시간 이 같거나 지난 경우
-                    submitButton.disabled = false; //버튼을 활성화
-
-                } else {
-                    submitButton.disabled = true; //버튼 비활성화
-                    submitButton.textContent = '예매 가능한 시간이 아닙니다';
-
-                }
-            }, 1000); // 1초마다 업데이트
-
-
-
 
                 const latitude = /*[[${place.latitude}]]*/ null;
                 const longitude = /*[[${place.longitude}]]*/ null;
 
-            var container = document.getElementById('map');
-                var options = {
-                    center: new kakao.maps.LatLng(latitude, longitude),
-                    level: 3
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                mapOption = {
+                    center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
                 };
-                var map = new kakao.maps.Map(container, options);
 
-            function resizeMap() {
-                var mapContainer = document.getElementById('map');
-                mapContainer.style.width = '650px';
-                mapContainer.style.height = '650px';
-            }
+            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+// 마커가 표시될 위치입니다
+            var markerPosition  = new kakao.maps.LatLng(latitude, longitude);
+
+// 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                position: markerPosition
+            });
+
+// 마커가 지도 위에 표시되도록 설정합니다
+            marker.setMap(map);
+
+// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+// marker.setMap(null);    ainer, options);
 
             function relayout() {
 
@@ -447,17 +422,10 @@
                 // 크기를 변경한 이후에는 반드시  map.relayout 함수를 호출해야 합니다
                 // window의 resize 이벤트에 의한 크기변경은 map.relayout 함수가 자동으로 호출됩니다
                 map.relayout();
+                map.setCenter(markerPosition);
             }
-
-
-                // //탭 메뉴의 블록 처리를 원복
-                // setTimeout(function () {
-                //     document
-                //         .querySelectorAll(".tab-content")
-                //         .forEach((el) => el.classList.remove("!block", "invisible"));
-                // }, 0);
+            
             }
-
     </script>
 
 </div>
