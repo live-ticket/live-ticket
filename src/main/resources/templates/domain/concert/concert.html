@@ -3,10 +3,6 @@
 <div layout:fragment="content" class="mx-auto">
     <th:block th:fragment="custom-css">
         <style>
-            .queue {
-                display: none;
-            }
-
             .popup-wrap{
                 background-color:rgba(0,0,0,.3);
                 justify-content:center;
@@ -78,14 +74,6 @@
         </form>
     </div>
 
-<!--    <div class="queue">-->
-<!--        <h1>대기열</h1>-->
-<!--        <div>-->
-<!--            대기자 <span id="queueCount">0</span>명-->
-<!--            잠시만 기다려주세요.-->
-<!--        </div>-->
-<!--    </div>-->
-
     <div class="container">
         <div class="popup-wrap" id="popup">
             <div class="popup">
@@ -132,7 +120,7 @@
 
             form.concertDateId.value = concertDateId;
 
-            const socket = new SockJS('/ws2');
+            const socket = new SockJS('/ws');
             const stompClient = Stomp.over(socket);
             const memberId = /*[[${member != null ? member.id : null}]]*/ null;
 
@@ -142,22 +130,19 @@
             }
 
             stompClient.connect({}, function() {
-                // $('.queue').css('display', 'block');
 
                 stompClient.send('/app/queue/addQueue', {}, JSON.stringify({
                     concertId: concertId,
                     memberId: memberId
                 }));
 
-                stompClient.subscribe(`/queue/processQueue/${memberId}`, (message) => {
-                    // document.querySelector('.queue').style.display = 'none';
+                stompClient.subscribe(`/exchange/amq.direct/processQueue.${memberId}`, (message) => {
                     stompClient.disconnect();
-                    // alert(message.body);
                     form.submit();
                 });
 
                 var queueCount = 0;
-                stompClient.subscribe(`/queue/listQueue/${memberId}`, (message)=> {
+                stompClient.subscribe(`/exchange/amq.direct/listQueue.${memberId}`, (message)=> {
                     if (queueCount == 0) {
                         $("#popup").css('display','flex').hide().fadeIn();
                         queueCount = 1;
