@@ -22,7 +22,7 @@ public class StompRabbitMqBrokerConfig implements WebSocketMessageBrokerConfigur
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry
                 .setApplicationDestinationPrefixes("/app")
-                .enableStompBrokerRelay("/topic")
+                .enableStompBrokerRelay("/topic","/exchange")
                 .setRelayHost("localhost")
                 .setRelayPort(61613)
                 .setClientLogin("admin")
