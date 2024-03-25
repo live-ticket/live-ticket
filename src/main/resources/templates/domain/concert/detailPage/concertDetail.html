@@ -1,5 +1,6 @@
 <html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" >
 <div layout:fragment="content" class="mx-auto ">
+    <script th:src="@{'//dapi.kakao.com/v2/maps/sdk.js?appkey=' + ${apiKey}}"></script>
 
     <th:block th:fragment="custom-css">
         <style>
@@ -273,8 +274,8 @@
                <div class="mb-10">
                 <h2>공연장 위치</h2>
                </div>
-                <div id="map" style="width: 500px; height: 400px;"></div>
 
+                <div id="map" style="width: 500px; height: 400px;"></div>
 
                 <!--                <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?autoload=false"></script>-->
 
@@ -286,7 +287,12 @@
     <!---------------------------------------여기 까지 phone-6-------------------------->
 
 </div>
+<script>
 
+
+
+
+</script>
 
 
 <div layout:fragment="script">
@@ -403,7 +409,7 @@
             var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
 // 마커가 표시될 위치입니다
-            var markerPosition  = new kakao.maps.LatLng(latitude, longitude);
+            var markerPosition  = new kakao.maps.LatLng(37.5665, 126.978);
 
 // 마커를 생성합니다
             var marker = new kakao.maps.Marker({
@@ -424,7 +430,7 @@
                 map.relayout();
                 map.setCenter(markerPosition);
             }
-            
+
             }
     </script>
 

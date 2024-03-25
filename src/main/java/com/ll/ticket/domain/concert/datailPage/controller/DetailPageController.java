@@ -12,6 +12,7 @@ import com.ll.ticket.domain.place.service.PlaceService;
 import com.ll.ticket.domain.review.dto.ReviewResponse;
 import com.ll.ticket.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,9 @@ public class DetailPageController {
     private final ConcertPerformersService concertPerformersService;
     private final PlaceService placeService;
 
+    @Value("${kakaoMap.javascript.key}")
+    private String mapApiKey;
+
     @GetMapping("/detail/{id}")
     public String getConcert(@PathVariable Long id , Model model , @RequestParam(value = "page" , defaultValue = "1") int page) {
 
@@ -55,8 +59,6 @@ public class DetailPageController {
         Page<ReviewResponse> reviews = reviewService.getReviewsByConcertId(concert.getConcertId() , page); //상세페이지 리뷰 목록
 
         Place place = placeService.findById(concertDTO.getPlaceId());
-
-
         //페이징
         int nowPage = reviews.getPageable().getPageNumber() + 1; // 페이지 0을 1로 설정
         int startPage =  Math.max(1 , ((nowPage - 1) / 5 * 5) + 1 );
@@ -71,6 +73,8 @@ public class DetailPageController {
         model.addAttribute("concertDateDTO" , concertDateDTO);
         model.addAttribute("concertDTO" , concertDTO);
         model.addAttribute("viewingTime" , viewingTime);
+        model.addAttribute("apiKey" , mapApiKey);
+
         return "domain/concert/detailPage/concertDetail";
     }
 
