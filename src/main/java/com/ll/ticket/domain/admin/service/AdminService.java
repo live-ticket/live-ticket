@@ -36,6 +36,7 @@ public class AdminService {
         String concertNameKr = registerConcertDto.getConcertNameKr();
         String concertNameEng = registerConcertDto.getConcertNameEng();
 
+
         Place place = Place.builder()
                 .longitude(registerConcertDto.getLongitude())
                 .latitude(registerConcertDto.getLatitude())
@@ -152,6 +153,5 @@ public class AdminService {
                 .build();
 
         this.concertRepository.save(updateConcert);
-
     }
 }

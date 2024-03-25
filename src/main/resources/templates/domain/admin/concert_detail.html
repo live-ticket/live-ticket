@@ -93,35 +93,85 @@
     <div class="flex flex-col min-h-screen">
         <div class="w-full p-5 bg-white">
             <div class="w-full mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-                <h3 class="text-3xl font-bold mb-4 p-5" th:text="${concert.name}"></h3>
-                <div class="p-5">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div class="text-sm text-gray-500" th:text="${concert.concertNameKr}"></div>
-                        <div class="text-sm text-gray-500" th:text="${concert.concertNameEng}"></div>
-                        <div class="text-sm text-gray-500" th:text="${concertPerformer.artistNameKr}"></div>
-                        <div class="text-sm text-gray-500" th:text="${concertPerformer.artistNameEng}"></div>
-                        <img th:src="@{/uploadImages/{fileName}(fileName=${image.name})}" alt="Uploaded Image"/>
-                    </div>
-                    <div class="mb-4">
-                        <div class="text-sm text-gray-500" id="longitude" th:text="${place.longitude}"></div>
-                        <div class="text-sm text-gray-500" id="latitude" th:text="${place.latitude}"></div>
-                    </div>
-                    <div class="text-sm text-gray-500 mb-4" th:text="${#temporals.format(concert.releaseTime, 'yyyy-MM-dd HH:mm')}"></div>
-                    <div>
-                        <h2 class="text-xl font-semibold mb-2">Concert Dates</h2>
-                        <div th:each="concertDate : ${concertDates}">
-                            <div class="flex justify-between mb-2">
-                                <div class="text-sm text-gray-500" th:text="${#temporals.format(concertDate.startTime, 'yyyy-MM-dd HH:mm')}"></div>
-                                <div class="text-sm text-gray-500" th:text="${#temporals.format(concertDate.endTime, 'yyyy-MM-dd HH:mm')}"></div>
+                <h3 class="text-5xl font-bold mb-4 p-5" th:text="${concert.name}"></h3>
+                    <div class="p-5">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full table-auto">
+                                <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-xl w-1/4">항목</th>
+                                    <th class="px-4 py-2 text-left text-xl w-3/4">정보</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class="border px-4 py-2 text-xl">콘서트명 (KR)</td>
+                                    <td class="border px-4 py-2 text-xl" th:text="${concert.concertNameKr}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2 text-xl">콘서트명 (ENG)</td>
+                                    <td class="border px-4 py-2 text-xl" th:text="${concert.concertNameEng}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2 text-xl">아티스트명 (KR)</td>
+                                    <td class="border px-4 py-2 text-xl" th:text="${concertPerformer.artistNameKr}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2 text-xl">아티스트명 (ENG)</td>
+                                    <td class="border px-4 py-2 text-xl" th:text="${concertPerformer.artistNameEng}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2 text-xl">경도</td>
+                                    <td class="border px-4 py-2 text-xl" id="longitude" th:text="${place.longitude}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2 text-xl">위도</td>
+                                    <td class="border px-4 py-2 text-xl" id="latitude" th:text="${place.latitude}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2 text-xl">티켓 오픈 시간</td>
+                                    <td class="border px-4 py-2 text-xl" th:text="${#temporals.format(concert.releaseTime, 'yyyy-MM-dd HH:mm')}"></td>
+                                </tr>
+                                <div th:each="concertDate : ${concertDates}">
+                                    <tr>
+                                        <td class="border px-4 py-2 text-xl">공연 시작 일시</td>
+                                        <td class="border px-4 py-2 text-xl" th:text="${#temporals.format(concertDate.startTime, 'yyyy-MM-dd HH:mm')}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border px-4 py-2 text-xl">공연 종료 일시</td>
+                                        <td class="border px-4 py-2 text-xl" th:text="${#temporals.format(concertDate.endTime, 'yyyy-MM-dd HH:mm')}"></td>
+                                    </tr>
+                                </div>
+                                <tr>
+                                    <td class="border px-4 py-2 text-xl">카테고리</td>
+                                    <td class="border px-4 py-2 text-xl" th:text="${concert.category}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2 text-xl">상태</td>
+                                    <td class="border px-4 py-2 text-xl" th:text="${concert.status}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2 text-xl">총 인원</td>
+                                    <td class="border px-4 py-2 text-xl" th:text="${place.totalPeople}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2 text-xl">좌석 가격</td>
+                                    <td class="border px-4 py-2 text-xl" th:text="${concert.seatPrice}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <img th:src="@{/uploadImages/{fileName}(fileName=${image.name})}" alt="Uploaded Image" class="max-w-xs">
                             </div>
                         </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="text-sm text-gray-500" th:text="${concert.category}"></div>
-                        <div class="text-sm text-gray-500" th:text="${concert.status}"></div>
-                        <div class="text-sm text-gray-500" th:text="${place.totalPeople}"></div>
-                        <div class="text-sm text-gray-500" th:text="${concert.seatPrice}"></div>
-                    </div>
+                        <!--카카오 지도 api-->
+                        <div id="map" style="width:500px;height:400px;"></div>
+                        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=801209c5d747fce299c6cb51a4cb0251"></script>
+
+                        <div class="my-3">
+                            <a th:href="@{|/admin/modifyConcert/${concert.concertId}|}" class="modify btn btn-lg btn-outline-secondary" th:text="수정"></a>
+                            <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-lg btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
+                        </div>
                 </div>
             </div>
         </div>
@@ -150,6 +200,7 @@
         <div th:text="${concertDate.endTime}"></div>
 >>>>>>> 369a2ea (feat: 콘서트 글 삭제)
     </div>
+<<<<<<< HEAD
 
 =======
     </div>
@@ -167,6 +218,8 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+>>>>>>> 0a7bee7 (feat: 게시글 상세 화면 변경)
 </div>
 =======
     </div>
