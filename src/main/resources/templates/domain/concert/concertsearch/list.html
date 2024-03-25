@@ -1,19 +1,241 @@
 <html layout:decorate="global/layouts/layout" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-
 <div layout:fragment="content">
     <th:block th:fragment="custom-css">
         <style>
+            .personal-TPlRRchzc3 .contents-inner {
+                padding: 8rem 0.6rem;
+            }
 
+            .personal-TPlRRchzc3 .contents-container {
+                position: relative;
+                width: 1230px;
+            }
+
+            .personal-TPlRRchzc3 .textset {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .personal-TPlRRchzc3 .contents-btn {
+                width: 2.4rem;
+                height: 2.4rem;
+                background-color: transparent;
+                border: 0;
+            }
+
+            .personal-TPlRRchzc3 .contents-btn img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                vertical-align: top;
+            }
+
+            .personal-TPlRRchzc3 .btn-filter {
+                display: none;
+            }
+
+            .personal-TPlRRchzc3 .contents-body {
+                display: flex;
+                justify-content: space-between;
+                gap: 4rem;
+            }
+
+            .personal-TPlRRchzc3 .contents-left {
+                width: 0rem;
+                background-color: var(--white);
+            }
+
+            .personal-TPlRRchzc3 .contents-right {
+                width: 100%;
+                max-width: 1000rem;
+                overflow: hidden;
+            }
+
+            .personal-TPlRRchzc3 .contents-sort {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 2rem;
+                padding: 2rem 0;
+                border-top: 1px solid var(--line-color3);
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .personal-TPlRRchzc3 .contents-sort-total {
+                font-size: var(--fs-p3);
+                line-height: var(--lh-p3);
+                color: var(--text-color3);
+            }
+
+            .personal-TPlRRchzc3 .contents-sort-total span {
+                font-weight: 600;
+                color: var(--text-color1);
+            }
+
+            .personal-TPlRRchzc3 .contents-sort-sel {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+            }
+
+            .personal-TPlRRchzc3 .contents-sort .tabset .tabset-list {
+                justify-content: flex-start;
+            }
+
+            .personal-TPlRRchzc3 .contents-sort .selectset {
+                width: auto;
+                min-width: 14rem;
+                max-width: 14rem;
+            }
+
+            .personal-TPlRRchzc3 .product-list {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .personal-TPlRRchzc3 .product-list .cardset {
+                width: calc(100% / 4);
+                padding: 2rem;
+            }
+
+            .personal-TPlRRchzc3 .product-list .cardset-figure {
+                height: 30rem;
+            }
+
+            .personal-TPlRRchzc3 .contents-dim {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 200;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(17, 17, 17, 0.7);
+            }
+
+
+            .personal-TPlRRchzc3.filter-active .contents-dim {
+                display: block;
+            }
+
+            .personal-TPlRRchzc3 .contents-inner {
+                padding: 5rem 1.6rem;
+            }
+
+            .personal-TPlRRchzc3 .textset-tit {
+                max-width: calc(100% - 2.4rem);
+            }
+
+            .personal-TPlRRchzc3 .contents-filter-body {
+                overflow-y: auto;
+                height: 100%;
+                padding-bottom: 22rem;
+            }
+
+            .personal-TPlRRchzc3 .contents-filter-body .accordset {
+                border-top: 0;
+            }
+
+            .personal-TPlRRchzc3 .btn-filter {
+                display: block;
+            }
+
+            .personal-TPlRRchzc3 .contents-left {
+                position: fixed;
+                right: -100%;
+                opacity: 0;
+                visibility: visible;
+                width: 0;
+                height: 100%;
+                transition: 0.4s;
+                z-index: 300;
+            }
+
+            .personal-TPlRRchzc3 .contents-sort-sel {
+                flex-wrap: wrap;
+                width: 100%;
+            }
+
+            .personal-TPlRRchzc3 .contents-sort .selectset {
+                width: 150%;
+                max-width: 150%;
+            }
+
+            .personal-TPlRRchzc3 .product-list {
+                margin: 2rem 0rem 2rem 0rem;
+            }
+
+            .personal-TPlRRchzc3 .product-list .cardset {
+                width: calc(100% / 2);
+                padding: 2rem 1rem;
+            }
+
+            .personal-TPlRRchzc3 .product-list .cardset + .cardset {
+                margin-top: 0;
+            }
+
+            .personal-TPlRRchzc3 .product-list .cardset-figure {
+                height: 25rem;
+            }
+
+            .personal-TPlRRchzc3 .product-list {
+                flex-grow: 1;
+            }
         </style>
     </th:block>
-
-    <!-- code -->
-    <h1> 검색창 </h1>
-
-
+    <div style="display: flex; justify-content: center; align-items:center;">
+        <div style="display: flex; justify-content: space-between; width: 1500px;">
+            <div style="flex-grow: 1;">
+                <div class="personal-TPlRRchzc3" data-bid="Lgls03hvIE" style=" width: 100%;">
+                    <div class="contents-inner">
+                        <div class="contents-container container">
+                            <div class="contents-right">
+                                <div class="contents-sort">
+                                    <p class="contents-sort-total">총 <span
+                                            th:text="${data.concert.size()}"></span>개의 콘서트가 있습니다.</p>
+                                </div>
+                                <div class="product-list" style="flex-grow: 1;">
+                                    <div th:each="concert1 : *{data.concert}" class="product-item"
+                                         style="width: 20%; margin-bottom: 15px; border: 1px solid lightgray">
+                                        <a class="card card-shopping" style="cursor: pointer; width: 100%;">
+                                            <figure class="card-img-top"
+                                                    th:onclick="|redirectToProduct('${concert1.id}')|">
+                                                <img class="card-img-top" th:src="${concert1.image}"
+                                                     th:href="@{'/concert/' + ${concert1.id}}"
+                                                     alt="스와이퍼 이미지">
+                                            </figure>
+                                            <div class="card-body"
+                                                 style="display: flex; justify-content: space-between; align-items: center;">
+                                                <div th:onclick="|redirectToProduct('${concert1.id}')|">
+                                                    <span class="card-title" th:text="${concert1.name}"></span>
+<!--                                                    <p class="card-text"-->
+<!--                                                       th:text="${#numbers.formatInteger(concert.seatPrice, 3, 'COMMA') + '원'}"></p>-->
+                                                    <div th:each="date : ${concert1.concertDates}">
+                                                        <p class="card-text"
+                                                           th:text="${date.concertDate}"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div layout:fragment="script">
     <script th:inline="javascript">
+
+        function redirectToProduct(productId) {
+            var productUrl = '/concert/' + productId;
+            window.location.href = productUrl;
+        }
 
     </script>
 </div>
