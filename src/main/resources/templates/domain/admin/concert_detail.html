@@ -100,6 +100,7 @@
                         <div class="text-sm text-gray-500" th:text="${concert.concertNameEng}"></div>
                         <div class="text-sm text-gray-500" th:text="${concertPerformer.artistNameKr}"></div>
                         <div class="text-sm text-gray-500" th:text="${concertPerformer.artistNameEng}"></div>
+                        <img th:src="@{/uploadImages/{fileName}(fileName=${image.name})}" alt="Uploaded Image"/>
                     </div>
                     <div class="mb-4">
                         <div class="text-sm text-gray-500" id="longitude" th:text="${place.longitude}"></div>
@@ -121,7 +122,6 @@
                         <div class="text-sm text-gray-500" th:text="${place.totalPeople}"></div>
                         <div class="text-sm text-gray-500" th:text="${concert.seatPrice}"></div>
                     </div>
-                    <img th:src="@{/uploadImages/{fileName}(fileName=${image.name})}" alt="Uploaded Image"/>
                 </div>
             </div>
         </div>
