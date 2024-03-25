@@ -1,8 +1,12 @@
 package com.ll.ticket.domain.place.entity;
 
 import com.ll.ticket.domain.concert.entity.Concert;
+import com.ll.ticket.domain.seat.entity.Seat;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,6 +24,9 @@ public class Place {
     private Double latitude;
 
     private int totalPeople;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Seat> seats = new ArrayList<>();
 
     @OneToOne(mappedBy = "place")
     private Concert concerts;

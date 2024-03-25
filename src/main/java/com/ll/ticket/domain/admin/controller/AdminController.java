@@ -5,6 +5,7 @@ import com.ll.ticket.domain.admin.service.AdminService;
 import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.entity.ConcertDate;
 import com.ll.ticket.domain.concert.entity.ConcertPerformer;
+import com.ll.ticket.domain.concert.entity.Image;
 import com.ll.ticket.domain.concert.service.ConcertDateService;
 import com.ll.ticket.domain.concert.service.ConcertPerformerService;
 import com.ll.ticket.domain.concert.service.ConcertService;
@@ -18,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -46,7 +49,7 @@ public class AdminController {
 
     //콘서트 등록
     @PostMapping(value = "/registerConcert")
-    public String registerConcert(@Valid RegisterConcertDto registerConcertDto, BindingResult bindingResult) {
+    public String registerConcert(@Valid RegisterConcertDto registerConcertDto, BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
             return "domain/admin/register_concert";
         }
@@ -67,16 +70,18 @@ public class AdminController {
 
     //관리자용 콘서트 글 상세 페이지
     @GetMapping(value = "/concertDetail/{id}")
-    public String concertDetail(Model model, @PathVariable("id") Long id){
+    public String concertDetail(Model model, @PathVariable("id") Long id) {
         Concert concert = this.concertService.findById(id);
         Place place = this.concertService.findPlace(concert);
         ConcertPerformer concertPerformer = this.concertService.findConcertPerformer(concert);
         List<ConcertDate> concertDates = this.concertService.findConcertDates(concert);
+        Image image = this.concertPerformerService.findImage(concertPerformer.getConcertPerformerId());
 
         model.addAttribute("concert", concert);
         model.addAttribute("place", place);
         model.addAttribute("concertPerformer", concertPerformer);
         model.addAttribute("concertDates", concertDates);
+        model.addAttribute("image", image);
 
         return "domain/admin/concert_detail";
     }

@@ -4,6 +4,7 @@ import com.ll.ticket.domain.admin.dto.RegisterConcertDto;
 import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.entity.ConcertDate;
 import com.ll.ticket.domain.concert.entity.ConcertPerformer;
+import com.ll.ticket.domain.concert.entity.Image;
 import com.ll.ticket.domain.concert.repository.ConcertDateRepository;
 import com.ll.ticket.domain.concert.repository.ConcertPerformerRepository;
 import com.ll.ticket.domain.concert.repository.ConcertRepository;
@@ -13,10 +14,14 @@ import com.ll.ticket.global.enums.ConcertCategory;
 import com.ll.ticket.global.enums.ConcertStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -26,7 +31,7 @@ public class AdminService {
     private final ConcertDateRepository concertDateRepository;
     private final ConcertPerformerRepository concertPerformerRepository;
 
-    public void register(RegisterConcertDto registerConcertDto){
+    public void register(RegisterConcertDto registerConcertDto) throws IOException {
         String name = registerConcertDto.getName();
         String concertNameKr = registerConcertDto.getConcertNameKr();
         String concertNameEng = registerConcertDto.getConcertNameEng();
@@ -49,9 +54,24 @@ public class AdminService {
         List<ConcertDate> concertDates = new ArrayList<>();
         concertDates.add(concertDate);
 
+        //업로드 된 이미지 처리
+        MultipartFile file = registerConcertDto.getImage();
+        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\uploadImages\\";
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid + "_" + file.getOriginalFilename();
+        File saveFile = new File(projectPath, fileName);
+        file.transferTo(saveFile);
+
+        Image image = Image.builder()
+                .name(fileName)
+                .path("/uploadImages/" + fileName)
+                .build();
+
         ConcertPerformer concertPerformer = ConcertPerformer.builder()
                 .artistNameKr(registerConcertDto.getArtistNameKr())
-                .artistNameEng(registerConcertDto.getArtistNameEng()).build();
+                .artistNameEng(registerConcertDto.getArtistNameEng())
+                .image(image)
+                .build();
 
         concertPerformerRepository.save(concertPerformer);
 

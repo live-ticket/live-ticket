@@ -1,6 +1,7 @@
 package com.ll.ticket.domain.concert.service;
 
 import com.ll.ticket.domain.concert.entity.ConcertPerformer;
+import com.ll.ticket.domain.concert.entity.Image;
 import com.ll.ticket.domain.concert.repository.ConcertPerformerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,16 @@ public class ConcertPerformerService {
 
         if (concertPerformer.isPresent()) {
             return concertPerformer.get();
+        } else {
+            throw new IllegalArgumentException("존재하지 않는 공연자 정보입니다.");
+        }
+    }
+
+    public Image findImage(Long id) {
+        Optional<ConcertPerformer> concertPerformer = concertPerformerRepository.findById(id);
+
+        if (concertPerformer.isPresent()) {
+            return concertPerformer.get().getImage();
         } else {
             throw new IllegalArgumentException("존재하지 않는 공연자 정보입니다.");
         }

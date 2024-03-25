@@ -2,6 +2,7 @@ package com.ll.ticket.domain.concert.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Getter
@@ -20,4 +21,5 @@ public class Image {
 
     private String path;
 
+    private String name;
 }
