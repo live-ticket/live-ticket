@@ -9,10 +9,15 @@
                 justify-content: space-between;
                 margin-top: 50px;
                 margin-right: 20px;
+                text-align: center;
             }
 
             .concert-info2 {
                 margin-top: 50px; /* 각 요소 사이의 간격 설정 */
+            }
+
+            .genre {
+                margin-right: 20px; /* 장르 요소의 위 여백 조절 */
             }
 
             .concert-info2 span:nth-child(2) {
@@ -27,11 +32,7 @@
             #submitButton:disabled {
                 background-color: grey; /* 비활성화 상태의 배경색 */
                 color: black; /* 비활성화 상태의 텍스트 색상 */
-
-
             }
-
-
         </style>
     </th:block>
 
@@ -44,10 +45,14 @@
             <div>
                 <div class="concert-info">
                     <div>
-                        <span>장소 </span><span th:text="${place.getLatitude()}"></span>
+                        <span>장소 </span> &nbsp;
+                        <a th:href="@{'https://map.kakao.com/link/map/' + ${place.getPlaceName()} + ','
+                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}">
+                        </a>
+
                     </div>
 
-                    <div>
+                    <div class="genre">
                         <span>장르 </span><span th:text="${concertDTO.getCategory()}"></span>
                     </div>
                 </div>
@@ -105,7 +110,7 @@
                         <input type="hidden" name="concertDateId" value="0">
                         <button id="submitButton" class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
                                 type="submit" th:disabled="${concertDTO.status == 'ABLE'}">
-                            <span th:if="${concertDTO.status == 'ABLE'}">지금은 예매 가능한 시간이 아닙니다.</span>
+                            <span th:if="${concertDTO.status == 'ABLE'}">예매 가능한 시간이 아닙니다.</span>
                             <span th:unless="${concertDTO.status == 'ABLE'}">예매하기</span>
                         </button>
                     </form>
@@ -272,10 +277,14 @@
 
                     <!-- 지도 -->
                <div class="mb-10">
-                <h2>공연장 위치</h2>
+                <strong>공연장 위치</strong>
                </div>
+                <a th:href="@{'https://map.kakao.com/link/map/' + ${place.getPlaceName()} + ','
+                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}" style="color: blue; text-decoration: underline;">
+                    <i class="fa-regular fa-link"></i>
+                </a>
 
-                <div id="map" style="width: 500px; height: 400px;"></div>
+                <div id="map" style="width: 1000px; height: 500px;"></div>
 
             </div>
 
