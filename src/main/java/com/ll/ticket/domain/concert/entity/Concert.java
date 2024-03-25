@@ -51,6 +51,9 @@ public class Concert extends BaseEntity {
     @Column(nullable = true)
     private LocalDateTime modifyDate;
 
+    @OneToMany(mappedBy = "concert", fetch = FetchType.LAZY)
+    private List<Image> images = new ArrayList<>();
+
     public void setStatus(ConcertStatus status) {
         this.status = status;
     }
