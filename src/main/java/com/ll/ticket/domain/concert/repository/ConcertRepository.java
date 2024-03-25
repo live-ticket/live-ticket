@@ -11,7 +11,7 @@ import java.util.List;
 public interface ConcertRepository extends JpaRepository<Concert, Long> {
     Page<Concert> findAll(Pageable pageable);
 
-    @Query("SELECT c FROM Concert c join fetch c.place p left join fetch c.concertPerformer cp " +
+    @Query("SELECT distinct c FROM Concert c join fetch c.place p left join fetch c.concertPerformer cp left join fetch c.images " +
             "WHERE LOWER(c.concertNameKr) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
             "OR LOWER(cp.artistNameEng) LIKE LOWER(CONCAT('%', :keyword, '%'))" +
             "OR LOWER(cp.artistNameKr) LIKE LOWER(CONCAT('%', :keyword, '%'))" +
