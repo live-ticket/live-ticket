@@ -27,15 +27,15 @@ public class Concert extends BaseEntity {
     private String concertNameKr;
     private String concertNameEng;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.REMOVE)
     @JoinColumn(name = "concert_performer_id")
     private ConcertPerformer concertPerformer;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "place_id")
     private Place place;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "concert")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "concert")
     private List<ConcertDate> concertDates = new ArrayList<>();
 
     private LocalDateTime releaseTime;
@@ -53,7 +53,7 @@ public class Concert extends BaseEntity {
     @Column(nullable = true)
     private LocalDateTime modifyDate;
 
-    @OneToMany(mappedBy = "concert", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "concert")
     private List<Image> images = new ArrayList<>();
 
     public void setStatus(ConcertStatus status) {

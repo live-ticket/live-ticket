@@ -26,7 +26,7 @@ public class Place {
 
     private int totalPeople;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "place")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "place")
     private List<Seat> seats = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "place")

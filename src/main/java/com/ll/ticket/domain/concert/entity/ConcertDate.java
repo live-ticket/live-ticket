@@ -16,7 +16,7 @@ public class ConcertDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long concertDateId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "concert_id")
     private Concert concert;
 

@@ -8,6 +8,7 @@ import com.ll.ticket.domain.concert.entity.Image;
 import com.ll.ticket.domain.concert.repository.ConcertDateRepository;
 import com.ll.ticket.domain.concert.repository.ConcertPerformerRepository;
 import com.ll.ticket.domain.concert.repository.ConcertRepository;
+import com.ll.ticket.domain.concert.repository.ImageRepository;
 import com.ll.ticket.domain.place.entity.Place;
 import com.ll.ticket.domain.place.repository.PlaceRepository;
 import com.ll.ticket.domain.seat.entity.Seat;
@@ -33,6 +34,7 @@ public class AdminService {
     private final ConcertDateRepository concertDateRepository;
     private final ConcertPerformerRepository concertPerformerRepository;
     private final SeatRepository seatRepository;
+    private final ImageRepository imageRepository;
 
     public void register(RegisterConcertDto registerConcertDto) throws IOException {
 
@@ -68,14 +70,19 @@ public class AdminService {
                 .createDate(LocalDateTime.now())
                 .build();
 
+        this.concertRepository.save(concert);
+
+        //Image 객체 빌드
+        List<Image> images = new ArrayList<>();
+
         Image image = Image.builder()
                 .concert(concert)
                 .name(fileName)
                 .path("/uploadImages/" + fileName)
                 .build();
 
-        List<Image> images = new ArrayList<>();
         images.add(image);
+        imageRepository.save(image);
 
         //Place 객체 빌드
         Place place = Place.builder()
@@ -85,6 +92,7 @@ public class AdminService {
                 .totalPeople(registerConcertDto.getTotalPeople())
                 .build();
 
+        concert.setPlace(place);
         placeRepository.save(place);
 
         //Seat 객체 빌드
@@ -101,27 +109,25 @@ public class AdminService {
         }
 
         //ConcertDate 객체 빌드
+        List<ConcertDate> concertDates = new ArrayList<>();
+
         ConcertDate concertDate = ConcertDate.builder()
                 .concert(concert)
                 .startTime(registerConcertDto.getStartTime())
                 .endTime(registerConcertDto.getEndTime())
                 .build();
 
-        concertDateRepository.save(concertDate);
-
-        List<ConcertDate> concertDates = new ArrayList<>();
         concertDates.add(concertDate);
+        concertDateRepository.save(concertDate);
 
         //ConcertPerformer 객체 빌드
         ConcertPerformer concertPerformer = ConcertPerformer.builder()
-                .concert(concert)
                 .artistNameKr(registerConcertDto.getArtistNameKr())
                 .artistNameEng(registerConcertDto.getArtistNameEng())
                 .build();
 
+        concert.setConcertPerformer(concertPerformer);
         concertPerformerRepository.save(concertPerformer);
-
-        this.concertRepository.save(concert);
     }
 
     public void modify(RegisterConcertDto registerConcertDto, Concert concert, Place place, ConcertPerformer concertPerformer, List<ConcertDate> concertDates){
