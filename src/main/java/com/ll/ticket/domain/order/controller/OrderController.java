@@ -90,7 +90,7 @@ public class OrderController {
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             e.printStackTrace();
-            return "redirect:/concert/" + concertId;
+            return "redirect:/concert/detail/" + concertId;
         }
 
     }
