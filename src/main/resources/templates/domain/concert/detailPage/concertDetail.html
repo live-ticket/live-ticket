@@ -108,6 +108,9 @@
 
     <!-- 본문 -->
     <div class="artboard artboard-horizontal phone-6  border">
+        <div th:each="imagePath : ${concertDTO.imagePaths}">
+            <img th:src="${imagePath}" style="float: left; margin-right: 10px; width: 200px; height: 320px;"/>
+        </div>
         <div class="artboard artboard-horizontal phone-1  mx-auto">
             <div class="grid h-20 card place-items-center" style="justify-content: flex-start">
                 <h2 th:text="${concertDTO.getConcertNameKr()}"></h2>
@@ -118,7 +121,7 @@
                     <div>
                         <span>장소 </span> &nbsp;
                         <a th:href="@{'https://map.kakao.com/link/map/' + ${place.getPlaceName()} + ','
-                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}">
+                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}" target="_blank">
                         </a>
 
                     </div>
@@ -351,11 +354,10 @@
                     <strong>공연장 위치</strong>
                 </div>
                 <a th:href="@{'https://map.kakao.com/link/map/' + ${place.getPlaceName()} + ','
-                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}" style="color: blue; text-decoration: underline;">
-                    <i class="fa-regular fa-link"></i>
+                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}" style="color: blue; text-decoration: underline;" target="_blank">
                 </a>
 
-                <div id="map" style="width: 1000px; height: 500px;"></div>
+                <div id="map" style="width: 900px; height: 500px;"></div>
 
             </div>
 
