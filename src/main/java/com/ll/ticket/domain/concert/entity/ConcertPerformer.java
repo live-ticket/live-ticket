@@ -14,13 +14,8 @@ public class ConcertPerformer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long concertPerformerId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "concert_id")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "concertPerformer")
     private Concert concert;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id")
-    private Image image;
 
     private String artistNameKr;
     private String artistNameEng;

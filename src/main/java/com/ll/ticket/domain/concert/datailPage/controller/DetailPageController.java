@@ -1,4 +1,4 @@
-package com.ll.ticket.domain.concert.datailPage.controller;
+/*package com.ll.ticket.domain.concert.datailPage.controller;
 
 import com.ll.ticket.domain.concert.datailPage.detailPagedto.ConcertDTO;
 import com.ll.ticket.domain.concert.datailPage.detailPagedto.ConcertDateDTO;
@@ -86,4 +86,4 @@ public class DetailPageController {
             return "main";
         }
     }
-}
+}*/

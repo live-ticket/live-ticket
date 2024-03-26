@@ -7,8 +7,8 @@
         </style>
     </th:block>
 
-    <h5 class="my-3 border-bottom pb-2">공연 등록</h5>
-    <form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post">
+    <h3 class="my-3 border-bottom pb-2">공연 등록</h3>
+    <form th:action="@{/admin/registerConcert}" th:object="${registerConcertDto}" method="post" enctype="multipart/form-data">
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
@@ -16,6 +16,7 @@
             <label for="name" class="form-label">제목</label>
             <input type="text" name="name" id="name" class="form-control">
         </div>
+
         <div class="mb-3">
             <label for="concertNameKr" class="form-label">콘서트명</label>
             <input type="text" name="concertNameKr" id="concertNameKr" class="form-control">
@@ -25,12 +26,21 @@
             <input type="text" name="concertNameEng" id="concertNameEng" class="form-control">
         </div>
         <div class="mb-3">
-            <label for="artistNameKr" class="form-label">출연자명</label>
-            <input type="text" name="artistNameKr" id="artistNameKr" class="form-control">
+            <label class="col-form-label col-4">출연자 정보</label>
+        </div>
+        <div class="mb-3 row">
+            <div class="col">
+                <label for="artistNameKr" class="form-label">출연자명</label>
+                <input type="text" name="artistNameKr" id="artistNameKr" class="form-control">
+            </div>
+            <div class="col">
+                <label for="artistNameEng" class="form-label">출연자 영문명</label>
+                <input type="text" name="artistNameEng" id="artistNameEng" class="form-control">
+            </div>
         </div>
         <div class="mb-3">
-            <label for="artistNameEng" class="form-label">출연자 영문명</label>
-            <input type="text" name="artistNameEng" id="artistNameEng" class="form-control">
+            <label for="image" class="form-label">출연자 이미지 등록</label>
+            <input type="file" name="image" id="image" class="form-control">
         </div>
         <div class="mb-3">
             <label class="col-form-label col-2">장소</label>

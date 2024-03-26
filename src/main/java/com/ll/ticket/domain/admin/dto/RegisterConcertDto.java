@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -54,4 +55,6 @@ public class RegisterConcertDto {
     @NotNull(message = "좌석 가격을 입력하세요")
     @Min(0)
     private int seatPrice;
+
+    private MultipartFile image;
 }
