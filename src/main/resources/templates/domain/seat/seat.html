@@ -36,12 +36,16 @@
     <div>예매 중인 콘서트 날짜</div>
     <div th:text="${concertDate.concertDate}"></div>
 
+    <div>예매 장수</div>
+    <div th:text="${concertTicketCount}"></div>
+
     <div id="seatMap"></div>
 
     <div>
         <form id="seatForm" th:action="|/order/${concert.concertId}|" method="POST">
             <input type="hidden" name="concertDateId" th:value="${concertDate.concertDateId}">
             <input type="hidden" name="selectedSeatsData" id="selectedSeatsData">
+            <input type="hidden" name="concertTicketCount" th:value="${concertTicketCount}">
             <button id="submitButton" class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue" type="submit">좌석 선택 완료</button>
         </form>
     </div>
@@ -49,6 +53,8 @@
 
 <div layout:fragment="script">
     <script th:inline="javascript">
+        let selectedSeatsCount;
+
         document.addEventListener('DOMContentLoaded', function() {
             const reservedSeatIds = /*[[${reservedSeatIds}]]*/ [];
             const seatIds = /*[[${seatIds}]]*/ [];
@@ -56,6 +62,7 @@
             const seatMap = document.getElementById('seatMap');
             const seatsPerRow = 10; // 각 행당 좌석 수
             const totalSeats = totalPeople; // 전체 좌석 수
+            const concertTicketCount = /*[[${concertTicketCount}]]*/ [];
             let selectedSeats = [];
 
             // 좌석 생성
@@ -70,6 +77,11 @@
                 }
 
                 seat.addEventListener('click', function() {
+                    if (selectedSeats.length >= concertTicketCount) {
+                        alert('예매 장수를 초과하였습니다.');
+                        return;
+                    }
+
                     const seatNumber = parseInt(this.dataset.value);
                     if (this.classList.contains('selected')) {
                         this.classList.remove('selected');
@@ -81,8 +93,8 @@
                         this.classList.add('selected');
                         selectedSeats.push(seatNumber);
                     }
-                    console.log('선택 좌석 번호:', selectedSeats);
                     document.getElementById('selectedSeatsData').value = JSON.stringify(selectedSeats);
+                    selectedSeatsCount = selectedSeats.length;
                 });
                 seatMap.appendChild(seat);
 
@@ -102,8 +114,10 @@
 
         function submitSeatInfo(form) {
             const selectedSeatsData = document.getElementById('selectedSeatsData').value;
-            if (selectedSeatsData === '[]' || selectedSeatsData === '') {
-                alert('좌석을 선택해주세요.');
+            const concertTicketCount = /*[[${concertTicketCount}]]*/ [];
+
+            if (selectedSeatsData === '[]' || selectedSeatsData === '' || selectedSeatsCount != concertTicketCount) {
+                alert(`예매 장수(${concertTicketCount}장) 만큼 좌석을 선택해주세요.`);
                 return false;
             }
 
