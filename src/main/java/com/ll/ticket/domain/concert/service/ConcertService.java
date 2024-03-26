@@ -1,9 +1,6 @@
 package com.ll.ticket.domain.concert.service;
 
-import com.ll.ticket.domain.concert.entity.Concert;
-import com.ll.ticket.domain.concert.entity.ConcertDate;
-import com.ll.ticket.domain.concert.entity.ConcertPerformer;
-import com.ll.ticket.domain.concert.entity.ConcertSeatHistory;
+import com.ll.ticket.domain.concert.entity.*;
 import com.ll.ticket.domain.concert.repository.ConcertDateRepository;
 import com.ll.ticket.domain.concert.repository.ConcertRepository;
 import com.ll.ticket.domain.concert.repository.ConcertSeatHistoryRepository;
@@ -108,4 +105,6 @@ public class ConcertService {
     public ConcertPerformer findConcertPerformer(Concert concert){
         return concert.getConcertPerformer();
     }
+
+    public List<Image> findImages(Concert concert){ return concert.getImages();}
 }

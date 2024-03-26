@@ -1,6 +1,7 @@
 package com.ll.ticket.domain.concert.service;
 
 import com.ll.ticket.domain.concert.entity.ConcertPerformer;
+import com.ll.ticket.domain.concert.entity.Image;
 import com.ll.ticket.domain.concert.repository.ConcertPerformerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
