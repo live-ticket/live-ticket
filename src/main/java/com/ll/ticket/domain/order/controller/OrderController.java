@@ -69,6 +69,7 @@ public class OrderController {
     public String order(@PathVariable("concertId") Long concertId,
                         @RequestParam("concertDateId") String concertDateId,
                         @RequestParam("selectedSeatsData") String selectedSeatsData,
+                        @RequestParam("concertTicketCount") int concertTicketCount,
                         @AuthenticationPrincipal SecurityUser securityUser,
                         RedirectAttributes redirectAttributes) {
         try {
@@ -85,7 +86,7 @@ public class OrderController {
                 throw new IllegalArgumentException("공연 날짜가 존재하지 않습니다.");
             }
 
-            Order order = orderService.order(concert, concertDate, member, selectedSeatsData);
+            Order order = orderService.order(concert, concertDate, member, selectedSeatsData, concertTicketCount);
             return "redirect:/order/" + order.getOrderId();
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());

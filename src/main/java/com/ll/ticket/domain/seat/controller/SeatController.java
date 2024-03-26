@@ -19,7 +19,9 @@ public class SeatController {
     private final ConcertService concertService;
 
     @PostMapping("/concert/{id}/seat")
-    public String getSeat(@PathVariable("id") Long id, @RequestParam("concertDateId") String concertDateId,
+    public String getSeat(@PathVariable("id") Long id,
+                          @RequestParam("concertDateId") String concertDateId,
+                          @RequestParam("concertTicketCount") String concertTicketCount,
                           Model model,
                           RedirectAttributes redirectAttributes
     ) {
@@ -43,6 +45,7 @@ public class SeatController {
             model.addAttribute("concertDate", concertDate);
             model.addAttribute("reservedSeatIds", reservedSeatIds);
             model.addAttribute("seatIds", seatIds);
+            model.addAttribute("concertTicketCount",concertTicketCount);
 
             return "domain/seat/seat";
         } catch (IllegalArgumentException e) {

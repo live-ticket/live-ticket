@@ -30,12 +30,16 @@ public class OrderService {
     private final ConcertSeatHistoryRepository concertSeatHistoryRepository;
 
     @Transactional
-    public Order order(Concert concert, ConcertDate concertDate, Member member, String selectedSeatsData) {
+    public Order order(Concert concert, ConcertDate concertDate, Member member, String selectedSeatsData, int concertTicketCount) {
         String selectedSeatsString = selectedSeatsData.substring(1, selectedSeatsData.length() - 1);
         String[] seatIdsArray = selectedSeatsString.split(",");
         List<Long> seatIds = Arrays.stream(seatIdsArray)
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
+
+        if (seatIds.size() != concertTicketCount) {
+            throw new IllegalArgumentException("좌석과 예매 장수가 일치하지 않습니다.");
+        }
 
         List<ConcertSeatHistory> seatHistoryList = concertSeatHistoryRepository.findAllAndLockByConcertDate(concertDate);
 
