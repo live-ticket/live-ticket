@@ -26,17 +26,9 @@ public class Place {
 
     private int totalPeople;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "place")
     private List<Seat> seats = new ArrayList<>();
 
-<<<<<<< HEAD
-    @OneToOne(mappedBy = "place")
-    private Concert concerts;
-
-=======
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "concert_id")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "place")
     private Concert concert;
->>>>>>> f48f1d1 (fix: 엔Concert 엔티티 관계 수정)
 }
-

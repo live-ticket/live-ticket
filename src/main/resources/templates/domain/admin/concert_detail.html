@@ -86,190 +86,95 @@
         </style>
     </th:block>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> edc9d32 (fix: 글 등록 오류 수정)
     <div class="flex flex-col min-h-screen">
         <div class="w-full p-5 bg-white">
             <div class="w-full mx-auto bg-white shadow-md rounded-lg overflow-hidden">
                 <h3 class="text-5xl font-bold mb-4 p-5" th:text="${concert.name}"></h3>
-                    <div class="p-5">
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full table-auto">
-                                <thead class="bg-gray-200">
+                <div class="p-5">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full table-auto">
+                            <thead class="bg-gray-200">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-xl w-1/4">항목</th>
+                                <th class="px-4 py-2 text-left text-xl w-3/4">정보</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="border px-4 py-2 text-xl">콘서트명 (KR)</td>
+                                <td class="border px-4 py-2 text-xl" th:text="${concert.concertNameKr}"></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2 text-xl">콘서트명 (ENG)</td>
+                                <td class="border px-4 py-2 text-xl" th:text="${concert.concertNameEng}"></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2 text-xl">아티스트명 (KR)</td>
+                                <td class="border px-4 py-2 text-xl" th:text="${concertPerformer.artistNameKr}"></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2 text-xl">아티스트명 (ENG)</td>
+                                <td class="border px-4 py-2 text-xl" th:text="${concertPerformer.artistNameEng}"></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2 text-xl">경도</td>
+                                <td class="border px-4 py-2 text-xl" id="longitude" th:text="${place.longitude}"></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2 text-xl">위도</td>
+                                <td class="border px-4 py-2 text-xl" id="latitude" th:text="${place.latitude}"></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2 text-xl">티켓 오픈 시간</td>
+                                <td class="border px-4 py-2 text-xl" th:text="${#temporals.format(concert.releaseTime, 'yyyy-MM-dd HH:mm')}"></td>
+                            </tr>
+                            <div th:each="concertDate : ${concertDates}">
                                 <tr>
-                                    <th class="px-4 py-2 text-left text-xl w-1/4">항목</th>
-                                    <th class="px-4 py-2 text-left text-xl w-3/4">정보</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td class="border px-4 py-2 text-xl">콘서트명 (KR)</td>
-                                    <td class="border px-4 py-2 text-xl" th:text="${concert.concertNameKr}"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border px-4 py-2 text-xl">콘서트명 (ENG)</td>
-                                    <td class="border px-4 py-2 text-xl" th:text="${concert.concertNameEng}"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border px-4 py-2 text-xl">아티스트명 (KR)</td>
-                                    <td class="border px-4 py-2 text-xl" th:text="${concertPerformer.artistNameKr}"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border px-4 py-2 text-xl">아티스트명 (ENG)</td>
-                                    <td class="border px-4 py-2 text-xl" th:text="${concertPerformer.artistNameEng}"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border px-4 py-2 text-xl">경도</td>
-                                    <td class="border px-4 py-2 text-xl" id="longitude" th:text="${place.longitude}"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border px-4 py-2 text-xl">위도</td>
-                                    <td class="border px-4 py-2 text-xl" id="latitude" th:text="${place.latitude}"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border px-4 py-2 text-xl">티켓 오픈 시간</td>
-                                    <td class="border px-4 py-2 text-xl" th:text="${#temporals.format(concert.releaseTime, 'yyyy-MM-dd HH:mm')}"></td>
-                                </tr>
-                                <div th:each="concertDate : ${concertDates}">
-                                    <tr>
-                                        <td class="border px-4 py-2 text-xl">공연 시작 일시</td>
-                                        <td class="border px-4 py-2 text-xl" th:text="${#temporals.format(concertDate.startTime, 'yyyy-MM-dd HH:mm')}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border px-4 py-2 text-xl">공연 종료 일시</td>
-                                        <td class="border px-4 py-2 text-xl" th:text="${#temporals.format(concertDate.endTime, 'yyyy-MM-dd HH:mm')}"></td>
-                                    </tr>
-                                </div>
-                                <tr>
-                                    <td class="border px-4 py-2 text-xl">카테고리</td>
-                                    <td class="border px-4 py-2 text-xl" th:text="${concert.category}"></td>
+                                    <td class="border px-4 py-2 text-xl">공연 시작 일시</td>
+                                    <td class="border px-4 py-2 text-xl" th:text="${#temporals.format(concertDate.startTime, 'yyyy-MM-dd HH:mm')}"></td>
                                 </tr>
                                 <tr>
-                                    <td class="border px-4 py-2 text-xl">상태</td>
-                                    <td class="border px-4 py-2 text-xl" th:text="${concert.status}"></td>
+                                    <td class="border px-4 py-2 text-xl">공연 종료 일시</td>
+                                    <td class="border px-4 py-2 text-xl" th:text="${#temporals.format(concertDate.endTime, 'yyyy-MM-dd HH:mm')}"></td>
                                 </tr>
-                                <tr>
-                                    <td class="border px-4 py-2 text-xl">총 인원</td>
-                                    <td class="border px-4 py-2 text-xl" th:text="${place.totalPeople}"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border px-4 py-2 text-xl">좌석 가격</td>
-                                    <td class="border px-4 py-2 text-xl" th:text="${concert.seatPrice}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            </div>
+                            <tr>
+                                <td class="border px-4 py-2 text-xl">카테고리</td>
+                                <td class="border px-4 py-2 text-xl" th:text="${concert.category}"></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2 text-xl">상태</td>
+                                <td class="border px-4 py-2 text-xl" th:text="${concert.status}"></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2 text-xl">총 인원</td>
+                                <td class="border px-4 py-2 text-xl" th:text="${place.totalPeople}"></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2 text-xl">좌석 가격</td>
+                                <td class="border px-4 py-2 text-xl" th:text="${concert.seatPrice}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div th:each="image : ${images}">
                             <div>
                                 <img th:src="@{/uploadImages/{fileName}(fileName=${image.name})}" alt="Uploaded Image" class="max-w-xs">
                             </div>
                         </div>
-                        <!--카카오 지도 api-->
-                        <div id="map" style="width:500px;height:400px;"></div>
-                        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=801209c5d747fce299c6cb51a4cb0251"></script>
+                    </div>
+                    <!--카카오 지도 api-->
+                    <!--<div id="map" style="width:500px;height:400px;"></div>
+                    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=801209c5d747fce299c6cb51a4cb0251"></script>-->
 
-                        <div class="my-3">
-                            <a th:href="@{|/admin/modifyConcert/${concert.concertId}|}" class="modify btn btn-lg btn-outline-secondary" th:text="수정"></a>
-                            <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-lg btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
-                        </div>
+                    <div class="my-3">
+                        <a th:href="@{|/admin/modifyConcert/${concert.concertId}|}" class="modify btn btn-lg btn-outline-secondary" th:text="수정"></a>
+                        <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-lg btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
+                    </div>
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-=======
-    <h1 th:text="${concert.name}"></h1>
-    <div th:text="${concert.concertNameKr}"></div>
-    <div th:text="${concert.concertNameEng}"></div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <div th:text="${concertPerformer.artistNameKr}"></div>
-    <div th:text="${concertPerformer.artistNameEng}"></div>
-=======
-    <!--<div th:text="${concertPerformer.artistNameKr}"></div>
-    <div th:text="${concertPerformer.artistNameEng}"></div>-->
->>>>>>> fd2939e (feat: 관리자용 글 상세 페이지 카카오 지도 추가)
-=======
-    <div th:text="${concertPerformer.artistNameKr}"></div>
-    <div th:text="${concertPerformer.artistNameEng}"></div>
->>>>>>> 8db748e (fix: 글 ã상세 오류 해결)
-    <div id="longtitude" th:text="${place.longitude}"></div>
-    <div id="latitude" th:text="${place.latitude}"></div>
-    <div th:text="${#temporals.format(concert.releaseTime, 'yyyy-MM-dd HH:mm')}"></div>
-    <div th:each="concertDate : ${concertDates}">
-        <div th:text="${concertDate.startTime}"></div>
-        <div th:text="${concertDate.endTime}"></div>
->>>>>>> 369a2ea (feat: 콘서트 글 삭제)
     </div>
-<<<<<<< HEAD
-
-=======
-    </div>
->>>>>>> edc9d32 (fix: 글 등록 오류 수정)
-
-
-    <!--카카오 지도 api-->
-    <div id="map" style="width:500px;height:400px;"></div>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=801209c5d747fce299c6cb51a4cb0251"></script>
-
-    <div class="my-3">
-        <a th:href="@{|/admin/modifyConcert/${concert.concertId}|}" class="modify btn btn-lg btn-outline-secondary" th:text="수정"></a>
-        <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-lg btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
-    </div>
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0a7bee7 (feat: 게시글 상세 화면 변경)
 </div>
-=======
-    </div>
-<<<<<<< HEAD
-=======
-    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
-=======
-    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>
-=======
-    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();></a>
->>>>>>> 833d680 (feat: 삭제  시 확인 추가)
-    <!--<a href="javascript:void(0);" th:data-uri="@{|/admin/deleteConcert/${concert.id}|}"
-       class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>-->
->>>>>>> d175261 (feat: 콘ã콘서트 글 삭제)
-<<<<<<< HEAD
->>>>>>> 7fdf705 (feat: 콘서트 글 삭제)
-<<<<<<< HEAD
->>>>>>> 369a2ea (feat: 콘서트 글 삭제)
-=======
-=======
-=======
-    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
-<<<<<<< HEAD
-    <!--<a href="javascript:void(0);" th:data-uri="@{|/admin/deleteConcert/${concert.id}|}"
-   class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>-->
->>>>>>> 6eeac95 (fix: modifyDate 옵션 수정)
-<<<<<<< HEAD
->>>>>>> 9806493 (fix: modifyDate 옵션 수정)
-<<<<<<< HEAD
->>>>>>> 9b4124a (fix: modifyDate 옵션 수정)
-=======
-=======
-=======
->>>>>>> d3aaa15 (fix: 콘서트 게시글 confirm 수정)
->>>>>>> febe355 (fix: 콘서트 게시글 confirm 수정)
-<<<<<<< HEAD
->>>>>>> c7cf079 (fix: 콘서트 게시글 confirm 수정)
-=======
-=======
-    <a th:href="@{|/admin/deleteConcert/${concert.concertId}|}" class="delete btn btn-sm btn-outline-secondary" th:text="삭제" onclick="return confirmDelete();"></a>
->>>>>>> fd2939e (feat: 관리자용 글 상세 페이지 카카오 지도 추가)
-<<<<<<< HEAD
->>>>>>> 021c399 (feat: 관리자용 글 상세 페이지 카카오 지도 추가)
-=======
-=======
->>>>>>> f85231d (ìfeat: 콘서트 글 ì수정)
->>>>>>> bdef04e (feat: 콘서트 글 수정)
-=======
-</div>
->>>>>>> edc9d32 (fix: 글 등록 오류 수정)
 
 </div>
 <div layout:fragment="script">

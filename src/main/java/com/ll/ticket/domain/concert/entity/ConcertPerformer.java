@@ -2,7 +2,6 @@ package com.ll.ticket.domain.concert.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Getter
@@ -15,8 +14,7 @@ public class ConcertPerformer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long concertPerformerId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "concert_id")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "concertPerformer")
     private Concert concert;
 
     private String artistNameKr;

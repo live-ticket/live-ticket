@@ -1,6 +1,5 @@
 package com.ll.ticket.domain.admin.dto;
 
-import com.ll.ticket.domain.concert.entity.Image;
 import com.ll.ticket.global.enums.ConcertCategory;
 import com.ll.ticket.global.enums.ConcertStatus;
 import jakarta.validation.constraints.Min;

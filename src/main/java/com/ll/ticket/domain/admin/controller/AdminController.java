@@ -75,13 +75,13 @@ public class AdminController {
         Place place = this.concertService.findPlace(concert);
         ConcertPerformer concertPerformer = this.concertService.findConcertPerformer(concert);
         List<ConcertDate> concertDates = this.concertService.findConcertDates(concert);
-        Image image = this.concertService.findImage(concertPerformer.getConcertPerformerId());
+        List<Image> images = this.concertService.findImages(concert);
 
         model.addAttribute("concert", concert);
         model.addAttribute("place", place);
         model.addAttribute("concertPerformer", concertPerformer);
         model.addAttribute("concertDates", concertDates);
-        model.addAttribute("image", image);
+        model.addAttribute("images", images);
 
         return "domain/admin/concert_detail";
     }

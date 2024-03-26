@@ -106,13 +106,5 @@ public class ConcertService {
         return concert.getConcertPerformer();
     }
 
-    public Image findImage(Long id) {
-        Optional<Concert> concert = concertRepository.findById(id);
-
-        if (concert.isPresent()) {
-            return concert.get().getImage();
-        } else {
-            throw new IllegalArgumentException("존재하지 않는 공연 정보입니다.");
-        }
-    }
+    public List<Image> findImages(Concert concert){ return concert.getImages();}
 }

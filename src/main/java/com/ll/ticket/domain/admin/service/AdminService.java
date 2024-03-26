@@ -55,17 +55,11 @@ public class AdminService {
         File saveFile = new File(projectPath, fileName);
         file.transferTo(saveFile);
 
-        Image image = Image.builder()
-                .name(fileName)
-                .path("/uploadImages/" + fileName)
-                .build();
-
         //Concert 객체 빌드
         Concert concert = Concert.builder()
                 .name(name)
                 .concertNameKr(concertNameKr)
                 .concertNameEng(concertNameEng)
-                .image(image)
                 .releaseTime(releaseTime)
                 .runningTime(runningTime)
                 .category(category)
@@ -74,7 +68,14 @@ public class AdminService {
                 .createDate(LocalDateTime.now())
                 .build();
 
-        this.concertRepository.save(concert);
+        Image image = Image.builder()
+                .concert(concert)
+                .name(fileName)
+                .path("/uploadImages/" + fileName)
+                .build();
+
+        List<Image> images = new ArrayList<>();
+        images.add(image);
 
         //Place 객체 빌드
         Place place = Place.builder()
@@ -120,11 +121,7 @@ public class AdminService {
 
         concertPerformerRepository.save(concertPerformer);
 
-
-
-
-
-
+        this.concertRepository.save(concert);
     }
 
     public void modify(RegisterConcertDto registerConcertDto, Concert concert, Place place, ConcertPerformer concertPerformer, List<ConcertDate> concertDates){
