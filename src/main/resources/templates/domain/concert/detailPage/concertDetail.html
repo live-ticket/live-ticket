@@ -47,7 +47,7 @@
                     <div>
                         <span>장소 </span> &nbsp;
                         <a th:href="@{'https://map.kakao.com/link/map/' + ${place.getPlaceName()} + ','
-                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}">
+                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}" target="_blank">
                         </a>
 
                     </div>
@@ -280,8 +280,8 @@
                 <strong>공연장 위치</strong>
                </div>
                 <a th:href="@{'https://map.kakao.com/link/map/' + ${place.getPlaceName()} + ','
-                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}" style="color: blue; text-decoration: underline;">
-                    <i class="fa-regular fa-link"></i>
+                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}"
+                        style="color: blue; text-decoration: underline;" target="_blank">
                 </a>
 
                 <div id="map" style="width: 1000px; height: 500px;"></div>
@@ -294,12 +294,7 @@
     <!---------------------------------------여기 까지 phone-6-------------------------->
 
 </div>
-<script>
 
-
-
-
-</script>
 
 
 <div layout:fragment="script">
