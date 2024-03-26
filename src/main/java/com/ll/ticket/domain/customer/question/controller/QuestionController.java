@@ -60,7 +60,7 @@ public class QuestionController {
         String fileName = questionResponse.getFileName();
         boolean fileExists = (fileName != null && !fileName.isEmpty()); // 파일이 존재하는지 여부 확인
 
-        model.addAttribute("fileExists", fileExists);
+        model.addAttribute("fileExists", fileExists); //파일이 있으면 파일명을 보여주고 없으면 파일 명을 안보여준다
         model.addAttribute("questionResponse" , questionResponse);
 
         return "domain/customer/question/questionDetail";

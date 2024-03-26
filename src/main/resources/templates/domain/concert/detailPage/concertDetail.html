@@ -108,6 +108,9 @@
 
     <!-- 본문 -->
     <div class="artboard artboard-horizontal phone-6  border">
+        <div th:each="imagePath : ${concertDTO.imagePaths}">
+            <img th:src="${imagePath}" style="float: left; margin-right: 10px; width: 200px; height: 320px;"/>
+        </div>
         <div class="artboard artboard-horizontal phone-1  mx-auto">
             <div class="grid h-20 card place-items-center" style="justify-content: flex-start">
                 <h2 th:text="${concertDTO.getConcertNameKr()}"></h2>
@@ -118,7 +121,7 @@
                     <div>
                         <span>장소 </span> &nbsp;
                         <a th:href="@{'https://map.kakao.com/link/map/' + ${place.getPlaceName()} + ','
-                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}">
+                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}" target="_blank">
                         </a>
 
                     </div>
@@ -210,7 +213,7 @@
                                 <!-- row 1 -->
                                 <tr>   <!--출연진 정보를 한 행으로 출력함-->
                                     <td th:each="perfomer : ${performers}">
-                                    <p class="text-xl" th:text="${perfomer.getArtistNameKr()}"></p>
+                                        <p class="text-xl" th:text="${perfomer.getArtistNameKr()}"></p>
                                     </td>
 
                                 </tr>
@@ -280,7 +283,7 @@
                             <span>작성일: <span th:text="${#temporals.format(review.getCreatedDate(), 'yyyy-MM-dd HH:mm')}"></span></span>
                             <span>&nbsp;&nbsp;&nbsp;</span>
 
-<!--                             수정 버튼 시작-->
+                            <!--                             수정 버튼 시작-->
                             <label for="edit-review-modal" class="btn btn-sm edit-review-btn"
                                    onclick="openEditModal(this)"
                                    th:attr="data-review-id=${review.getReviewId()},
@@ -289,14 +292,14 @@
                                    th:href="@{|/review/delete/${review.getReviewId()}|}"
                                    th:if="${#authorization.expression('hasAuthority(''ADMIN'')') or review.getLoginId() != null
                                          and #authentication.getName() == review.getLoginId()}">수정
-                                        <i class="fa-solid fa-pen" ></i></label>
+                                <i class="fa-solid fa-pen" ></i></label>
 
 
                             <input type="checkbox" id="edit-review-modal" class="modal-toggle"/>
                             <div class="modal" role="dialog">
                                 <div class="modal-box" >
                                     <form>
-<!--                                        <input type="hidden" name="method" value="PATCH">-->
+                                        <!--                                        <input type="hidden" name="method" value="PATCH">-->
                                         <textarea class ="textarea textarea-bordered w-full" id="edit-review"  rows="4" cols="50" placeholder="리뷰를 입력하세요..." ></textarea><br>
                                         <input type="hidden" id="edit-review-id" th:value="${review.reviewId}">
                                         <input type="hidden" id="edit-review-concert-id" th:value="${review.getConcertId()}">
@@ -307,7 +310,7 @@
                                     </form>
                                 </div>
                             </div>
-<!--                             수정 버튼 끝 -->
+                            <!--                             수정 버튼 끝 -->
 
                             <!--삭제 버튼 시작-->
                             <a onclick="return confirm('정말로 삭제하시겠습니까?');" th:href="@{|/review/delete/${review.getReviewId()}|}" class="btn btn-sm"
@@ -346,16 +349,15 @@
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="장소" onclick="relayout()"/>
             <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 ">
 
-                    <!-- 지도 -->
-               <div class="mb-10">
-                <strong>공연장 위치</strong>
-               </div>
+                <!-- 지도 -->
+                <div class="mb-10">
+                    <strong>공연장 위치</strong>
+                </div>
                 <a th:href="@{'https://map.kakao.com/link/map/' + ${place.getPlaceName()} + ','
-                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}" style="color: blue; text-decoration: underline;">
-                    <i class="fa-regular fa-link"></i>
+                        + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}" style="color: blue; text-decoration: underline;" target="_blank">
                 </a>
 
-                <div id="map" style="width: 1000px; height: 500px;"></div>
+                <div id="map" style="width: 900px; height: 500px;"></div>
 
             </div>
 
@@ -504,8 +506,8 @@
             });
 
 
-                const latitude = /*[[${place.latitude}]]*/ null;
-                const longitude = /*[[${place.longitude}]]*/ null;
+            const latitude = /*[[${place.latitude}]]*/ null;
+            const longitude = /*[[${place.longitude}]]*/ null;
 
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div
                 mapOption = {
@@ -538,11 +540,10 @@
                 map.setCenter(markerPosition);
             }
 
-            }
+        }
     </script>
 
 </div>
 
 
 </html>
-

@@ -2,9 +2,12 @@ package com.ll.ticket.domain.concert.datailPage.detailPagedto;
 
 
 import com.ll.ticket.domain.concert.entity.Concert;
+import com.ll.ticket.domain.concert.entity.Image;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class ConcertDTO {
@@ -27,6 +30,8 @@ public class ConcertDTO {
 
     private final int seatPrice;
 
+    private final List<String> imagePaths;
+
     public ConcertDTO(Concert concert) {
 
         this.concertId = concert.getConcertId(); //콘서트 ID
@@ -38,6 +43,8 @@ public class ConcertDTO {
         this.category = concert.getCategory().name(); // 콘서트 이름
         this.status = concert.getStatus().name(); //콘서트 상태
         this.seatPrice = concert.getSeatPrice(); //콘서트 가격
+        this.imagePaths = concert.getImages().stream()
+                .map(Image::getPath).collect(Collectors.toList());
 
     }
 
