@@ -23,13 +23,4 @@ public class ConcertPerformerService {
         }
     }
 
-    public Image findImage(Long id) {
-        Optional<ConcertPerformer> concertPerformer = concertPerformerRepository.findById(id);
-
-        if (concertPerformer.isPresent()) {
-            return concertPerformer.get().getImage();
-        } else {
-            throw new IllegalArgumentException("존재하지 않는 공연자 정보입니다.");
-        }
-    }
 }

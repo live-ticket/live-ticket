@@ -10,6 +10,8 @@ import com.ll.ticket.domain.concert.repository.ConcertPerformerRepository;
 import com.ll.ticket.domain.concert.repository.ConcertRepository;
 import com.ll.ticket.domain.place.entity.Place;
 import com.ll.ticket.domain.place.repository.PlaceRepository;
+import com.ll.ticket.domain.seat.entity.Seat;
+import com.ll.ticket.domain.seat.repository.SeatRepository;
 import com.ll.ticket.global.enums.ConcertCategory;
 import com.ll.ticket.global.enums.ConcertStatus;
 import lombok.RequiredArgsConstructor;
@@ -30,30 +32,20 @@ public class AdminService {
     private final PlaceRepository placeRepository;
     private final ConcertDateRepository concertDateRepository;
     private final ConcertPerformerRepository concertPerformerRepository;
+    private final SeatRepository seatRepository;
 
     public void register(RegisterConcertDto registerConcertDto) throws IOException {
+
         String name = registerConcertDto.getName();
         String concertNameKr = registerConcertDto.getConcertNameKr();
         String concertNameEng = registerConcertDto.getConcertNameEng();
-
-
-        Place place = Place.builder()
-                .longitude(registerConcertDto.getLongitude())
-                .latitude(registerConcertDto.getLatitude())
-                .totalPeople(registerConcertDto.getTotalPeople())
-                .build();
-
-        placeRepository.save(place);
-
-        ConcertDate concertDate = ConcertDate.builder()
-                .startTime(registerConcertDto.getStartTime())
-                .endTime(registerConcertDto.getEndTime())
-                .build();
-
-        concertDateRepository.save(concertDate);
-
-        List<ConcertDate> concertDates = new ArrayList<>();
-        concertDates.add(concertDate);
+        ConcertCategory category = registerConcertDto.getCategory();
+        ConcertStatus status = registerConcertDto.getStatus();
+        int seatPrice = registerConcertDto.getSeatPrice();
+        LocalDateTime releaseTime = registerConcertDto.getReleaseTime();
+        LocalDateTime startTime = registerConcertDto.getStartTime();
+        LocalDateTime endTime = registerConcertDto.getEndTime();
+        int runningTime = endTime.getHour() - startTime.getHour();
 
         //업로드 된 이미지 처리
         MultipartFile file = registerConcertDto.getImage();
@@ -68,32 +60,14 @@ public class AdminService {
                 .path("/uploadImages/" + fileName)
                 .build();
 
-        ConcertPerformer concertPerformer = ConcertPerformer.builder()
-                .artistNameKr(registerConcertDto.getArtistNameKr())
-                .artistNameEng(registerConcertDto.getArtistNameEng())
-                .image(image)
-                .build();
-
-        concertPerformerRepository.save(concertPerformer);
-
-        LocalDateTime releaseTime = registerConcertDto.getReleaseTime();
-        LocalDateTime startTime = registerConcertDto.getStartTime();
-        LocalDateTime endTime = registerConcertDto.getEndTime();
-        int runningTime = endTime.getHour() - startTime.getHour();
-
-        ConcertCategory category = registerConcertDto.getCategory();
-        ConcertStatus status = registerConcertDto.getStatus();
-        int seatPrice = registerConcertDto.getSeatPrice();
-
+        //Concert 객체 빌드
         Concert concert = Concert.builder()
                 .name(name)
                 .concertNameKr(concertNameKr)
                 .concertNameEng(concertNameEng)
-                .concertPerformer(concertPerformer)
-                .place(place)
+                .image(image)
                 .releaseTime(releaseTime)
                 .runningTime(runningTime)
-                .concertDates(concertDates)
                 .category(category)
                 .status(status)
                 .seatPrice(seatPrice)
@@ -101,6 +75,56 @@ public class AdminService {
                 .build();
 
         this.concertRepository.save(concert);
+
+        //Place 객체 빌드
+        Place place = Place.builder()
+                .concert(concert)
+                .longitude(registerConcertDto.getLongitude())
+                .latitude(registerConcertDto.getLatitude())
+                .totalPeople(registerConcertDto.getTotalPeople())
+                .build();
+
+        placeRepository.save(place);
+
+        //Seat 객체 빌드
+        List<Seat> seats = new ArrayList<>();
+
+        for(int i = 1; i <= registerConcertDto.getTotalPeople(); i++){
+            Seat seat = Seat.builder()
+                    .place(place)
+                    .seatNumber((long)i)
+                    .build();
+
+            seats.add(seat);
+            seatRepository.save(seat);
+        }
+
+        //ConcertDate 객체 빌드
+        ConcertDate concertDate = ConcertDate.builder()
+                .concert(concert)
+                .startTime(registerConcertDto.getStartTime())
+                .endTime(registerConcertDto.getEndTime())
+                .build();
+
+        concertDateRepository.save(concertDate);
+
+        List<ConcertDate> concertDates = new ArrayList<>();
+        concertDates.add(concertDate);
+
+        //ConcertPerformer 객체 빌드
+        ConcertPerformer concertPerformer = ConcertPerformer.builder()
+                .concert(concert)
+                .artistNameKr(registerConcertDto.getArtistNameKr())
+                .artistNameEng(registerConcertDto.getArtistNameEng())
+                .build();
+
+        concertPerformerRepository.save(concertPerformer);
+
+
+
+
+
+
     }
 
     public void modify(RegisterConcertDto registerConcertDto, Concert concert, Place place, ConcertPerformer concertPerformer, List<ConcertDate> concertDates){

@@ -26,14 +26,13 @@ public class Concert extends BaseEntity {
     private String concertNameKr;
     private String concertNameEng;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private ConcertPerformer concertPerformer;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "place_id")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Place place;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ConcertDate> concertDates = new ArrayList<>();
 
     private LocalDateTime releaseTime;
@@ -58,5 +57,6 @@ public class Concert extends BaseEntity {
         this.status = status;
     }
 
-
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Image image;
 }

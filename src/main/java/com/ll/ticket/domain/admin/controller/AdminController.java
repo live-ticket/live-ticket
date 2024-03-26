@@ -75,7 +75,7 @@ public class AdminController {
         Place place = this.concertService.findPlace(concert);
         ConcertPerformer concertPerformer = this.concertService.findConcertPerformer(concert);
         List<ConcertDate> concertDates = this.concertService.findConcertDates(concert);
-        Image image = this.concertPerformerService.findImage(concertPerformer.getConcertPerformerId());
+        Image image = this.concertService.findImage(concertPerformer.getConcertPerformerId());
 
         model.addAttribute("concert", concert);
         model.addAttribute("place", place);
@@ -85,7 +85,6 @@ public class AdminController {
 
         return "domain/admin/concert_detail";
     }
-
 
     //콘서트 글 수정
     @GetMapping("/modifyConcert/{id}")

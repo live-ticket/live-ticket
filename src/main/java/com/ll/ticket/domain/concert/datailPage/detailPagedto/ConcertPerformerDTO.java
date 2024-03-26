@@ -7,12 +7,9 @@ import lombok.Getter;
 @Getter
 public class ConcertPerformerDTO {
 
-
     private final Long concertPerformerId;
 
     private final Long concertId;
-
-    private final Image image;
 
     private final String artistNameKr;
 
@@ -22,7 +19,6 @@ public class ConcertPerformerDTO {
 
         this.concertPerformerId = concertPerformer.getConcertPerformerId();
         this.concertId = concertPerformer.getConcert().getConcertId();
-        this.image = concertPerformer.getImage();
         this.artistNameKr = concertPerformer.getArtistNameKr();
         this.artistNameEng = concertPerformer.getArtistNameEng();
 

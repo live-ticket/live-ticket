@@ -19,10 +19,6 @@ public class ConcertPerformer {
     @JoinColumn(name = "concert_id")
     private Concert concert;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "image_id")
-    private Image image;
-
     private String artistNameKr;
     private String artistNameEng;
 }
