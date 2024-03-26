@@ -33,23 +33,27 @@
                 background-color: grey; /* 비활성화 상태의 배경색 */
                 color: black; /* 비활성화 상태의 텍스트 색상 */
             }
+
         </style>
     </th:block>
 
     <div class="artboard artboard-horizontal phone-6  border">
+
         <div class="artboard artboard-horizontal phone-1  mx-auto">
+
             <div class="grid h-20 card place-items-center" style="justify-content: flex-start">
                 <h2 th:text="${concertDTO.getConcertNameKr()}"></h2>
+
             </div>
 
             <div>
                 <div class="concert-info">
                     <div>
+
                         <span>장소 </span> &nbsp;
                         <a th:href="@{'https://map.kakao.com/link/map/' + ${place.getPlaceName()} + ','
                         + ${place.getLatitude()} + ',' + ${place.getLongitude()}}" th:text="${place.getPlaceName()}" target="_blank">
                         </a>
-
                     </div>
 
                     <div class="genre">
@@ -294,8 +298,6 @@
     <!---------------------------------------여기 까지 phone-6-------------------------->
 
 </div>
-
-
 
 <div layout:fragment="script">
     <script th:inline="javascript">

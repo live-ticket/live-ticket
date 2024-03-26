@@ -39,7 +39,7 @@ public class DetailPageController {
     private String mapApiKey;
 
     @GetMapping("/detail/{id}")
-    public String getConcert(@PathVariable Long id , Model model , @RequestParam(value = "page" , defaultValue = "1") int page) {
+    public String getConcert(@PathVariable Long id , Model model , @RequestParam(value = "page" , defaultValue = "1") int page ) {
 
 
         Concert concert = concertService.findById(id);
@@ -59,6 +59,8 @@ public class DetailPageController {
         Page<ReviewResponse> reviews = reviewService.getReviewsByConcertId(concert.getConcertId() , page); //상세페이지 리뷰 목록
 
         Place place = placeService.findById(concertDTO.getPlaceId());
+
+
         //페이징
         int nowPage = reviews.getPageable().getPageNumber() + 1; // 페이지 0을 1로 설정
         int startPage =  Math.max(1 , ((nowPage - 1) / 5 * 5) + 1 );
