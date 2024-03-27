@@ -1,6 +1,7 @@
 package com.ll.ticket.domain.concert.repository;
 
 import com.ll.ticket.domain.concert.entity.Concert;
+import com.ll.ticket.global.enums.ConcertCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,15 @@ public interface ConcertRepository extends JpaRepository<Concert, Long> {
             "OR LOWER(c.category) LIKE LOWER(CONCAT('%', :keyword, '%'))" +
             "AND c.status = 'ENABLE'")
     List<Concert> findByConcertKeyword(@Param("keyword") String keyword);
+
+    @Query("SELECT distinct c FROM Concert c " +
+            "left join fetch c.place p " +
+            "left join fetch c.concertPerformer cp " +
+            "left join fetch c.images i " +
+            "join c.concertDates cd " +
+            "WHERE c.category = :type " +
+            "AND c.status = 'ENABLE'")
+    List<Concert> findByCategoryConcerts(@Param("type") ConcertCategory type);
+
+
 }
