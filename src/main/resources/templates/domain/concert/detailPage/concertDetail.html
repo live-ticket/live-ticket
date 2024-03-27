@@ -108,8 +108,8 @@
 
     <!-- 본문 -->
     <div class="artboard artboard-horizontal phone-6  border">
-        <div th:each="imagePath : ${concertDTO.imagePaths}" style="display: inline-block; margin-right: 10px;">
-            <img th:src="${imagePath}" style="width: 200px; height: 320px;"/>
+        <div th:each="imagePath : ${concertDTO.imagePaths}">
+            <img th:src="${imagePath}" style="float: left; margin-right: 10px; width: 200px; height: 300px;"/>
         </div>
         <div class="artboard artboard-horizontal phone-1  mx-auto">
             <div class="grid h-20 card place-items-center" style="justify-content: flex-start">
@@ -383,6 +383,13 @@
     <!---------------------------------------여기 까지 phone-6-------------------------->
 
 </div>
+<script>
+
+
+
+
+</script>
+
 
 <div layout:fragment="script">
     <script th:inline="javascript">
@@ -484,9 +491,8 @@
             document.getElementById('edit-review-concert-id').value = concertId;
 
             modal.style.display = 'block';
-        }
 
-        {
+
             /**
              * 수정 내용 + csrf 토큰 전송
              */
@@ -521,6 +527,7 @@
                     // window.location.reload();
                 });
             });
+        }
 
 
             const latitude = /*[[${place.latitude}]]*/ null;
@@ -555,7 +562,7 @@
                 // window의 resize 이벤트에 의한 크기변경은 map.relayout 함수가 자동으로 호출됩니다
                 map.relayout();
                 map.setCenter(markerPosition);
-            }
+
 
         }
     </script>

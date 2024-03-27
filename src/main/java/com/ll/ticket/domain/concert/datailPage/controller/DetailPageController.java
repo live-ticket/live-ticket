@@ -5,6 +5,7 @@ import com.ll.ticket.domain.concert.datailPage.detailPagedto.ConcertDateDTO;
 import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.entity.ConcertPerformer;
 import com.ll.ticket.domain.concert.service.ConcertDateCalService;
+import com.ll.ticket.domain.concert.service.ConcertDateService;
 import com.ll.ticket.domain.concert.service.ConcertPerformersService;
 import com.ll.ticket.domain.concert.service.ConcertService;
 import com.ll.ticket.domain.place.entity.Place;
@@ -36,7 +37,7 @@ public class DetailPageController {
     private final ReviewService reviewService;
     private final ConcertPerformersService concertPerformersService;
     private final PlaceService placeService;
-//    private final ConcertPerformerService concertPerformerService;
+    private final ConcertDateService concertDateService;
 
     @Value("${kakaoMap.javascript.key}")
     private String mapApiKey;
@@ -61,11 +62,10 @@ public class DetailPageController {
 
             List<ConcertPerformer> performers = concertPerformersService.findByConcertConcertId(concertDTO.getConcertId()); //출연자 정보
 
-//            ConcertPerformer performers = concertPerformerService.findById(concertDTO.getConcertId());
-
             Page<ReviewResponse> reviews = reviewService.getReviewsByConcertId(concert.getConcertId() , page); //상세페이지 리뷰 목록
 
-            Place place = placeService.findById(concertDTO.getPlaceId());
+            Place place =placeService.findById(concert.getConcertId());
+
             //페이징
             int nowPage = reviews.getPageable().getPageNumber() + 1; // 페이지 0을 1로 설정
             int startPage =  Math.max(1 , ((nowPage - 1) / 5 * 5) + 1 );
@@ -85,6 +85,8 @@ public class DetailPageController {
             return "domain/concert/detailPage/concertDetail";
         } catch (IllegalArgumentException e) {
             model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("loginUser", false);
+            model.addAttribute("member", null);
             return "main";
         }
     }

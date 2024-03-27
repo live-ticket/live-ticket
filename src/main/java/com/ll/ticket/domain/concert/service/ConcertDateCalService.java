@@ -18,7 +18,6 @@ public class ConcertDateCalService {
 
     public List<ConcertDateDTO> findConcertDateByConcert(Concert concert) {
         return concertTimeRepository.findByConcert(concert).stream()
-                .distinct()
                 .map(ConcertDateDTO::new) // ConcertDate를 ConcertDate DTO로 변환
                 .collect(Collectors.toList());
     }
@@ -32,9 +31,11 @@ public class ConcertDateCalService {
     public Duration calculateTotalViewingTime(List<ConcertDateDTO> concertDates) {
         return concertDates.stream()
                 .map(concertDateDTO -> Duration.between(concertDateDTO.getStartTime(), concertDateDTO.getEndTime()))
-                .distinct() // 시간 중복 되지않음
+                .distinct()// 시간 중복 되지않음
                 .reduce(Duration::plus)
                 .orElse(Duration.ZERO);
     }
+
+
 }
 
