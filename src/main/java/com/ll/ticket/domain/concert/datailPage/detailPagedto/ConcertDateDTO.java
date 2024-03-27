@@ -28,6 +28,4 @@ public class ConcertDateDTO {
         this.startTime = concertDate.getStartTime();
         this.endTime = concertDate.getEndTime();
     }
-
-
 }
