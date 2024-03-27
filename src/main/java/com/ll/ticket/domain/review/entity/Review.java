@@ -29,7 +29,6 @@ public class Review extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-
     public void updateReviewContent(String content) {
 
         this.content = content;
