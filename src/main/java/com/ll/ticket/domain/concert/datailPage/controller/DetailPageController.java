@@ -36,6 +36,7 @@ public class DetailPageController {
     private final ReviewService reviewService;
     private final ConcertPerformersService concertPerformersService;
     private final PlaceService placeService;
+//    private final ConcertPerformerService concertPerformerService;
 
     @Value("${kakaoMap.javascript.key}")
     private String mapApiKey;
@@ -60,6 +61,8 @@ public class DetailPageController {
 
             List<ConcertPerformer> performers = concertPerformersService.findByConcertConcertId(concertDTO.getConcertId()); //출연자 정보
 
+//            ConcertPerformer performers = concertPerformerService.findById(concertDTO.getConcertId());
+
             Page<ReviewResponse> reviews = reviewService.getReviewsByConcertId(concert.getConcertId() , page); //상세페이지 리뷰 목록
 
             Place place = placeService.findById(concertDTO.getPlaceId());
@@ -79,7 +82,6 @@ public class DetailPageController {
             model.addAttribute("viewingTime" , viewingTime);
             model.addAttribute("apiKey" , mapApiKey);
             model.addAttribute("member", user);
-
             return "domain/concert/detailPage/concertDetail";
         } catch (IllegalArgumentException e) {
             model.addAttribute("errorMessage", e.getMessage());
