@@ -1,5 +1,6 @@
 package com.ll.ticket.domain.concert.service;
 
+import com.ll.ticket.domain.concert.dto.ConcertResponse;
 import com.ll.ticket.domain.concert.entity.*;
 import com.ll.ticket.domain.concert.repository.ConcertDateRepository;
 import com.ll.ticket.domain.concert.repository.ConcertRepository;
@@ -7,6 +8,7 @@ import com.ll.ticket.domain.concert.repository.ConcertSeatHistoryRepository;
 import com.ll.ticket.domain.place.entity.Place;
 import com.ll.ticket.domain.seat.entity.Seat;
 import com.ll.ticket.domain.seat.repository.SeatRepository;
+import com.ll.ticket.global.enums.ConcertCategory;
 import com.ll.ticket.global.enums.ConcertStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -107,4 +109,34 @@ public class ConcertService {
     }
 
     public List<Image> findImages(Concert concert){ return concert.getImages();}
+
+
+    public List<ConcertResponse> findConcertsByCategory(String category) {
+        return null;
+    }
+
+    public List<ConcertResponse> getAllConcert() {
+        return null;
+    }
+
+    public List<ConcertResponse> getConcertByCategory(String category) {
+        return null;
+    }
+
+    public List<Concert> categoryConcertList(String type) {
+
+        System.out.println("type"+ type);
+        switch (type) {
+            case "solo":
+                return concertRepository.findByCategoryConcerts(ConcertCategory.SOLO);
+            case "idol":
+                return concertRepository.findByCategoryConcerts(ConcertCategory.IDOL);
+            case "meeting":
+                return concertRepository.findByCategoryConcerts(ConcertCategory.MEETING);
+            case "festival":
+                return concertRepository.findByCategoryConcerts(ConcertCategory.FESTIVAL);
+
+        }
+        return new ArrayList<>();
+    }
 }
