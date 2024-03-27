@@ -48,11 +48,6 @@ public class Concert extends BaseEntity {
     private ConcertStatus status;
     private int seatPrice;
 
-    private LocalDateTime createDate;
-
-    @Column(nullable = true)
-    private LocalDateTime modifyDate;
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "concert")
     private List<Image> images = new ArrayList<>();
 
