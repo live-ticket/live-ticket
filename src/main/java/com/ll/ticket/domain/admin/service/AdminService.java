@@ -15,16 +15,15 @@ import com.ll.ticket.domain.seat.entity.Seat;
 import com.ll.ticket.domain.seat.repository.SeatRepository;
 import com.ll.ticket.global.enums.ConcertCategory;
 import com.ll.ticket.global.enums.ConcertStatus;
+import com.ll.ticket.global.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +34,7 @@ public class AdminService {
     private final ConcertPerformerRepository concertPerformerRepository;
     private final SeatRepository seatRepository;
     private final ImageRepository imageRepository;
+    private final S3Service s3Service;
 
     public void register(RegisterConcertDto registerConcertDto) throws IOException {
 
@@ -51,11 +51,12 @@ public class AdminService {
 
         //업로드 된 이미지 처리
         MultipartFile file = registerConcertDto.getImage();
-        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\uploadImages\\";
-        UUID uuid = UUID.randomUUID();
-        String fileName = uuid + "_" + file.getOriginalFilename();
-        File saveFile = new File(projectPath, fileName);
-        file.transferTo(saveFile);
+        String imageUrl = s3Service.createImage(file);
+//        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\uploadImages\\";
+//        UUID uuid = UUID.randomUUID();
+//        String fileName = uuid + "_" + file.getOriginalFilename();
+//        File saveFile = new File(projectPath, fileName);
+//        file.transferTo(saveFile);
 
         //Concert 객체 빌드
         Concert concert = Concert.builder()
@@ -77,8 +78,8 @@ public class AdminService {
 
         Image image = Image.builder()
                 .concert(concert)
-                .name(fileName)
-                .path("/uploadImages/" + fileName)
+                .name(file.getOriginalFilename())
+                .path(imageUrl)
                 .build();
 
         images.add(image);
