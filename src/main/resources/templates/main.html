@@ -127,8 +127,8 @@
                                 <img th:src="${earliestConcert.getImages().get(0).getPath()}" width="150" height="240"/>
                             </a>
                             <div class="tit text-wrap" th:text="${earliestConcert.getName()}"></div>
-                            <div class="day text-wrap" th:text="${#temporals.format(earliestConcert.getConcertDates().get(0).getStartTime(), 'yyyy-MM-dd') + ' - ' + #temporals.format(earliestConcert.getConcertDates().get(0).getEndTime(), 'yyyy-MM-dd')}"></div>
-                            <div class="location text-wrap" th:text="${earliestConcert.getPlace().getPlaceName()}></div>
+                            <div class="date text-wrap" th:text="${#temporals.format(earliestConcert.getConcertDates().get(0).getStartTime(), 'yyyy-MM-dd') + ' - ' + #temporals.format(earliestConcert.getConcertDates().get(0).getEndTime(), 'yyyy-MM-dd')}"></div>
+                            <div class="place text-wrap" th:text="${earliestConcert.getPlace().getPlaceName()}"></div>
                         </span>
                     </li>
                 </div>
