@@ -12,119 +12,141 @@
                 /* 필요한 경우 가로 스크롤바를 표시하려면 아래의 주석을 제거하세요. */
                 /* overflow-x: auto; */
             }
-            .carousel-container {
-                width: 500px; /* 가로 길이 설정 */
-                height: 300px; /* 세로 길이 설정, 가로 길이에 비해 상대적으로 작게 설정 */
-                margin: auto; /* 상하 여백을 20px, 좌우 여백을 auto로 설정하여 중앙 정렬 */
-                background-color: #f8f9fa; /* 배경 색상 */
-                padding: 20px; /* 내부 여백 */
-                position: relative; /* 자식 요소들을 상대적으로 위치시키기 위함 */
+            .carousel-background {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 1200px;
+                height: 400px;
+                overflow: hidden;
+                background-color: black; /* 배경 색상 */
+                margin-top: 20px; /* 위 여백 */
+                margin-bottom: 20px; /* 아래 여백 */
+            }
+            .carousel-inner img {
+                height: 400px; /* 이미지의 높이를 400px로 설정 */
+                width: auto; /* 이미지의 가로 길이를 자동 조정하여 비율 유지 */
+                max-width: none; /* 부트스트랩에서 img 태그에 적용된 max-width 스타일 무시 */
+            }
+
+            .content-wrapper1 {
+                display: flex;
+                flex-direction: column; /* 수직 방향으로 자식 요소들을 정렬 */
+                gap: 20px; /* 요소들 사이의 간격 설정 */
             }
         </style>
     </th:block>
 
-    <!--<div th:each="latestConcert : ${latestConcerts}">
-        <a th:href="@{|/concert/detail/${latestConcert.getConcertId()}|}">
-            <img th:src="${latestConcert.getPath()}">
-        </a>
-    </div>-->
-    <div class="carousel-container">
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <div>
-                    <button th:each="latestConcert, iterStat : ${latestConcerts}"
-                            th:type="'button'"
-                            th:data-bs-target="'#carouselExampleIndicators'"
-                            th:data-bs-slide-to="${iterStat.index}"
-                            th:class="${iterStat.index == 0} ? 'active'"
-                            th:aria-current="${iterStat.index == 0} ? 'true'"
-                            th:aria-label="'Slide ' + ${iterStat.count}">
-                    </button>
-                </div>
-            </div>
-            <div class="carousel-inner">
-                <div th:each="latestConcert, loop : ${latestConcerts}">
-                    <div class="carousel-item" th:classappend="${loop.first} ? 'active'">
-                        <a th:href="@{|/concert/detail/${latestConcert.getConcertId()}|}">
-                            <img th:src="${latestConcert.getPath()}"class="d-block w-100">
-                        </a>
+    <div class="content-wrapper1">
+        <!-- 캐러셀 시작 -->
+        <div class="carousel-background">
+        <div class="carousel-container">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <div>
+                        <button th:each="latestConcert, iterStat : ${latestConcerts}"
+                                th:type="'button'"
+                                th:data-bs-target="'#carouselExampleIndicators'"
+                                th:data-bs-slide-to="${iterStat.index}"
+                                th:class="${iterStat.index == 0} ? 'active'"
+                                th:aria-current="${iterStat.index == 0} ? 'true'"
+                                th:aria-label="'Slide ' + ${iterStat.count}">
+                        </button>
                     </div>
                 </div>
+                <div class="carousel-inner">
+                    <div th:each="latestConcert, loop : ${latestConcerts}">
+                        <div class="carousel-item" th:classappend="${loop.first} ? 'active'">
+                            <a th:href="@{|/concert/detail/${latestConcert.getConcertId()}|}">
+                                <img th:src="${latestConcert.getPath()}">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
-    </div>
+        </div>
+        <!-- 캐러셀 끝 -->
 
-    <div class="container mx-auto" style="height: 500px; width: 400px">
-        <div class="py-6 h-full">
-            <div class="flex border border-grey rounded shadow-lg h-full" style="border: 1px solid red;">
+        <div class="content-wrapper2">
+        <!-- 채팅 시작 -->
+            <div class="container mx-auto" style="height: 500px; width: 400px">
+                <div class="py-6 h-full">
+                    <div class="flex border border-grey rounded shadow-lg h-full" style="border: 1px solid red;">
 
-                <!-- Right -->
-                <div class="w-full border flex flex-col h-full" style="">
-                    <!-- Messages -->
-                    <div class="flex-1 overflow-auto h-full"
-                         style="background-color: #DAD3CC; border: 1px solid black;" id="test1">
-                        <div class="py-2 px-3" id="test"  style="overflow-y: auto;">
-                            <!-- 오늘 날짜 -->
-                            <div class="flex justify-center mb-2">
-                                <div class="rounded py-2 px-4" style="background-color: #DDECF2">
-                                    <p class="text-sm uppercase" id="currentDate">
-                                    </p>
+                        <!-- Right -->
+                        <div class="w-full border flex flex-col h-full" style="">
+                            <!-- Messages -->
+                            <div class="flex-1 overflow-auto h-full"
+                                 style="background-color: #DAD3CC; border: 1px solid black;" id="test1">
+                                <div class="py-2 px-3" id="test"  style="overflow-y: auto;">
+                                    <!-- 오늘 날짜 -->
+                                    <div class="flex justify-center mb-2">
+                                        <div class="rounded py-2 px-4" style="background-color: #DDECF2">
+                                            <p class="text-sm uppercase" id="currentDate">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex justify-center mb-4">
+                                        <div class="rounded py-2 px-4" style="background-color: #FCF4CB">
+                                            <p class="text-base">
+                                                비방·비하·욕설 자제해주시길 바랍니다.
+                                            </p>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
-                            <div class="flex justify-center mb-4">
-                                <div class="rounded py-2 px-4" style="background-color: #FCF4CB">
-                                    <p class="text-base">
-                                        비방·비하·욕설 자제해주시길 바랍니다.
-                                    </p>
+                            <form class="bg-grey-lighter px-4 py-4 flex items-center"
+                                  onsubmit="submitSendForm(this); return false;">
+                                <div class="flex-1 mx-4">
+                                    <input class="w-full border rounded px-2 py-2" type="text" name="writerName"
+                                           th:value="${loginUser ? member.name : ''}" placeholder="작성자" readonly
+                                           style="display: none;">
+                                    <input class="w-full border rounded px-2 py-2" type="text" name="memberId"
+                                           th:value="${loginUser ? member.userId : ''}" placeholder="아이디값" readonly
+                                           style="display: none;">
+                                    <input class="w-full border rounded px-2 py-2" type="text" name="body" placeholder="내용">
                                 </div>
-                            </div>
-
+                                <div>
+                                    <button type="submit" class="custom-chat-btn">
+                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                             width="24px" height="24px" viewBox="0 0 535.5 535.5"
+                                             style="enable-background:new 0 0 535.5 535.5;" xml:space="preserve"
+                                        >
+                                            <g>
+                                                <g id="send">
+                                                    <polygon
+                                                            points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75"/>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
-                    <form class="bg-grey-lighter px-4 py-4 flex items-center"
-                          onsubmit="submitSendForm(this); return false;">
-                        <div class="flex-1 mx-4">
-                            <input class="w-full border rounded px-2 py-2" type="text" name="writerName"
-                                   th:value="${loginUser ? member.name : ''}" placeholder="작성자" readonly
-                                   style="display: none;">
-                            <input class="w-full border rounded px-2 py-2" type="text" name="memberId"
-                                   th:value="${loginUser ? member.userId : ''}" placeholder="아이디값" readonly
-                                   style="display: none;">
-                            <input class="w-full border rounded px-2 py-2" type="text" name="body" placeholder="내용">
-                        </div>
-                        <div>
-                            <button type="submit" class="custom-chat-btn">
-                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                     width="24px" height="24px" viewBox="0 0 535.5 535.5"
-                                     style="enable-background:new 0 0 535.5 535.5;" xml:space="preserve"
-                                >
-                                    <g>
-                                        <g id="send">
-                                            <polygon
-                                                    points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75"/>
-                                        </g>
-                                    </g>
-                                </svg>
-                            </button>
-                        </div>
-                    </form>
                 </div>
             </div>
-        </div>
-    </div>
+            <!-- 채팅 끝 -->
 
-    <a href="/concert/detail/13" style="color: blue;">콘서트 예매</a>
+            <!-- 카드 시작 -->
+
+            <!-- 카드 끝 -->
+        </div>
+
+    </div>
 
 </div>
 <div layout:fragment="script">
