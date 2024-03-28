@@ -19,7 +19,7 @@
                 width: 1200px;
                 height: 350px;
                 overflow: hidden;
-                background-color: black; /* 배경 색상 */
+                background-color: ivory; /* 배경 색상 */
                 margin-top: 20px; /* 위 여백 */
             }
             .carousel-inner img {
@@ -39,10 +39,14 @@
             .border-1 {
                 display: inline-block; /* span을 블록 레벨 요소처럼 만들어 크기를 지정할 수 있게 함 */
                 width: 180px; /* 테두리의 너비, img 태그와 동일하게 설정 */
-                height: 300px; /* 테두리의 높이, img 태그와 동일하게 설정 */
+                height: 330px; /* 테두리의 높이, img 태그와 동일하게 설정 */
                 border: 10px solid grey; /* 테두리의 두께, 스타일, 색상 설정 */
                 top: 0; /* 위치 조정 */
                 left: 0; /* 위치 조정 */
+                max-width: 100%; /* 최대 너비 제한 */
+                overflow: hidden; /* 내용이 넘칠 경우 숨김 */
+                text-overflow: ellipsis; /* 내용이 넘칠 경우 말줄임표(...)로 표시 */
+                box-sizing: border-box; /* 패딩과 테두리를 너비에 포함시킴 */
             }
             .inner {
                 margin-top: 15px;
@@ -61,14 +65,23 @@
                 width: 48%; /* 한 줄에 두 개의 요소가 들어갈 수 있도록 너비를 설정 */
                 margin: 1%; /* 요소 사이의 간격 */
             }
-
             .border {
                 display: block; /* span을 블록 요소로 만들어 너비와 높이가 적용되도록 함 */
                 padding: 5px; /* 내부 여백 */
             }
-
-            .inner {
-
+            .custom-link {
+                color: inherit; /* 부모 요소의 글자색을 상속받음 */
+                text-decoration: none; /* 밑줄 제거 */
+                font-size: 1.2em; /* 기본 텍스트 크기보다 20% 크게 */
+                white-space: nowrap !important; /* 줄바꿈 없이 텍스트를 한 줄에 표시 */
+                overflow: hidden !important; /* 내용이 넘칠 경우 숨김 */
+                text-overflow: ellipsis !important; /* 내용이 넘칠 경우 말줄임표(...)로 표시 */
+            }
+            .custom-link .tit {
+                font-weight: bold; /* 글씨를 진하게 */
+            }
+            .custom-link .text-wrap {
+                width: 100%
             }
 
         </style>
@@ -115,8 +128,8 @@
 
         <div class="content-wrapper2">
 
-            <!-- 카드 시작 -->
-            <div style="height: 500px; width: 600px; margin-top: 100px; margin-left: 20px;">
+            <!-- 임박 공연 시작 -->
+            <div style="height: 500px; width: 600px; margin-top: 100px; margin-left: 50px; margin-right: 50px;">
                 <h2 style="font-weight: bold">시작일이 가까운 공연</h2>
 
                 <ul class="list_main_concert" id="perf_poster" style="margin-top: 30px;">
@@ -126,16 +139,17 @@
                             <a th:href="@{|/concert/detail/${earliestConcert.getConcertId()}|}" class="inner">
                                 <img th:src="${earliestConcert.getImages().get(0).getPath()}" width="150" height="240"/>
                             </a>
-                            <div class="tit text-wrap" th:text="${earliestConcert.getName()}"></div>
-                            <div class="date text-wrap" th:text="${#temporals.format(earliestConcert.getConcertDates().get(0).getStartTime(), 'yyyy-MM-dd') + ' - ' + #temporals.format(earliestConcert.getConcertDates().get(0).getEndTime(), 'yyyy-MM-dd')}"></div>
-                            <div class="place text-wrap" th:text="${earliestConcert.getPlace().getPlaceName()}"></div>
+                            <a th:href="@{|/concert/detail/${earliestConcert.getConcertId()}|}" class="custom-link">
+                                <div class="tit" th:text="${earliestConcert.getName()}"></div>
+                                <div class="date text-wrap" th:text="${#temporals.format(earliestConcert.getConcertDates().get(0).getStartTime(), 'yyyy-MM-dd') + ' - ' + #temporals.format(earliestConcert.getConcertDates().get(0).getEndTime(), 'yyyy-MM-dd')}"></div>
+                                <div class="place text-wrap" th:text="${earliestConcert.getPlace().getPlaceName()}"></div>
+                            </a>
                         </span>
                     </li>
                 </div>
                 </ul>
             </div>
-
-            <!-- 카드 끝 -->
+            <!-- 임박 공연 끝 -->
 
             <!-- 채팅 시작 -->
             <div class="container mx-auto" style="height: 500px; width: 400px">
