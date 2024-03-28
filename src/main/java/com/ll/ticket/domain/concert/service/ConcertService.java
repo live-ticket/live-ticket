@@ -62,6 +62,16 @@ public class ConcertService {
         return this.concertRepository.findAll(pageable).getContent();
     }
 
+    public List<String> getThumbnailPathList(List<Concert> concerts) {
+        List<String> thumbnailPathList = new ArrayList<>();
+
+        for(int i = 0; i < concerts.size(); i++) {
+            thumbnailPathList.add(concerts.get(i).getImages().get(0).getPath());
+        }
+
+        return thumbnailPathList;
+    }
+
     public Concert findById(Long id) {
         Optional<Concert> concert = concertRepository.findById(id);
         if (concert.isPresent()) {
@@ -70,7 +80,6 @@ public class ConcertService {
             throw new IllegalArgumentException("존재하지 않는 공연입니다.");
         }
     }
-
 
     public List<ConcertDate> findConcertDateByConcert(Concert concert) {
         return concertDateRepository.findAllByConcert(concert);

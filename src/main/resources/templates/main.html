@@ -31,9 +31,9 @@
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
-            <div th:each="latestConcerts, loop : ${latestConcert}">
+            <div th:each="thumbnailPath, loop : ${thumbnailPathList}">
                 <div class="carousel-item" th:classappend="${loop.first} ? 'active'">
-                    <img th:href="@{|/detail/${latestConcert.concertId}|}" th:src="@{/images/close.png}" class="d-block w-100">
+                    <img th:href="@{|/detail/${latestConcert.concertId}|}" th:src="${thumbnailPath}" class="d-block w-100">
                 </div>
             </div>
             <!--
