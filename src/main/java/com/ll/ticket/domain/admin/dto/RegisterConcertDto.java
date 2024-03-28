@@ -29,6 +29,9 @@ public class RegisterConcertDto {
     @NotBlank(message = "출연자 영문명을 입력하세요")
     private String artistNameEng;
 
+    @NotBlank(message = "장소명을 입력하세요")
+    private String placeName;
+
     @NotNull(message = "경도를 입력하세요")
     private Double longitude;
 

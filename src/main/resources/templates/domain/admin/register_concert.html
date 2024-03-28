@@ -82,6 +82,10 @@
         <div class="mb-3">
             <label class="col-form-label col-2">장소</label>
         </div>
+        <div class="mb-3">
+            <label for="placeName" class="form-label">장소명</label>
+            <input type="text" name="placeName" id="placeName" class="form-control">
+        </div>
         <div class="mb-3 row">
             <div class="col">
                 <label for="longitude" class="form-label">경도</label>
@@ -95,7 +99,7 @@
                 <button id="openMap" class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">지도 검색</button>
             </div>
             <div class="font-bold">
-                <h3>검색 후 목록이나 지도 위 마커를 클릭하면 경도, 위도가 입력됩니다.</h3>
+                <h3>검색 후 목록이나 지도 위 마커를 클릭하면 장소명, 경도, 위도가 입력됩니다.</h3>
             </div>
             <div class="map_wrap">
                 <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
@@ -280,6 +284,7 @@
 
                     kakao.maps.event.addListener(marker, 'click', function() {
                         var latlng = marker.getPosition();
+                        document.getElementById("placeName").value = title;
                         document.getElementById("latitude").value = latlng.getLat();
                         document.getElementById("longitude").value = latlng.getLng();
                         map.setLevel(3);
@@ -289,6 +294,7 @@
                     itemEl.onmouseover =  function () {
                         displayInfowindow(marker, title);
                         var latlng = marker.getPosition();
+                        document.getElementById("placeName").value = title;
                         document.getElementById("latitude").value = latlng.getLat();
                         document.getElementById("longitude").value = latlng.getLng();
                         map.setLevel(3);
@@ -300,6 +306,7 @@
                     };
                     itemEl.onclick =  function () {
                         var latlng = marker.getPosition();
+                        document.getElementById("placeName").value = title;
                         document.getElementById("latitude").value = latlng.getLat();
                         document.getElementById("longitude").value = latlng.getLng();
                         map.setLevel(3);

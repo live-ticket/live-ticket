@@ -87,6 +87,7 @@ public class AdminService {
         //Place 객체 빌드
         Place place = Place.builder()
                 .concert(concert)
+                .placeName(registerConcertDto.getPlaceName())
                 .longitude(registerConcertDto.getLongitude())
                 .latitude(registerConcertDto.getLatitude())
                 .totalPeople(registerConcertDto.getTotalPeople())
