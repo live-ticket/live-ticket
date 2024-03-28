@@ -39,8 +39,10 @@ public class HomeController {
         }
 
         List<ConcertIdPathDTO> latestConcerts = this.concertService.getLatestConcertList();
-
         model.addAttribute("latestConcerts", latestConcerts);
+
+        List<Concert> earliestConcerts = this.concertService.getEarliestConcertList();
+        model.addAttribute("earliestConcerts", earliestConcerts);
 
         return "main";
     }

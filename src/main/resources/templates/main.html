@@ -17,67 +17,127 @@
                 justify-content: center;
                 align-items: center;
                 width: 1200px;
-                height: 400px;
+                height: 350px;
                 overflow: hidden;
                 background-color: black; /* 배경 색상 */
                 margin-top: 20px; /* 위 여백 */
-                margin-bottom: 20px; /* 아래 여백 */
             }
             .carousel-inner img {
-                height: 400px; /* 이미지의 높이를 400px로 설정 */
+                height: 350px; /* 이미지의 높이 설정 */
                 width: auto; /* 이미지의 가로 길이를 자동 조정하여 비율 유지 */
                 max-width: none; /* 부트스트랩에서 img 태그에 적용된 max-width 스타일 무시 */
             }
-
             .content-wrapper1 {
                 display: flex;
                 flex-direction: column; /* 수직 방향으로 자식 요소들을 정렬 */
                 gap: 20px; /* 요소들 사이의 간격 설정 */
             }
+            .content-wrapper2 {
+                display: flex;
+                gap: 20px; /* 요소들 사이의 간격 설정 */
+            }
+            .border-1 {
+                display: inline-block; /* span을 블록 레벨 요소처럼 만들어 크기를 지정할 수 있게 함 */
+                width: 180px; /* 테두리의 너비, img 태그와 동일하게 설정 */
+                height: 300px; /* 테두리의 높이, img 태그와 동일하게 설정 */
+                border: 10px solid grey; /* 테두리의 두께, 스타일, 색상 설정 */
+                top: 0; /* 위치 조정 */
+                left: 0; /* 위치 조정 */
+            }
+            .inner {
+                margin-top: 15px;
+                margin-left: 15px;
+                margin-right: 15px;
+                margin-bottom: 15px;
+
+            }
+            .list_main_concert {
+                display: flex;
+                flex-wrap: wrap;
+                padding: 0;
+                list-style: none; /* 기본 리스트 스타일 제거 */
+            }
+            .list_main_concert div {
+                width: 48%; /* 한 줄에 두 개의 요소가 들어갈 수 있도록 너비를 설정 */
+                margin: 1%; /* 요소 사이의 간격 */
+            }
+
+            .border {
+                display: block; /* span을 블록 요소로 만들어 너비와 높이가 적용되도록 함 */
+                padding: 5px; /* 내부 여백 */
+            }
+
+            .inner {
+
+            }
+
         </style>
     </th:block>
 
     <div class="content-wrapper1">
         <!-- 캐러셀 시작 -->
         <div class="carousel-background">
-        <div class="carousel-container">
-            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <div>
-                        <button th:each="latestConcert, iterStat : ${latestConcerts}"
-                                th:type="'button'"
-                                th:data-bs-target="'#carouselExampleIndicators'"
-                                th:data-bs-slide-to="${iterStat.index}"
-                                th:class="${iterStat.index == 0} ? 'active'"
-                                th:aria-current="${iterStat.index == 0} ? 'true'"
-                                th:aria-label="'Slide ' + ${iterStat.count}">
-                        </button>
-                    </div>
-                </div>
-                <div class="carousel-inner">
-                    <div th:each="latestConcert, loop : ${latestConcerts}">
-                        <div class="carousel-item" th:classappend="${loop.first} ? 'active'">
-                            <a th:href="@{|/concert/detail/${latestConcert.getConcertId()}|}">
-                                <img th:src="${latestConcert.getPath()}">
-                            </a>
+            <div class="carousel-container">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <div>
+                            <button th:each="latestConcert, iterStat : ${latestConcerts}"
+                                    th:type="'button'"
+                                    th:data-bs-target="'#carouselExampleIndicators'"
+                                    th:data-bs-slide-to="${iterStat.index}"
+                                    th:class="${iterStat.index == 0} ? 'active'"
+                                    th:aria-current="${iterStat.index == 0} ? 'true'"
+                                    th:aria-label="'Slide ' + ${iterStat.count}">
+                            </button>
                         </div>
                     </div>
+                    <div class="carousel-inner">
+                        <div th:each="latestConcert, loop : ${latestConcerts}">
+                            <div class="carousel-item" th:classappend="${loop.first} ? 'active'">
+                                <a th:href="@{|/concert/detail/${latestConcert.getConcertId()}|}">
+                                    <img th:src="${latestConcert.getPath()}">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
-        </div>
         </div>
         <!-- 캐러셀 끝 -->
 
         <div class="content-wrapper2">
-        <!-- 채팅 시작 -->
+
+            <!-- 카드 시작 -->
+            <div style="height: 500px; width: 600px; margin-top: 100px; margin-left: 20px;">
+                <h2 style="font-weight: bold">시작일이 가까운 공연</h2>
+
+                <ul class="list_main_concert" id="perf_poster" style="margin-top: 30px;">
+                <div th:each="earliestConcert, loop : ${earliestConcerts}">
+                    <li>
+                        <span class="border border-1">
+                            <a th:href="@{|/concert/detail/${earliestConcert.getConcertId()}|}" class="inner">
+                                <img th:src="${earliestConcert.getImages().get(0).getPath()}" width="150" height="240"/>
+                            </a>
+                            <div class="tit text-wrap" th:text="${earliestConcert.getName()}"></div>
+                            <div class="day text-wrap" th:text="${#temporals.format(earliestConcert.getConcertDates().get(0).getStartTime(), 'yyyy-MM-dd') + ' - ' + #temporals.format(earliestConcert.getConcertDates().get(0).getEndTime(), 'yyyy-MM-dd')}"></div>
+                            <div class="location text-wrap" th:text="${earliestConcert.getPlace().getPlaceName()}></div>
+                        </span>
+                    </li>
+                </div>
+                </ul>
+            </div>
+
+            <!-- 카드 끝 -->
+
+            <!-- 채팅 시작 -->
             <div class="container mx-auto" style="height: 500px; width: 400px">
                 <div class="py-6 h-full">
                     <div class="flex border border-grey rounded shadow-lg h-full" style="border: 1px solid red;">
@@ -141,9 +201,6 @@
             </div>
             <!-- 채팅 끝 -->
 
-            <!-- 카드 시작 -->
-
-            <!-- 카드 끝 -->
         </div>
 
     </div>

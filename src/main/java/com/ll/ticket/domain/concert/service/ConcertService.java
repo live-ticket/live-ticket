@@ -77,6 +77,20 @@ public class ConcertService {
         return concertIdPaths;
     }
 
+    public List<Concert> getEarliestConcertList(){
+        List<ConcertDate> concertDates = this.concertDateRepository.findAll(Sort.by(Sort.Direction.ASC, "startTime"));
+        List<Concert> concerts = new ArrayList<>();
+
+        for (int i = 0; i < 2; i++) {
+            concerts.add(concertDates.get(i).getConcert());
+        }
+        /*for (ConcertDate concertDate : concertDates) {
+            concerts.add(cconcertDate.getConcert());
+        }*/
+
+        return concerts;
+    }
+
     public Concert findById(Long id) {
         Optional<Concert> concert = concertRepository.findById(id);
         if (concert.isPresent()) {
