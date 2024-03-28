@@ -60,7 +60,6 @@ public class ConcertService {
         Long id;
         String path;
         List<Concert> concerts = this.concertRepository.findAll(Sort.by(Sort.Direction.DESC, "createDate"));
-        //List<Concert> latestConcertList = concerts.subList(0, concerts.size());
 
         List<ConcertIdPathDTO> concertIdPaths = new ArrayList<>();
 
@@ -76,16 +75,6 @@ public class ConcertService {
         }
 
         return concertIdPaths;
-    }
-
-    public List<String> getThumbnailPathList(List<Concert> concerts) {
-        List<String> thumbnailPathList = new ArrayList<>();
-
-        for (Concert concert : concerts) {
-            thumbnailPathList.add(concert.getImages().get(0).getPath());
-        }
-
-        return thumbnailPathList;
     }
 
     public Concert findById(Long id) {

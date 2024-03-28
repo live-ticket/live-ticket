@@ -39,9 +39,7 @@ public class HomeController {
         }
 
         List<ConcertIdPathDTO> latestConcerts = this.concertService.getLatestConcertList();
-        //List<String> thumbnailPathList = this.concertService.getThumbnailPathList(latestConcerts);
 
-        //model.addAttribute("thumbnailPathList", thumbnailPathList);
         model.addAttribute("latestConcerts", latestConcerts);
 
         return "main";
