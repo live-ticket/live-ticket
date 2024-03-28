@@ -1,5 +1,6 @@
 package com.ll.ticket;
 
+import com.ll.ticket.domain.concert.dto.ConcertIdPathDTO;
 import com.ll.ticket.domain.concert.entity.Concert;
 import com.ll.ticket.domain.concert.service.ConcertService;
 import com.ll.ticket.domain.member.entity.Member;
@@ -37,10 +38,10 @@ public class HomeController {
             model.addAttribute("member", _member.get());
         }
 
-        List<Concert> latestConcerts = this.concertService.getLatestConcertList();
-        List<String> thumbnailPathList = this.concertService.getThumbnailPathList(latestConcerts);
+        List<ConcertIdPathDTO> latestConcerts = this.concertService.getLatestConcertList();
+        //List<String> thumbnailPathList = this.concertService.getThumbnailPathList(latestConcerts);
 
-        model.addAttribute("thumbnailPathList", thumbnailPathList);
+        //model.addAttribute("thumbnailPathList", thumbnailPathList);
         model.addAttribute("latestConcerts", latestConcerts);
 
         return "main";

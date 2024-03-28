@@ -1,5 +1,6 @@
 package com.ll.ticket.domain.concert.service;
 
+import com.ll.ticket.domain.concert.dto.ConcertIdPathDTO;
 import com.ll.ticket.domain.concert.dto.ConcertResponse;
 import com.ll.ticket.domain.concert.entity.*;
 import com.ll.ticket.domain.concert.repository.ConcertDateRepository;
@@ -55,18 +56,33 @@ public class ConcertService {
         return this.concertRepository.findAll(pageable);
     }
 
-    public List<Concert> getLatestConcertList() {
-        Sort sort = Sort.by(Sort.Order.desc("createDate"));
-        Pageable pageable = PageRequest.of(0, 5, sort);
+    public List<ConcertIdPathDTO> getLatestConcertList() {
+        Long id;
+        String path;
+        List<Concert> concerts = this.concertRepository.findAll(Sort.by(Sort.Direction.DESC, "createDate"));
+        //List<Concert> latestConcertList = concerts.subList(0, concerts.size());
 
-        return this.concertRepository.findAll(pageable).getContent();
+        List<ConcertIdPathDTO> concertIdPaths = new ArrayList<>();
+
+        for (Concert concert : concerts) {
+            id = concert.getConcertId();
+            path = concert.getImages().get(0).getPath();
+
+            ConcertIdPathDTO concertIdPathDTO = ConcertIdPathDTO.builder()
+                    .concertId(id)
+                    .path(path)
+                    .build();
+            concertIdPaths.add(concertIdPathDTO);
+        }
+
+        return concertIdPaths;
     }
 
     public List<String> getThumbnailPathList(List<Concert> concerts) {
         List<String> thumbnailPathList = new ArrayList<>();
 
-        for(int i = 0; i < concerts.size(); i++) {
-            thumbnailPathList.add(concerts.get(i).getImages().get(0).getPath());
+        for (Concert concert : concerts) {
+            thumbnailPathList.add(concert.getImages().get(0).getPath());
         }
 
         return thumbnailPathList;
