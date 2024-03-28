@@ -53,6 +53,13 @@ public class ConcertService {
         return this.concertRepository.findAll(pageable);
     }
 
+    public List<Concert> getLatestConcertList() {
+        Sort sort = Sort.by(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(0, 5, sort);
+
+        return this.concertRepository.findAll(pageable).getContent();
+    }
+
     public Concert findById(Long id) {
         Optional<Concert> concert = concertRepository.findById(id);
         if (concert.isPresent()) {
